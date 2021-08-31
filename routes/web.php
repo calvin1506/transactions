@@ -27,3 +27,6 @@ Route::post('/web/delete', 'WebController@deleteweb')->name('delete_web');
 
 Route::post('/leader/get', 'UserController@getleader')->name('get_leader');
 Route::post('/leader/add', 'UserController@addleader')->name('add_leader');
+Route::post('/leader/getedit', 'UserController@getleaderedit')->name('get_leader_edit');
+Route::post('/leader/editprocess', 'UserController@leadereditprocess')->name('leader_edit_process');
+Route::post('/leader/delete', 'UserController@deleteleader')->name('delete_leader');

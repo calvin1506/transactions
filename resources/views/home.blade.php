@@ -120,7 +120,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="reload()">Close</button>
           {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
         </div>
       </div>
@@ -161,7 +161,7 @@
             </div>
           </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="reload()">Close</button>
           {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
         </div>
       </div>
@@ -326,11 +326,51 @@
     </div>
 </div>
 
+<!-- Modal Edit Leader -->
+<div class="modal fade" id="modaleditleader" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Leader</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row mb-1">
+            <div class="col-md-2">
+                <h6>Leader Name</h6>
+            </div>
+            <div class="col-md-10">
+                <input class="form-control" type="text" name="leader_name_edit" id="leader_name_edit">
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-md-2">
+                <h6>Email</h6>
+            </div>
+            <div class="col-md-10">
+                <input class="form-control" type="email" name="leader_email_edit" id="leader_email_edit">
+            </div>
+        </div>
+    </div>
+      <div class="modal-footer">
+          <input type="hidden" name="id_leader_edit" id="id_leader_edit">
+        <button type="button" class="btn btn-secondary edit_leader_close" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary edit_leader_process">Edit Leader</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 @endsection
 
 @section('footer')
 
     <script>
+        function reload(){
+          window.location.reload(false); 
+        }
         function get_web(){
             $('#tbl_web').empty();
             $.ajax({
@@ -369,20 +409,20 @@
                 success: function(data) {
                     var data = data.data;
                     console.log(data);
-                    var htmll = "";
+                    var htmlll = "";
                     var no = 1;
                     
                     for(i=0;i<data.length;i++){
-                        htmll +='<tr>';
-                            htmll +='<td>'+no+'</td>';
-                            htmll +='<td>'+no+'</td>';
-                            htmll +='<td>'+data[i].name+'</td>';
-                            htmll +='<td><button class="btn btn-sm btn-primary btn-get-user">Edit</button></td>';
-                            htmll +='<td><button class="btn btn-sm btn-danger btn-get-user">Delete</button></td>';
-                        htmll +='</tr>';
+                        htmlll +='<tr>';
+                            htmlll +='<td>'+no+'</td>';
+                            htmlll +='<td>'+data[i].name+'</td>';
+                            htmlll +='<td>'+data[i].email+'</td>';
+                            htmlll +='<td><button class="btn btn-sm btn-primary edit_leader" data-id="'+data[i].id+'"data-toggle="modal" data-target="#modaleditleader">Edit</button></td>';
+                            htmlll +='<td><a class="btn btn-sm btn-danger del_web" data-id="'+data[i].id+'" onclick="return confirm(`Want to delete Leader?`)">Delete</a></td>';
+                        htmlll +='</tr>';
                         no++;
                     }
-                    $('#tbl_leader').append(htmll);
+                    $('#tbl_leader').append(htmlll);
                     $("tbl_leader_list").dataTable();
                 }
             });
@@ -416,7 +456,6 @@
                 }
             });
         })
-
         $(document).on('click', '.add_web', function(){
             var name = $('#web_name').val();
             var coin = $('#init_coin').val();
@@ -436,7 +475,6 @@
                 }
             });
         })        
-
         $(document).on('click', '.edit_web', function(){
             var id = $(this).data("id");
             $.ajax({
@@ -451,7 +489,6 @@
                 }
             });
         })
-
         $(document).on('click', '.edit_web_process', function(){
             var id = $('#id_web_edit').val();
             var name = $('#web_name_edit').val();
@@ -468,7 +505,6 @@
                 }
             });
         })
-
         $(document).on('click', '.del_web', function(){
             var id = $(this).data("id");
 
@@ -506,8 +542,8 @@
                             htmll +='<td>'+no+'</td>';
                             htmll +='<td>'+data[i].name+'</td>';
                             htmll +='<td>'+data[i].email+'</td>';
-                            htmll +='<td><button class="btn btn-sm btn-primary btn-get-user">Edit</button></td>';
-                            htmll +='<td><button class="btn btn-sm btn-danger btn-get-user">Delete</button></td>';
+                            htmll +='<td><button class="btn btn-sm btn-primary edit_leader" data-id="'+data[i].id+'"data-toggle="modal" data-target="#modaleditleader">Edit</button></td>';
+                            htmll +='<td><a class="btn btn-sm btn-danger delete_leader" data-id="'+data[i].id+'" onclick="return confirm(`Want to delete content?`)">Delete</a></td>';
                         htmll +='</tr>';
                         no++;
                     }
@@ -516,7 +552,6 @@
                 }
             });
         }) 
-
         $(document).on('click', '.add_leader', function(){
             var leader_name = $('#leader_name').val();
             var leader_email = $('#leader_email').val();
@@ -536,6 +571,52 @@
                     }else{
                         alert(data.data);
                     }
+
+                }
+            });
+        })
+        $(document).on('click', '.edit_leader', function(){
+            var id = $(this).data("id");
+            $.ajax({
+                url: "{{route('get_leader_edit')}}",
+                type: "POST",
+                data: {_token:"{{ csrf_token() }}", id:id},
+                dataType: "json",
+                success: function(data) {
+                    $('#leader_name_edit').val(data.data[0].name);
+                    $('#leader_email_edit').val(data.data[0].email);
+                    $('#id_leader_edit').val(data.data[0].id);
+                }
+            });
+        })
+        $(document).on('click', '.edit_leader_process', function(){
+            var id = $('#id_leader_edit').val();
+            var name = $('#leader_name_edit').val();
+            var email = $('#leader_email_edit').val();
+            $.ajax({
+                url: "{{route('leader_edit_process')}}",
+                type: "POST",
+                data: {_token:"{{ csrf_token() }}", id:id, name:name, email:email},
+                dataType: "json",
+                success: function(data) {
+                    alert("Success Edit Leader");
+                    $('.edit_leader_close').click();
+                    get_leader();
+                }
+            });
+        })
+        $(document).on('click', '.delete_leader', function(){
+            var id = $(this).data("id");
+
+            $.ajax({
+                url: "{{route('delete_leader')}}",
+                type: "POST",
+                data: {_token:"{{ csrf_token() }}", id:id},
+                dataType: "json",
+                success: function(data) {
+                    alert("Success Delete Leader");
+                    $('.add_leader_close').click();
+                    get_leader();
 
                 }
             });

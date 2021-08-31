@@ -51,4 +51,35 @@ class UserController extends Controller
         }
 
     }
+
+    public function getleaderedit(Request $request){
+        $data = user::where('id', $request->id)->get();
+        return response()->json(["message"=>"success", "data"=>$data]);
+    }
+
+    public function leadereditprocess(Request $request){
+        $leader_edit = user::where('id', $request->id)->first();
+
+        $log = new log;
+        $log->user = auth::user()->name;
+        $log->activity = "User: ".auth::user()->name." edit Leader Name from: ".$leader_edit->name." to ".$request->name." and email from: ".$leader_edit->email." to ".$request->email;
+        $log->save();
+
+        $leader_edit->name = $request->name;
+        $leader_edit->email = $request->email;
+        $leader_edit->save();
+
+        return response()->json(["message"=>"success"]);
+    }
+
+    public function deleteleader(Request $request){
+        $user = user::where('id', $request->id)->first();
+        $user->delete();
+
+        $log = new log;
+        $log->user = auth::user()->name;
+        $log->activity = "User: ".auth::user()->name." delete Leader: ".$user->name;
+        $log->save();
+        return response()->json(["message"=>"success"]);
+    }
 }
