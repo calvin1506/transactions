@@ -29,6 +29,7 @@ class HomeController extends Controller
         $web = web::all()->count();
         $leader = user::where('role', 'Leader')->count();
         $ops = user::where('role', 'Operator')->count();
-        return view('home', ["count_web"=>$web, 'count_leader'=>$leader, 'ops_count'=>$ops]);
+        $custs = user::where('role', 'Customer')->count();
+        return view('home', ["count_web"=>$web, 'count_leader'=>$leader, 'ops_count'=>$ops, 'cust_count'=>$custs]);
     }
 }

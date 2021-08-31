@@ -36,3 +36,9 @@ Route::post('/operator/add', 'UserController@addoperator')->name('add_operator')
 Route::post('/operator/getedit', 'UserController@getoperatoredit')->name('get_operator_edit');
 Route::post('/operator/editprocess', 'UserController@operatoreditprocess')->name('operator_edit_process');
 Route::post('/operator/delete', 'UserController@deleteoperator')->name('delete_operator');
+
+Route::post('/cust/get', 'UserController@getcust')->name('get_cust');
+Route::post('/cust/add', 'UserController@addcust')->name('add_cust');
+Route::post('/cust/getedit', 'UserController@getcustedit')->name('get_cust_edit');
+Route::post('/cust/editprocess', 'UserController@customereditprocess')->name('customer_edit_process');
+Route::post('/cust/delete', 'UserController@deletecustomer')->name('delete_customer');

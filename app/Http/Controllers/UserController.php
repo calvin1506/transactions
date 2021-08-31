@@ -112,7 +112,7 @@ class UserController extends Controller
         }else{
             $cek = user::where('email', $request->email)->count();
             if($cek>0){
-                return response()->json(["message"=>"error", "data"=>"Duplicate Leader!"]);
+                return response()->json(["message"=>"error", "data"=>"Duplicate Operator!"]);
             }
         }
     }
@@ -141,6 +141,72 @@ class UserController extends Controller
         $log = new log;
         $log->user = auth::user()->name;
         $log->activity = "User: ".auth::user()->name." delete operator: ".$user->name;
+        $log->save();
+        return response()->json(["message"=>"success"]);
+    }
+
+
+
+    //customer
+    public function getcust(){
+        $cust = user::where('role', 'customer')->get();
+        return response()->json(["message"=>"success", "data"=>$cust]);
+    }
+    public function addcust(Request $request){
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|unique:users',
+            'password' => 'required|min:6', 
+        ]);
+
+        if($validator->passes()){
+            $ops = new user;
+            $ops->role = "Customer";
+            $ops->leader_id = auth::user()->id;
+            $ops->leader_name = auth::user()->name;
+            $ops->name = $request->name;
+            $ops->email = $request->email;
+            $ops->password = Hash::make($request->password);
+            $ops->save();
+
+            $log = new log;
+            $log->user = auth::user()->name;
+            $log->activity = "User: ".auth::user()->name." add new customer: ".$request->name;
+            $log->save();
+    
+            return response()->json(["message"=>"success"]);
+        }else{
+            $cek = user::where('email', $request->email)->count();
+            if($cek>0){
+                return response()->json(["message"=>"error", "data"=>"Duplicate Customer!"]);
+            }
+        }
+    }
+    public function getcustedit(Request $request){
+        $data = user::where('id', $request->id)->get();
+        return response()->json(["message"=>"success", "data"=>$data]);
+    }
+    public function customereditprocess(Request $request){
+        $customer_edit = user::where('id', $request->id)->first();
+
+        $log = new log;
+        $log->user = auth::user()->name;
+        $log->activity = "User: ".auth::user()->name." edit customer Name from: ".$customer_edit->name." to ".$request->name." and email from: ".$customer_edit->email." to ".$request->email;
+        $log->save();
+
+        $customer_edit->name = $request->name;
+        $customer_edit->email = $request->email;
+        $customer_edit->save();
+
+        return response()->json(["message"=>"success"]);
+    }
+    public function deletecustomer(Request $request){
+        $user = user::where('id', $request->id)->first();
+        $user->delete();
+
+        $log = new log;
+        $log->user = auth::user()->name;
+        $log->activity = "User: ".auth::user()->name." delete customer: ".$user->name;
         $log->save();
         return response()->json(["message"=>"success"]);
     }

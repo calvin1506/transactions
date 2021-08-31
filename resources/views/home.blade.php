@@ -46,14 +46,14 @@
         <div class="col-xl-2">
             <div class="small-box bg-info">
                 <div class="inner">
-                  <h3>150</h3>
+                  <h3>{{$cust_count}}</h3>
   
                   <p>Customers</p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-bag"></i>
                 </div>
-                <a href="#modal4" data-toggle="modal" data-target="#modal4" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="#modal4" data-toggle="modal" data-target="#modal4" class="small-box-footer modal4">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <div class="col-xl-2">
@@ -214,16 +214,37 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal 4</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Customers</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          ...
+          <div class="row">
+              <div class="col-md-12 text-right">
+                  <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modaladdnewcustomer">Add New Customer</button>
+              </div>
+          </div>
+          <div class="row mt-3">
+              <div class="col-md-12">
+                  <table class="table table-striped text-center" id="tbl_customer_list">
+                    <thead>
+                        <tr>
+                            <td>No</td>
+                            <td>Customer Name</td>
+                            <td>Customer Email</td>
+                            <td colspan="2">Actions</td>
+                        </tr>
+                    </thead>
+                    <tbody id="tbl_customer">
+
+                    </tbody>
+                  </table>
+              </div>
+          </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="reload()">Close</button>
           {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
         </div>
       </div>
@@ -384,6 +405,7 @@
   </div>
 </div>
 
+
 <!-- Modal Add Operator -->
 <div class="modal fade" id="modaladdnewoperator" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -464,6 +486,88 @@
   </div>
 </div>
 
+
+
+<!-- Modal Add Customer -->
+<div class="modal fade" id="modaladdnewcustomer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add New Customer</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="row mb-1">
+              <div class="col-md-2">
+                  <h6>Customer Name</h6>
+              </div>
+              <div class="col-md-10">
+                  <input class="form-control" type="text" name="customer_name" id="customer_name">
+              </div>
+          </div>
+          <div class="row mt-1">
+              <div class="col-md-2">
+                  <h6>Email</h6>
+              </div>
+              <div class="col-md-10">
+                  <input class="form-control" type="email" name="customer_email" id="customer_email">
+              </div>
+          </div>
+          <div class="row mt-1">
+              <div class="col-md-2">
+                  <h6>Password</h6>
+              </div>
+              <div class="col-md-10">
+                  <input class="form-control" type="password" name="customer_pass" id="customer_pass">
+              </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary add_customer_close" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary add_customer">Add Customer</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal Edit Customer -->
+<div class="modal fade" id="modaleditcustomer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Customer</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row mb-1">
+            <div class="col-md-2">
+                <h6>Customer Name</h6>
+            </div>
+            <div class="col-md-10">
+                <input class="form-control" type="text" name="customer_name_edit" id="customer_name_edit">
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-md-2">
+                <h6>Email</h6>
+            </div>
+            <div class="col-md-10">
+                <input class="form-control" type="email" name="customer_email_edit" id="customer_email_edit">
+            </div>
+        </div>
+    </div>
+      <div class="modal-footer">
+          <input type="hidden" name="id_customer_edit" id="id_customer_edit">
+        <button type="button" class="btn btn-secondary edit_customer_close" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary edit_customer_process">Edit Customer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 @endsection
 
 @section('footer')
@@ -517,7 +621,7 @@
                             htmlll +='<td>'+data[i].name+'</td>';
                             htmlll +='<td>'+data[i].email+'</td>';
                             htmlll +='<td><button class="btn btn-sm btn-primary edit_leader" data-id="'+data[i].id+'"data-toggle="modal" data-target="#modaleditleader">Edit</button></td>';
-                            htmlll +='<td><a class="btn btn-sm btn-danger del_web" data-id="'+data[i].id+'" onclick="return confirm(`Want to delete Leader?`)">Delete</a></td>';
+                            htmlll +='<td><a class="btn btn-sm btn-danger del_leader" data-id="'+data[i].id+'" onclick="return confirm(`Want to delete Leader?`)">Delete</a></td>';
                         htmlll +='</tr>';
                         no++;
                     }
@@ -544,12 +648,39 @@
                             htmlll +='<td>'+data[i].name+'</td>';
                             htmlll +='<td>'+data[i].email+'</td>';
                             htmlll +='<td><button class="btn btn-sm btn-primary edit_operator" data-id="'+data[i].id+'"data-toggle="modal" data-target="#modaleditoperator">Edit</button></td>';
-                            htmlll +='<td><a class="btn btn-sm btn-danger del_web" data-id="'+data[i].id+'" onclick="return confirm(`Want to delete operator?`)">Delete</a></td>';
+                            htmlll +='<td><a class="btn btn-sm btn-danger del_operator" data-id="'+data[i].id+'" onclick="return confirm(`Want to delete operator?`)">Delete</a></td>';
                         htmlll +='</tr>';
                         no++;
                     }
                     $('#tbl_operator').append(htmlll);
                     $("#tbl_operator_list").DataTable();
+                }
+            });
+        }
+        function get_customer(){
+            $('#tbl_customer').empty();
+            $.ajax({
+                url: "{{route('get_cust')}}",
+                type: "POST",
+                data: {_token:"{{ csrf_token() }}"},
+                dataType: "json",
+                success: function(data) {
+                    var data = data.data;
+                    var htmlll = "";
+                    var no = 1;
+                    
+                    for(i=0;i<data.length;i++){
+                        htmlll +='<tr>';
+                            htmlll +='<td>'+no+'</td>';
+                            htmlll +='<td>'+data[i].name+'</td>';
+                            htmlll +='<td>'+data[i].email+'</td>';
+                            htmlll +='<td><button class="btn btn-sm btn-primary edit_cust" data-id="'+data[i].id+'"data-toggle="modal" data-target="#modaleditcustomer">Edit</button></td>';
+                            htmlll +='<td><a class="btn btn-sm btn-danger del_cust" data-id="'+data[i].id+'" onclick="return confirm(`Want to delete operator?`)">Delete</a></td>';
+                        htmlll +='</tr>';
+                        no++;
+                    }
+                    $('#tbl_customer').append(htmlll);
+                    $("#tbl_customer_list").DataTable();
                 }
             });
         }
@@ -731,7 +862,7 @@
                 }
             });
         })
-        $(document).on('click', '.delete_leader', function(){
+        $(document).on('click', '.del_leader', function(){
             var id = $(this).data("id");
 
             $.ajax({
@@ -830,7 +961,7 @@
                 }
             });
         })
-        $(document).on('click', '.delete_operator', function(){
+        $(document).on('click', '.del_operator', function(){
             var id = $(this).data("id");
 
             $.ajax({
@@ -842,6 +973,105 @@
                     alert("Success Delete operator");
                     $('.add_operator_close').click();
                     get_operator();
+
+                }
+            });
+        })
+
+
+        $(document).on('click', '.modal4', function(){
+            $('#tbl_customer').empty();
+            $.ajax({
+                url: "{{route('get_cust')}}",
+                type: "POST",
+                data: {_token:"{{ csrf_token() }}"},
+                dataType: "json",
+                success: function(data) {
+                    var data = data.data;
+                    console.log(data);
+                    var htmll = "";
+                    var no = 1;
+                    
+                    for(i=0;i<data.length;i++){
+                        htmll +='<tr>';
+                            htmll +='<td>'+no+'</td>';
+                            htmll +='<td>'+data[i].name+'</td>';
+                            htmll +='<td>'+data[i].email+'</td>';
+                            htmll +='<td><button class="btn btn-sm btn-primary edit_cust" data-id="'+data[i].id+'"data-toggle="modal" data-target="#modaleditcustomer">Edit</button></td>';
+                            htmll +='<td><a class="btn btn-sm btn-danger del_cust" data-id="'+data[i].id+'" onclick="return confirm(`Want to delete content?`)">Delete</a></td>';
+                        htmll +='</tr>';
+                        no++;
+                    }
+                    $('#tbl_customer').append(htmll);
+                    $("#tbl_customer_list").DataTable();
+                }
+            });
+        })
+        $(document).on('click', '.add_customer', function(){
+            var customer_name = $('#customer_name').val();
+            var customer_email = $('#customer_email').val();
+            var customer_pass = $('#customer_pass').val();
+
+            $.ajax({
+                url: "{{route('add_cust')}}",
+                type: "POST",
+                data: {_token:"{{ csrf_token() }}", name:customer_name, email:customer_email, password:customer_pass},
+                dataType: "json",
+                success: function(data) {
+
+                    if(data.message == "success"){
+                        alert("Success Add customer");
+                        $('.add_customer_close').click();
+                        get_customer();
+                    }else{
+                        alert(data.data);
+                    }
+
+                }
+            });
+        }) 
+        $(document).on('click', '.edit_cust', function(){
+            var id = $(this).data("id");
+            $.ajax({
+                url: "{{route('get_cust_edit')}}",
+                type: "POST",
+                data: {_token:"{{ csrf_token() }}", id:id},
+                dataType: "json",
+                success: function(data) {
+                    $('#customer_name_edit').val(data.data[0].name);
+                    $('#customer_email_edit').val(data.data[0].email);
+                    $('#id_customer_edit').val(data.data[0].id);
+                }
+            });
+        })
+        $(document).on('click', '.edit_customer_process', function(){
+            var id = $('#id_customer_edit').val();
+            var name = $('#customer_name_edit').val();
+            var email = $('#customer_email_edit').val();
+            $.ajax({
+                url: "{{route('customer_edit_process')}}",
+                type: "POST",
+                data: {_token:"{{ csrf_token() }}", id:id, name:name, email:email},
+                dataType: "json",
+                success: function(data) {
+                    alert("Success Edit customer");
+                    $('.edit_customer_close').click();
+                    get_customer();
+                }
+            });
+        })
+        $(document).on('click', '.del_cust', function(){
+            var id = $(this).data("id");
+
+            $.ajax({
+                url: "{{route('delete_customer')}}",
+                type: "POST",
+                data: {_token:"{{ csrf_token() }}", id:id},
+                dataType: "json",
+                success: function(data) {
+                    alert("Success Delete Customer");
+                    $('.add_customer_close').click();
+                    get_customer();
 
                 }
             });
