@@ -3,99 +3,85 @@
 @section('content')
 
 <div class="container">
-    <div class="row mt-5">
-        <div class="col-xl-2">
-            <div class="small-box bg-info">
-                <div class="inner">
-                  <h3>{{$count_web}}</h3>
-  
-                  <p>Banks</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-bag"></i>
-                </div>
-                <a href="#modal5" data-toggle="modal" data-target="#modal5" class="small-box-footer modal5">More info <i class="fas fa-arrow-circle-right"></i></a>
+  <h5><b>Initial Setup</b></h5>
+    <div class="row">
+      <div class="card" style="width: 100%">
+        <div class="card-body">
+          <div class="row text-center">
+            <div class="col-xl-2">
+				<a href="#modal5" data-toggle="modal" data-target="#modal5" class="small-box-footer modal5">
+					<div class="small-box bg-info" style="background-image: url('https://png.pngtree.com/element_our/png_detail/20181114/bank-icon-png_239804.jpg');background-size: cover;height: 145px;border-radius:100%;">
+					</div>
+				</a>  
+				<h6>Banks</h6>      
             </div>        
-        </div>        
-        <div class="col-xl-2">
-            <div class="small-box bg-info">
-                <div class="inner">
-                  <h3>{{$count_web}}</h3>
-  
-                  <p>Websites</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-bag"></i>
-                </div>
-                <a href="#modal1" data-toggle="modal" data-target="#modal1" class="small-box-footer modal1">More info <i class="fas fa-arrow-circle-right"></i></a>
+            <div class="col-xl-2">
+				<a href="#modal1" data-toggle="modal" data-target="#modal1" class="small-box-footer modal1">
+					<div class="small-box bg-info" style="background-image: url('https://thumbs.dreamstime.com/b/www-internet-icon-search-bar-website-eps-148122440.jpg');background-size: cover;height: 145px;border-radius:100%;">
+					</div>
+				</a>
+				<h6>Websites</h6>       
             </div>        
-        </div>        
-        <div class="col-xl-2">
-            <div class="small-box bg-info">
-                <div class="inner">
-                  <h3>{{$count_leader}}</h3>
-  
-                  <p>Leaders</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-bag"></i>
-                </div>
-                <a href="#modal2" data-toggle="modal" data-target="#modal2" class="small-box-footer modal2">More info <i class="fas fa-arrow-circle-right"></i></a>
+            <div class="col-xl-2">
+				<a href="#modal2" data-toggle="modal" data-target="#modal2" class="small-box-footer modal2">
+					<div class="small-box bg-info" style="background-image: url('https://img.flaticon.com/icons/png/512/30/30355.png?size=1200x630f&pad=10,10,10,10&ext=png&bg=FFFFFFFF');background-size: cover;height: 145px;border-radius:100%;background-position: center;">
+					</div>
+				</a>
+				<h6>Leaders</h6> 
             </div>
-        </div>
-        <div class="col-xl-2">
-            <div class="small-box bg-info">
-                <div class="inner">
-                  <h3>{{$ops_count}}</h3>
-  
-                  <p>Operators</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-bag"></i>
-                </div>
-                <a href="#modal3" data-toggle="modal" data-target="#modal3" class="small-box-footer modal3">More info <i class="fas fa-arrow-circle-right"></i></a>
+            <div class="col-xl-2">
+				<a href="#modal3" data-toggle="modal" data-target="#modal3" class="small-box-footer modal3">
+					<div class="small-box bg-info" style="background-image: url('https://i.pinimg.com/originals/d5/b0/4c/d5b04cc3dcd8c17702549ebc5f1acf1a.png');background-size: cover;height: 145px;border-radius:100%;background-position: center;">
+					</div>
+				</a>
+				<h6>Operators</h6> 
             </div>
-        </div>
-        <div class="col-xl-2">
-            <div class="small-box bg-info">
-                <div class="inner">
-                  <h3>{{$cust_count}}</h3>
-  
-                  <p>Customers</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-bag"></i>
-                </div>
-                <a href="#modal4" data-toggle="modal" data-target="#modal4" class="small-box-footer modal4">More info <i class="fas fa-arrow-circle-right"></i></a>
+            <div class="col-xl-2">
+				<a href="#modal4" data-toggle="modal" data-target="#modal4" class="small-box-footer modal4">
+					<div class="small-box bg-info" style="background-image: url('https://cdn3.vectorstock.com/i/1000x1000/33/82/buyer-with-shopping-bags-line-icon-customer-sign-vector-31643382.jpg');background-size: cover;height: 145px;border-radius:100%;background-position: center;">
+					</div>
+				</a>
+				<h6>Customers</h6> 
             </div>
+          </div>
         </div>
-        <div class="col-xl-2">
-            <div class="small-box bg-info">
-                <div class="inner">
-                  <h3>150</h3>
-  
-                  <p>DEPO / WD</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-bag"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-        <div class="col-xl-2">
-            <div class="small-box bg-info">
-                <div class="inner">
-                  <h3>150</h3>
-  
-                  <p>Add / Deduct</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-bag"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div> 
-        </div>
-        <div class="col-12"></div>
+      </div>
+    </div>
+    <h5><b>Assigning Jobs</b></h5>
+    <div class="row">
+		<div class="card" style="width: 100%">
+			<div class="card-body">
+
+			</div>
+		</div>
+    </div>
+    <h5><b>Transactions</b></h5>
+    <div class="row">
+		<div class="card" style="width: 100%">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-xl-2">
+						<a href="#modal5" data-toggle="modal" data-target="#modal5" class="small-box-footer modal5">
+							<div class="small-box bg-info" style="background-image: url('https://png.pngtree.com/element_our/png_detail/20181114/bank-icon-png_239804.jpg');background-size: cover;height: 145px;">
+							</div>
+						</a>
+					  </div>
+					  <div class="col-xl-2">
+						  <div class="small-box bg-info">
+							  <div class="inner">
+								<h3>150</h3>
+			  
+								<p>Add / Deduct</p>
+							  </div>
+							  <div class="icon">
+								<i class="ion ion-bag"></i>
+							  </div>
+							  <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+						  </div> 
+					  </div>
+				</div>
+			</div>
+		</div>
     </div>
 </div>
 
