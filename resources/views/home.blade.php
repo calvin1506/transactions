@@ -9,6 +9,19 @@
                 <div class="inner">
                   <h3>{{$count_web}}</h3>
   
+                  <p>Banks</p>
+                </div>
+                <div class="icon">
+                  <i class="ion ion-bag"></i>
+                </div>
+                <a href="#modal5" data-toggle="modal" data-target="#modal5" class="small-box-footer modal5">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>        
+        </div>        
+        <div class="col-xl-2">
+            <div class="small-box bg-info">
+                <div class="inner">
+                  <h3>{{$count_web}}</h3>
+  
                   <p>Websites</p>
                 </div>
                 <div class="icon">
@@ -85,6 +98,9 @@
         <div class="col-12"></div>
     </div>
 </div>
+
+
+
 
 <!-- Modal 1 -->
 <div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -250,6 +266,58 @@
       </div>
     </div>
 </div>
+<!-- Modal 5 -->
+<div class="modal fade" id="modal5" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Banks</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+              <div class="col-md-12 text-right">
+                  <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modaladdnewbank">Add New Bank</button>
+              </div>
+          </div>
+          <div class="row mt-3 table-responsive">
+              <div class="col-md-12">
+                  <table class="table table-striped text-center" id="tbl_bank_list">
+                    <thead>
+                        <tr>
+                            <td>No</td>
+                            <td>Bank Name</td>
+                            <td>Bank Account Number</td>
+                            <td>Bank Account Holder</td>
+                            <td>Balance</td>
+                            <td colspan="2">Actions</td>
+                        </tr>
+                    </thead>
+                    <tbody id="tbl_bank">
+
+                    </tbody>
+                  </table>
+              </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="reload()">Close</button>
+          {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+        </div>
+      </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
 
 
 <!-- Modal Add Web -->
@@ -568,6 +636,112 @@
   </div>
 </div>
 
+
+
+<!-- Modal Add Bank -->
+<div class="modal fade" id="modaladdnewbank" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add New Bank Account</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="row mb-1">
+              <div class="col-md-2">
+                  <h6>Bank Name</h6>
+              </div>
+              <div class="col-md-10">
+                  <input class="form-control" type="text" name="bank_name" id="bank_name">
+              </div>
+          </div>
+          <div class="row mb-1">
+              <div class="col-md-2">
+                  <h6>Bank Account Number</h6>
+              </div>
+              <div class="col-md-10">
+                  <input class="form-control" type="text" name="acc_no" id="acc_no">
+              </div>
+          </div>
+          <div class="row mb-1">
+              <div class="col-md-2">
+                  <h6>Bank Account Holder</h6>
+              </div>
+              <div class="col-md-10">
+                  <input class="form-control" type="text" name="holder_name" id="holder_name">
+              </div>
+          </div>
+          <div class="row mb-1">
+              <div class="col-md-2">
+                  <h6>Initial Balance</h6>
+              </div>
+              <div class="col-md-10">
+                  <input class="form-control" type="text" name="saldo" id="saldo">
+              </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary add_bank_close" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary add_bank">Add Bank</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal Edit Bank -->
+<div class="modal fade" id="modaleditbank" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Bank</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row mb-1">
+            <div class="col-md-2">
+                <h6>Bank Name</h6>
+            </div>
+            <div class="col-md-10">
+                <input class="form-control" type="text" name="bank_name_edit" id="bank_name_edit">
+            </div>
+        </div>
+        <div class="row mb-1">
+            <div class="col-md-2">
+                <h6>Bank Account Number</h6>
+            </div>
+            <div class="col-md-10">
+                <input class="form-control" type="text" name="acc_no_edit" id="acc_no_edit">
+            </div>
+        </div>
+        <div class="row mb-1">
+            <div class="col-md-2">
+                <h6>Bank Account Holder</h6>
+            </div>
+            <div class="col-md-10">
+                <input class="form-control" type="text" name="holder_name_edit" id="holder_name_edit">
+            </div>
+        </div>
+        <div class="row mb-1">
+            <div class="col-md-2">
+                <h6>Initial Balance</h6>
+            </div>
+            <div class="col-md-10">
+                <input class="form-control" type="text" name="saldo_edit" id="saldo_edit">
+            </div>
+        </div>
+    </div>
+      <div class="modal-footer">
+          <input type="hidden" name="id_bank_edit" id="id_bank_edit">
+        <button type="button" class="btn btn-secondary edit_bank_close" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary edit_bank_process">Edit Bank</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 @endsection
 
 @section('footer')
@@ -681,6 +855,36 @@
                     }
                     $('#tbl_customer').append(htmlll);
                     $("#tbl_customer_list").DataTable();
+                }
+            });
+        }
+        function get_bank(){
+          $('#tbl_bank').empty();
+            $.ajax({
+                url: "{{route('get_bank')}}",
+                type: "POST",
+                data: {_token:"{{ csrf_token() }}"},
+                dataType: "json",
+                success: function(data) {
+                    var data = data.data;
+                    console.log(data);
+                    var htmll = "";
+                    var no = 1;
+                    
+                    for(i=0;i<data.length;i++){
+                        htmll +='<tr>';
+                            htmll +='<td>'+no+'</td>';
+                            htmll +='<td>'+data[i].bank_name+'</td>';
+                            htmll +='<td>'+data[i].acc_no+'</td>';
+                            htmll +='<td>'+data[i].holder_name+'</td>';
+                            htmll +='<td>'+formatNumber(data[i].saldo)+'</td>';
+                            htmll +='<td><button class="btn btn-sm btn-primary edit_bank" data-id="'+data[i].id+'"data-toggle="modal" data-target="#modaleditbank">Edit</button></td>';
+                            htmll +='<td><a class="btn btn-sm btn-danger del_bank" data-id="'+data[i].id+'" onclick="return confirm(`Want to delete content?`)">Delete</a></td>';
+                        htmll +='</tr>';
+                        no++;
+                    }
+                    $('#tbl_bank').append(htmll);
+                    $("#tbl_bank_list").DataTable();
                 }
             });
         }
@@ -1072,6 +1276,111 @@
                     alert("Success Delete Customer");
                     $('.add_customer_close').click();
                     get_customer();
+
+                }
+            });
+        })
+
+
+        $(document).on('click', '.modal5', function(){
+            $('#tbl_bank').empty();
+            $.ajax({
+                url: "{{route('get_bank')}}",
+                type: "POST",
+                data: {_token:"{{ csrf_token() }}"},
+                dataType: "json",
+                success: function(data) {
+                    var data = data.data;
+                    console.log(data);
+                    var htmll = "";
+                    var no = 1;
+                    
+                    for(i=0;i<data.length;i++){
+                        htmll +='<tr>';
+                            htmll +='<td>'+no+'</td>';
+                            htmll +='<td>'+data[i].bank_name+'</td>';
+                            htmll +='<td>'+data[i].acc_no+'</td>';
+                            htmll +='<td>'+data[i].holder_name+'</td>';
+                            htmll +='<td>'+formatNumber(data[i].saldo)+'</td>';
+                            htmll +='<td><button class="btn btn-sm btn-primary edit_bank" data-id="'+data[i].id+'"data-toggle="modal" data-target="#modaleditbank">Edit</button></td>';
+                            htmll +='<td><a class="btn btn-sm btn-danger del_bank" data-id="'+data[i].id+'" onclick="return confirm(`Want to delete content?`)">Delete</a></td>';
+                        htmll +='</tr>';
+                        no++;
+                    }
+                    $('#tbl_bank').append(htmll);
+                    $("#tbl_bank_list").DataTable();
+                }
+            });
+        })
+        $(document).on('click', '.add_bank', function(){
+            var bank_name = $('#bank_name').val();
+            var acc_no = $('#acc_no').val();
+            var holder_name = $('#holder_name').val();
+            var saldo = $('#saldo').val();
+
+            $.ajax({
+                url: "{{route('add_bank')}}",
+                type: "POST",
+                data: {_token:"{{ csrf_token() }}", bank_name:bank_name, acc_no:acc_no, holder_name:holder_name, saldo:saldo},
+                dataType: "json",
+                success: function(data) {
+
+                    if(data.message == "success"){
+                        alert("Success Add Bank");
+                        $('.add_bank_close').click();
+                        get_bank();
+                    }else{
+                        alert(data.data);
+                    }
+                }
+            });
+        }) 
+        $(document).on('click', '.edit_bank', function(){
+            var id = $(this).data("id");
+            $.ajax({
+                url: "{{route('get_bank_edit')}}",
+                type: "POST",
+                data: {_token:"{{ csrf_token() }}", id:id},
+                dataType: "json",
+                success: function(data) {
+                    $('#bank_name_edit').val(data.data[0].bank_name);
+                    $('#acc_no_edit').val(data.data[0].acc_no);
+                    $('#holder_name_edit').val(data.data[0].holder_name);
+                    $('#saldo_edit').val(data.data[0].saldo);
+                    $('#id_bank_edit').val(data.data[0].id);
+                }
+            });
+        })
+        $(document).on('click', '.edit_bank_process', function(){
+            var bank_name = $('#bank_name_edit').val();
+            var acc_no = $('#acc_no_edit').val();
+            var holder_name = $('#holder_name_edit').val();
+            var saldo = $('#saldo_edit').val();
+            var id = $('#id_bank_edit').val();
+            $.ajax({
+                url: "{{route('bank_edit_process')}}",
+                type: "POST",
+                data: {_token:"{{ csrf_token() }}", id:id, bank_name:bank_name, acc_no:acc_no, holder_name:holder_name, saldo:saldo},
+                dataType: "json",
+                success: function(data) {
+                    alert("Success Edit Bank");
+                    $('.edit_bank_close').click();
+                    get_bank();
+                }
+            });
+        })
+        $(document).on('click', '.del_bank', function(){
+            var id = $(this).data("id");
+
+            $.ajax({
+                url: "{{route('delete_bank')}}",
+                type: "POST",
+                data: {_token:"{{ csrf_token() }}", id:id},
+                dataType: "json",
+                success: function(data) {
+                    alert("Success Delete Bank");
+                    $('.add_bank_close').click();
+                    get_bank();
 
                 }
             });

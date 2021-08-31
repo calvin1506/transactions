@@ -42,3 +42,9 @@ Route::post('/cust/add', 'UserController@addcust')->name('add_cust');
 Route::post('/cust/getedit', 'UserController@getcustedit')->name('get_cust_edit');
 Route::post('/cust/editprocess', 'UserController@customereditprocess')->name('customer_edit_process');
 Route::post('/cust/delete', 'UserController@deletecustomer')->name('delete_customer');
+
+Route::post('/bank/get', 'BankController@getbank')->name('get_bank');
+Route::post('/bank/add', 'BankController@addbank')->name('add_bank');
+Route::post('/bank/getedit', 'BankController@getbankedit')->name('get_bank_edit');
+Route::post('/bank/editprocess', 'BankController@bankeditprocess')->name('bank_edit_process');
+Route::post('/bank/delete', 'BankController@deletebank')->name('delete_bank');
