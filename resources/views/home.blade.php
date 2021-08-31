@@ -33,14 +33,14 @@
         <div class="col-xl-2">
             <div class="small-box bg-info">
                 <div class="inner">
-                  <h3>150</h3>
+                  <h3>{{$ops_count}}</h3>
   
                   <p>Operators</p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-bag"></i>
                 </div>
-                <a href="#modal3" data-toggle="modal" data-target="#modal3" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="#modal3" data-toggle="modal" data-target="#modal3" class="small-box-footer modal3">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <div class="col-xl-2">
@@ -82,6 +82,7 @@
                 <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div> 
         </div>
+        <div class="col-12"></div>
     </div>
 </div>
 
@@ -172,16 +173,37 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal 3</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Operators</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          ...
+          <div class="row">
+              <div class="col-md-12 text-right">
+                  <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modaladdnewoperator">Add New Operator</button>
+              </div>
+          </div>
+          <div class="row mt-3">
+              <div class="col-md-12">
+                  <table class="table table-striped text-center" id="tbl_leader_list">
+                    <thead>
+                        <tr>
+                            <td>No</td>
+                            <td>Operator Name</td>
+                            <td>Operator Email</td>
+                            <td colspan="2">Actions</td>
+                        </tr>
+                    </thead>
+                    <tbody id="tbl_operator">
+
+                    </tbody>
+                  </table>
+              </div>
+          </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="reload()">Close</button>
           {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
         </div>
       </div>
@@ -244,7 +266,6 @@
       </div>
     </div>
 </div>
-
 <!-- Modal Edit Web -->
 <div class="modal fade" id="modaleditweb" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -281,6 +302,7 @@
       </div>
     </div>
 </div>
+
 
 <!-- Modal Add Leader -->
 <div class="modal fade" id="modaladdnewleader" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -325,7 +347,6 @@
       </div>
     </div>
 </div>
-
 <!-- Modal Edit Leader -->
 <div class="modal fade" id="modaleditleader" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -363,6 +384,86 @@
   </div>
 </div>
 
+<!-- Modal Add Operator -->
+<div class="modal fade" id="modaladdnewoperator" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add New Operator</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="row mb-1">
+              <div class="col-md-2">
+                  <h6>Operator Name</h6>
+              </div>
+              <div class="col-md-10">
+                  <input class="form-control" type="text" name="operator_name" id="operator_name">
+              </div>
+          </div>
+          <div class="row mt-1">
+              <div class="col-md-2">
+                  <h6>Email</h6>
+              </div>
+              <div class="col-md-10">
+                  <input class="form-control" type="email" name="operator_email" id="operator_email">
+              </div>
+          </div>
+          <div class="row mt-1">
+              <div class="col-md-2">
+                  <h6>Password</h6>
+              </div>
+              <div class="col-md-10">
+                  <input class="form-control" type="password" name="operator_pass" id="operator_pass">
+              </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary add_operator_close" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary add_operator">Add Operator</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal Edit Operator -->
+<div class="modal fade" id="modaleditoperator" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Operator</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row mb-1">
+            <div class="col-md-2">
+                <h6>Operator Name</h6>
+            </div>
+            <div class="col-md-10">
+                <input class="form-control" type="text" name="operator_name_edit" id="operator_name_edit">
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-md-2">
+                <h6>Email</h6>
+            </div>
+            <div class="col-md-10">
+                <input class="form-control" type="email" name="operator_email_edit" id="operator_email_edit">
+            </div>
+        </div>
+    </div>
+      <div class="modal-footer">
+          <input type="hidden" name="id_operator_edit" id="id_operator_edit">
+        <button type="button" class="btn btn-secondary edit_operator_close" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary edit_operator_process">Edit operator</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 @endsection
 
 @section('footer')
@@ -380,7 +481,6 @@
                 dataType: "json",
                 success: function(data) {
                     var data = data.data;
-                    console.log(data);
                     var html = "";
                     var no = 1;
                     
@@ -395,7 +495,7 @@
                         no++;
                     }
                     $('#tbl_web').append(html);
-                    $("tbl_web_list").dataTable();
+                    $("#tbl_web_list").DataTable();
                 }
             });
         }
@@ -408,7 +508,6 @@
                 dataType: "json",
                 success: function(data) {
                     var data = data.data;
-                    console.log(data);
                     var htmlll = "";
                     var no = 1;
                     
@@ -423,7 +522,34 @@
                         no++;
                     }
                     $('#tbl_leader').append(htmlll);
-                    $("tbl_leader_list").dataTable();
+                    $("#tbl_leader_list").DataTable();
+                }
+            });
+        }
+        function get_operator(){
+            $('#tbl_operator').empty();
+            $.ajax({
+                url: "{{route('get_operator')}}",
+                type: "POST",
+                data: {_token:"{{ csrf_token() }}"},
+                dataType: "json",
+                success: function(data) {
+                    var data = data.data;
+                    var htmlll = "";
+                    var no = 1;
+                    
+                    for(i=0;i<data.length;i++){
+                        htmlll +='<tr>';
+                            htmlll +='<td>'+no+'</td>';
+                            htmlll +='<td>'+data[i].name+'</td>';
+                            htmlll +='<td>'+data[i].email+'</td>';
+                            htmlll +='<td><button class="btn btn-sm btn-primary edit_operator" data-id="'+data[i].id+'"data-toggle="modal" data-target="#modaleditoperator">Edit</button></td>';
+                            htmlll +='<td><a class="btn btn-sm btn-danger del_web" data-id="'+data[i].id+'" onclick="return confirm(`Want to delete operator?`)">Delete</a></td>';
+                        htmlll +='</tr>';
+                        no++;
+                    }
+                    $('#tbl_operator').append(htmlll);
+                    $("#tbl_operator_list").DataTable();
                 }
             });
         }
@@ -452,7 +578,7 @@
                         no++;
                     }
                     $('#tbl_web').append(html);
-                    $("tbl_web_list").dataTable();
+                    $("#tbl_web_list").DataTable();
                 }
             });
         })
@@ -548,7 +674,7 @@
                         no++;
                     }
                     $('#tbl_leader').append(htmll);
-                    $("tbl_leader_list").dataTable();
+                    $("#tbl_leader_list").DataTable();
                 }
             });
         }) 
@@ -621,5 +747,105 @@
                 }
             });
         })
+
+
+        $(document).on('click', '.modal3', function(){
+            $('#tbl_operator').empty();
+            $.ajax({
+                url: "{{route('get_operator')}}",
+                type: "POST",
+                data: {_token:"{{ csrf_token() }}"},
+                dataType: "json",
+                success: function(data) {
+                    var data = data.data;
+                    console.log(data);
+                    var htmll = "";
+                    var no = 1;
+                    
+                    for(i=0;i<data.length;i++){
+                        htmll +='<tr>';
+                            htmll +='<td>'+no+'</td>';
+                            htmll +='<td>'+data[i].name+'</td>';
+                            htmll +='<td>'+data[i].email+'</td>';
+                            htmll +='<td><button class="btn btn-sm btn-primary edit_operator" data-id="'+data[i].id+'"data-toggle="modal" data-target="#modaleditoperator">Edit</button></td>';
+                            htmll +='<td><a class="btn btn-sm btn-danger delete_operator" data-id="'+data[i].id+'" onclick="return confirm(`Want to delete content?`)">Delete</a></td>';
+                        htmll +='</tr>';
+                        no++;
+                    }
+                    $('#tbl_operator').append(htmll);
+                    $("#tbl_operator_list").DataTable();
+                }
+            });
+        }) 
+        $(document).on('click', '.add_operator', function(){
+            var operator_name = $('#operator_name').val();
+            var operator_email = $('#operator_email').val();
+            var operator_pass = $('#operator_pass').val();
+
+            $.ajax({
+                url: "{{route('add_operator')}}",
+                type: "POST",
+                data: {_token:"{{ csrf_token() }}", name:operator_name, email:operator_email, password:operator_pass},
+                dataType: "json",
+                success: function(data) {
+
+                    if(data.message == "success"){
+                        alert("Success Add operator");
+                        $('.add_operator_close').click();
+                        get_operator();
+                    }else{
+                        alert(data.data);
+                    }
+
+                }
+            });
+        })
+        $(document).on('click', '.edit_operator', function(){
+            var id = $(this).data("id");
+            $.ajax({
+                url: "{{route('get_operator_edit')}}",
+                type: "POST",
+                data: {_token:"{{ csrf_token() }}", id:id},
+                dataType: "json",
+                success: function(data) {
+                    $('#operator_name_edit').val(data.data[0].name);
+                    $('#operator_email_edit').val(data.data[0].email);
+                    $('#id_operator_edit').val(data.data[0].id);
+                }
+            });
+        })
+        $(document).on('click', '.edit_operator_process', function(){
+            var id = $('#id_operator_edit').val();
+            var name = $('#operator_name_edit').val();
+            var email = $('#operator_email_edit').val();
+            $.ajax({
+                url: "{{route('operator_edit_process')}}",
+                type: "POST",
+                data: {_token:"{{ csrf_token() }}", id:id, name:name, email:email},
+                dataType: "json",
+                success: function(data) {
+                    alert("Success Edit operator");
+                    $('.edit_operator_close').click();
+                    get_operator();
+                }
+            });
+        })
+        $(document).on('click', '.delete_operator', function(){
+            var id = $(this).data("id");
+
+            $.ajax({
+                url: "{{route('delete_operator')}}",
+                type: "POST",
+                data: {_token:"{{ csrf_token() }}", id:id},
+                dataType: "json",
+                success: function(data) {
+                    alert("Success Delete operator");
+                    $('.add_operator_close').click();
+                    get_operator();
+
+                }
+            });
+        })
+
     </script>
 @endsection

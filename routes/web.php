@@ -30,3 +30,9 @@ Route::post('/leader/add', 'UserController@addleader')->name('add_leader');
 Route::post('/leader/getedit', 'UserController@getleaderedit')->name('get_leader_edit');
 Route::post('/leader/editprocess', 'UserController@leadereditprocess')->name('leader_edit_process');
 Route::post('/leader/delete', 'UserController@deleteleader')->name('delete_leader');
+
+Route::post('/operator/get', 'UserController@getoperator')->name('get_operator');
+Route::post('/operator/add', 'UserController@addoperator')->name('add_operator');
+Route::post('/operator/getedit', 'UserController@getoperatoredit')->name('get_operator_edit');
+Route::post('/operator/editprocess', 'UserController@operatoreditprocess')->name('operator_edit_process');
+Route::post('/operator/delete', 'UserController@deleteoperator')->name('delete_operator');
