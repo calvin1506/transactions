@@ -13,16 +13,16 @@ use Illuminate\Support\Facades\DB;
 class AssignController extends Controller
 {
     public function getdata(Request $request){
-        $data = bank::where('id', $request->id)->get('website');
+        $data = bank::where('id', $request->id)->get();
         $array_data = explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $data[0]->website));
         $web = website::whereIn('id', $array_data)->get('web_name');
 
-        return response()->json(["message"=>"success","data"=>$web]);
+        return response()->json(["message"=>"success","data"=>$web, "bank"=>$data]);
     }
     public function getdataedit(Request $request){
         $webs = website::all();
-
-        return response()->json(["message"=>"success", "webs"=>$webs]);
+        $data = bank::where('id', $request->id)->get();
+        return response()->json(["message"=>"success", "webs"=>$webs, "bank"=>$data]);
     }
 
     public function dataprocess(Request $request){
@@ -54,14 +54,15 @@ class AssignController extends Controller
         $array_data_operator = explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $data[0]->operator));
         $lead = user::whereIn('id', $array_data_leader)->get('name');
         $op = user::whereIn('id', $array_data_operator)->get('name');
-        return response()->json(["message"=>"success","leads"=>$lead, "ops"=>$op]);
+        return response()->json(["message"=>"success","leads"=>$lead, "ops"=>$op, "web"=>$data]);
     }
 
     public function getdataeditweb(Request $request){
+        $data = website::where('id', $request->id)->get();
         $leads = user::where('role', 'Leader')->get();
         $ops = user::where('role', 'Operator')->get();
 
-        return response()->json(["message"=>"success", "leads"=>$leads, "ops"=>$ops]);
+        return response()->json(["message"=>"success", "leads"=>$leads, "ops"=>$ops, "web"=>$data]);
     }
 
     public function dataprocessweb(Request $request){

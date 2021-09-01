@@ -811,6 +811,14 @@
             </div>
             <div class="modal-body">
 				<div class="row mb-2">
+					<div class="col-md-6" id="bank_name_detail">
+
+					</div>
+					<div class="col-md-6" id="acc_no_detail">
+
+					</div>
+				</div>
+				<div class="row mb-2">
 					<div class="col-md-12">
 						<h5><b>Assigned to websites:</b></h5>
 					</div>
@@ -847,6 +855,14 @@
             </div>
             <div class="modal-body">
 				<div class="row mb-2">
+					<div class="col-md-6" id="bank_name_detail_edit">
+
+					</div>
+					<div class="col-md-6" id="acc_no_detail_edit">
+
+					</div>
+				</div>
+				<div class="row mb-2">
 					<div class="col-md-4">
 						Websites
 					</div>
@@ -873,6 +889,11 @@
                 <h5 class="modal-title" id="exampleModalLabel">Website details</h5>
             </div>
             <div class="modal-body">
+				<div class="row mb-2">
+					<div class="col-md-12" id="web_name_detail">
+
+					</div>
+				</div>
 				<div class="row mb-2">
 					<div class="col-md-12">
 						<h5><b>Assigned Leaders:</b></h5>
@@ -929,6 +950,11 @@
                 <h5 class="modal-title" id="exampleModalLabel">Websites detail edit</h5>
             </div>
             <div class="modal-body">
+				<div class="row mb-2">
+					<div class="col-md-12" id="web_name_detail_edit">
+
+					</div>
+				</div>
 				<div class="row mb-2">
 					<div class="col-md-4">
 						Leaders
@@ -1878,6 +1904,8 @@
     })
 	$(document).on('click', '.detail_assign_bank', function(){
 		$('#web_assign').empty();
+		$('#bank_name_detail').empty();
+		$('#acc_no_detail').empty()
 		var id = $(this).data("id");
 
 		$.ajax({
@@ -1890,8 +1918,13 @@
             dataType: "json",
             success: function (data) {
 				var webs = data.data;
+				var bank = data.bank;
 				var html = "";
+				var htmll = "";
+				var htmlll = "";
 				var no=1;
+				htmll += '<h5>Bank Name: '+bank[0]["bank_name"]+'</h5>'
+				htmlll += '<h5>Account No: '+bank[0]["acc_no"]+'</h5>'
 
 				for (i = 0; i < webs.length; i++) {
 					html += '<tr>'
@@ -1902,28 +1935,37 @@
 				}
 
                 $('#web_assign').append(html);
+                $('#bank_name_detail').append(htmll);
+                $('#acc_no_detail').append(htmlll);
             }
         });
 		
 	})
 	$(document).on('click', '.edit_assign_bank', function(){
 		$('#web_assign_edit').empty();
+		$('#bank_name_detail_edit').empty();
+		$('#acc_no_detail_edit').empty();
 		var id = $(this).data("id");
 
 		$.ajax({
             url: "{{route('get_data_edit')}}",
             type: "POST",
             data: {
-                _token: "{{ csrf_token() }}"
+                _token: "{{ csrf_token() }}",
+				id:id
             },
             dataType: "json",
             success: function (data) {
 				var webs = data.webs;
 				var leads = data.leads;
 				var ops = data.ops;
+				var bank = data.bank;
 				var html = "";
 				var htmll = "";
 				var htmlll = "";
+
+				htmll += '<h5>Bank Name: '+bank[0]["bank_name"]+'</h5>'
+				htmlll += '<h5>Account No: '+bank[0]["acc_no"]+'</h5>'
 
 				html += '<select multiple class="form-control" name="website_assigning_edit" id="website_assigning_edit">'
 					for (i = 0; i < webs.length; i++) {
@@ -1932,6 +1974,8 @@
 				html +=	'</select>'
 
                 $('#web_assign_edit').append(html);
+				$('#bank_name_detail_edit').append(htmll);
+                $('#acc_no_detail_edit').append(htmlll);
 				$('#web_id').val(id)
             }
         });
@@ -1993,6 +2037,7 @@
 	$(document).on('click', '.detail_assign_website', function(){
 		$('#web_assign_leads').empty();
 		$('#web_assign_ops').empty();
+		$('#web_name_detail').empty();
 
 		var id = $(this).data("id");
 
@@ -2007,8 +2052,10 @@
             success: function (data) {
 				var leads = data.leads;
 				var ops = data.ops;
+				var web = data.web;
 				var html = "";
 				var htmll = "";
+				var htmlll = "";
 				var no=1;
 				var no1=1;
 				console.log(leads);
@@ -2029,8 +2076,11 @@
 					no1++;
 				}
 
+				htmlll += '<h5>Website Name: '+web[0]["web_name"]+'</h5>'
+
                 $('#web_assign_leads').append(html);
                 $('#web_assign_ops').append(htmll);
+                $('#web_name_detail').append(htmlll);
             }
         });
 		
@@ -2038,18 +2088,21 @@
 	$(document).on('click', '.edit_assign_website', function(){
 		$('#web_assign_edit_leads').empty();
 		$('#web_assign_edit_ops').empty();
+		$('#web_name_detail_edit').empty();
 		var id = $(this).data("id");
 
 		$.ajax({
             url: "{{route('get_data_edit_web')}}",
             type: "POST",
             data: {
-                _token: "{{ csrf_token() }}"
+                _token: "{{ csrf_token() }}",
+				id:id
             },
             dataType: "json",
             success: function (data) {
 				var leads = data.leads;
 				var ops = data.ops;
+				var web = data.web;
 				var html = "";
 				var htmll = "";
 				var htmlll = "";
@@ -2065,8 +2118,11 @@
 					}
 				htmll +=	'</select>'
 
+				htmlll += '<h5>Website Name: '+web[0]["web_name"]+'</h5>'
+
                 $('#web_assign_edit_leads').append(html);
                 $('#web_assign_edit_ops').append(htmll);
+				$('#web_name_detail_edit').append(htmlll);
 				$('#web_id').val(id)
             }
         });
