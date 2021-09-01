@@ -48,3 +48,7 @@ Route::post('/bank/add', 'BankController@addbank')->name('add_bank');
 Route::post('/bank/getedit', 'BankController@getbankedit')->name('get_bank_edit');
 Route::post('/bank/editprocess', 'BankController@bankeditprocess')->name('bank_edit_process');
 Route::post('/bank/delete', 'BankController@deletebank')->name('delete_bank');
+
+Route::post('/assign/get', 'AssignController@getdata')->name('get_data');
+Route::post('/assign/getdata', 'AssignController@getdataedit')->name('get_data_edit');
+Route::post('/assign/process', 'AssignController@dataprocess')->name('process_data');
