@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\User;
+use App\Customer;
 use App\activity_log as log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -149,24 +150,33 @@ class UserController extends Controller
 
     //customer
     public function getcust(){
-        $cust = user::where('role', 'customer')->get();
+        $cust = customer::all();
         return response()->json(["message"=>"success", "data"=>$cust]);
     }
     public function addcust(Request $request){
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'required|unique:users',
-            'password' => 'required|min:6', 
+            'user_id'=>'required|unique:customers',
+            'name'=>'required',
+            'address'=>'required',
+            'email'=>'required|unique:customers',
+            'phone'=>'required',
+            'note'=>'required',
+            'bank_name'=>'required',
+            'acc_no'=>'required|unique:customers',
+            'holder_name'=>'required' 
         ]);
 
         if($validator->passes()){
-            $ops = new user;
-            $ops->role = "Customer";
-            $ops->leader_id = auth::user()->id;
-            $ops->leader_name = auth::user()->name;
+            $ops = new customer;
+            $ops->user_id = $request->user_id;
             $ops->name = $request->name;
+            $ops->address = $request->address;
             $ops->email = $request->email;
-            $ops->password = Hash::make($request->password);
+            $ops->phone = $request->phone;
+            $ops->note = $request->note;
+            $ops->bank_name = $request->bank_name;
+            $ops->acc_no = $request->acc_no;
+            $ops->acc_holder = $request->holder_name;
             $ops->save();
 
             $log = new log;
@@ -176,32 +186,50 @@ class UserController extends Controller
     
             return response()->json(["message"=>"success"]);
         }else{
-            $cek = user::where('email', $request->email)->count();
-            if($cek>0){
+            $cek = customer::where('user_id', $request->user_id)->count();
+            $cek1 = customer::where('email', $request->email)->count();
+            $cek2 = customer::where('acc_no', $request->acc_no)->count();
+            if($cek>0 || $cek1>0 || $cek2>0){
                 return response()->json(["message"=>"error", "data"=>"Duplicate Customer!"]);
             }
         }
     }
     public function getcustedit(Request $request){
-        $data = user::where('id', $request->id)->get();
+        $data = customer::where('id', $request->id)->get();
         return response()->json(["message"=>"success", "data"=>$data]);
     }
     public function customereditprocess(Request $request){
-        $customer_edit = user::where('id', $request->id)->first();
+        $customer_edit = customer::where('id', $request->id)->first();
 
         $log = new log;
         $log->user = auth::user()->name;
-        $log->activity = "User: ".auth::user()->name." edit customer Name from: ".$customer_edit->name." to ".$request->name." and email from: ".$customer_edit->email." to ".$request->email;
+        $log->activity = "User: ".auth::user()->name.
+        " edit customer User ID from: ".$customer_edit->user_id." to ".$request->user_id.
+        ", name from: ".$customer_edit->name." to ".$request->name.
+        ", address from: ".$customer_edit->name." to ".$request->address.
+        ", email from: ".$customer_edit->email." to ".$request->email.
+        ", phone from: ".$customer_edit->phone." to ".$request->phone.
+        ", note from: ".$customer_edit->note." to ".$request->note.
+        ", bank_name: ".$customer_edit->bank_name." to ".$request->bank_name.
+        ", account number from: ".$customer_edit->acc_no." to ".$request->acc_no.
+        ", account holder from: ".$customer_edit->acc_holder." to ".$request->holder_name;
         $log->save();
 
+        $customer_edit->user_id = $request->user_id;
         $customer_edit->name = $request->name;
+        $customer_edit->address = $request->address;
         $customer_edit->email = $request->email;
+        $customer_edit->phone = $request->phone;
+        $customer_edit->note = $request->note;
+        $customer_edit->bank_name = $request->bank_name;
+        $customer_edit->acc_no = $request->acc_no;
+        $customer_edit->acc_holder = $request->holder_name;
         $customer_edit->save();
 
         return response()->json(["message"=>"success"]);
     }
     public function deletecustomer(Request $request){
-        $user = user::where('id', $request->id)->first();
+        $user = customer::where('id', $request->id)->first();
         $user->delete();
 
         $log = new log;

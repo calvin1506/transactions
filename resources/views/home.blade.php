@@ -631,32 +631,80 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Add New Customer</h5>
             </div>
-            <div class="modal-body">
-                <div class="row mb-1">
-                    <div class="col-md-2">
-                        <h6>Customer Name</h6>
-                    </div>
-                    <div class="col-md-10">
-                        <input class="form-control" type="text" name="customer_name" id="customer_name">
-                    </div>
-                </div>
-                <div class="row mt-1">
-                    <div class="col-md-2">
-                        <h6>Email</h6>
-                    </div>
-                    <div class="col-md-10">
-                        <input class="form-control" type="email" name="customer_email" id="customer_email">
-                    </div>
-                </div>
-                <div class="row mt-1">
-                    <div class="col-md-2">
-                        <h6>Password</h6>
-                    </div>
-                    <div class="col-md-10">
-                        <input class="form-control" type="password" name="customer_pass" id="customer_pass">
-                    </div>
-                </div>
-            </div>
+			<div class="modal-body">
+				<div class="row mb-1">
+					<div class="col-md-2">
+						<h6>User ID</h6>
+					</div>
+					<div class="col-md-10">
+						<input class="form-control" type="text" name="customer_user_id" id="customer_user_id">
+					</div>
+				</div>
+				<div class="row mb-1">
+					<div class="col-md-2">
+						<h6>Customer Name</h6>
+					</div>
+					<div class="col-md-10">
+						<input class="form-control" type="text" name="customer_name" id="customer_name">
+					</div>
+				</div>
+				<div class="row mt-1">
+					<div class="col-md-2">
+						<h6>Address</h6>
+					</div>
+					<div class="col-md-10">
+						<input class="form-control" type="text" name="customer_address" id="customer_address">
+					</div>
+				</div>
+				<div class="row mt-1">
+					<div class="col-md-2">
+						<h6>Email</h6>
+					</div>
+					<div class="col-md-10">
+						<input class="form-control" type="email" name="customer_email" id="customer_email">
+					</div>
+				</div>
+				<div class="row mt-1">
+					<div class="col-md-2">
+						<h6>Phone Number</h6>
+					</div>
+					<div class="col-md-10">
+						<input class="form-control" type="number" name="customer_phone" id="customer_phone">
+					</div>
+				</div>
+				<div class="row mt-1">
+					<div class="col-md-2">
+						<h6>Notes</h6>
+					</div>
+					<div class="col-md-10">
+						<textarea class="form-control" name="customer_note" id="customer_note" rows="3"></textarea>
+					</div>
+				</div>
+				<div class="row mt-1">
+					<div class="col-md-2">
+						<h6>Bank Name</h6>
+					</div>
+					<div class="col-md-10">
+						<input class="form-control" type="text" name="customer_bank_name" id="customer_bank_name">
+					</div>
+				</div>
+				<div class="row mt-1">
+					<div class="col-md-2">
+						<h6>Account Number</h6>
+					</div>
+					<div class="col-md-10">
+						<input class="form-control" type="number" name="customer_bank_acc_no" id="customer_bank_acc_no">
+					</div>
+				</div>
+				<div class="row mt-1">
+					<div class="col-md-2">
+						<h6>Account Holder Name</h6>
+					</div>
+					<div class="col-md-10">
+						<input class="form-control" type="text" name="customer_bank_acc_holder" id="customer_bank_acc_holder">
+					</div>
+				</div>
+			</div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary add_customer_close" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary add_customer">Add Customer</button>
@@ -675,10 +723,26 @@
             <div class="modal-body">
                 <div class="row mb-1">
                     <div class="col-md-2">
+                        <h6>User ID</h6>
+                    </div>
+                    <div class="col-md-10">
+                        <input class="form-control" type="text" name="user_id_cust_edit" id="user_id_cust_edit">
+                    </div>
+                </div>
+                <div class="row mb-1">
+                    <div class="col-md-2">
                         <h6>Customer Name</h6>
                     </div>
                     <div class="col-md-10">
-                        <input class="form-control" type="text" name="customer_name_edit" id="customer_name_edit">
+                        <input class="form-control" type="text" name="name_cust_edit" id="name_cust_edit">
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col-md-2">
+                        <h6>Address</h6>
+                    </div>
+                    <div class="col-md-10">
+                        <input class="form-control" type="text" name="address_cust_edit" id="address_cust_edit">
                     </div>
                 </div>
                 <div class="row mt-1">
@@ -686,7 +750,47 @@
                         <h6>Email</h6>
                     </div>
                     <div class="col-md-10">
-                        <input class="form-control" type="email" name="customer_email_edit" id="customer_email_edit">
+                        <input class="form-control" type="email" name="email_cust_edit" id="email_cust_edit">
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col-md-2">
+                        <h6>Phone Number</h6>
+                    </div>
+                    <div class="col-md-10">
+                        <input class="form-control" type="number" name="phone_cust_edit" id="phone_cust_edit">
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col-md-2">
+                        <h6>Notes</h6>
+                    </div>
+                    <div class="col-md-10">
+                        <textarea class="form-control" name="note_cust_edit" id="note_cust_edit" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col-md-2">
+                        <h6>Bank Name</h6>
+                    </div>
+                    <div class="col-md-10">
+                        <input class="form-control" type="text" name="bank_name_cust_edit" id="bank_name_cust_edit">
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col-md-2">
+                        <h6>Account Number</h6>
+                    </div>
+                    <div class="col-md-10">
+                        <input class="form-control" type="number" name="bank_acc_no_cust_edit" id="bank_acc_no_cust_edit">
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col-md-2">
+                        <h6>Account Holder Name</h6>
+                    </div>
+                    <div class="col-md-10">
+                        <input class="form-control" type="text" name="bank_acc_holder_cust_edit" id="bank_acc_holder_cust_edit">
                     </div>
                 </div>
             </div>
@@ -1098,22 +1202,25 @@
             dataType: "json",
             success: function (data) {
                 var data = data.data;
-                var htmlll = "";
+                var htmll = "";
                 var no = 1;
 
                 for (i = 0; i < data.length; i++) {
-                    htmlll += '<tr>';
-                    htmlll += '<td>' + no + '</td>';
-                    htmlll += '<td>' + data[i].name + '</td>';
-                    htmlll += '<td>' + data[i].email + '</td>';
-                    htmlll += '<td><button class="btn btn-sm btn-primary edit_cust" data-id="' + data[i]
-                        .id + '"data-toggle="modal" data-target="#modaleditcustomer">Edit</button></td>';
-                    htmlll += '<td><button class="btn btn-sm btn-danger del_data" data-id="' + data[i].id +
+                    htmll += '<tr>';
+                    htmll += '<td>' + no + '</td>';
+                    htmll += '<td>' + data[i].user_id + '</td>';
+                    htmll += '<td>' + data[i].name + '</td>';
+                    htmll += '<td><button class="btn btn-sm btn-primary edit_cust" data-id="' +
+                        data[i].id +
+                        '"data-toggle="modal" data-target="#modaleditcustomer">Edit</button></td>';
+                    htmll +=
+                        '<td><button class="btn btn-sm btn-danger del_data" data-type="customer" data-id="' +
+                        data[i].id +
                         '"data-toggle="modal" data-target="#modaldelete">Delete</button></td>';
-                    htmlll += '</tr>';
+                    htmll += '</tr>';
                     no++;
                 }
-                $('#tbl_customer').append(htmlll);
+                $('#tbl_customer').append(htmll);
                 $("#tbl_customer_list").DataTable();
             }
         });
@@ -1626,15 +1733,14 @@
             dataType: "json",
             success: function (data) {
                 var data = data.data;
-                console.log(data);
                 var htmll = "";
                 var no = 1;
 
                 for (i = 0; i < data.length; i++) {
                     htmll += '<tr>';
                     htmll += '<td>' + no + '</td>';
+                    htmll += '<td>' + data[i].user_id + '</td>';
                     htmll += '<td>' + data[i].name + '</td>';
-                    htmll += '<td>' + data[i].email + '</td>';
                     htmll += '<td><button class="btn btn-sm btn-primary edit_cust" data-id="' +
                         data[i].id +
                         '"data-toggle="modal" data-target="#modaleditcustomer">Edit</button></td>';
@@ -1651,18 +1757,30 @@
         });
     })
     $(document).on('click', '.add_customer', function () {
-        var customer_name = $('#customer_name').val();
-        var customer_email = $('#customer_email').val();
-        var customer_pass = $('#customer_pass').val();
+        var user_id = $('#customer_user_id').val();
+        var name = $('#customer_name').val();
+        var address = $('#customer_address').val();
+        var email = $('#customer_email').val();
+        var phone = $('#customer_phone').val();
+        var note = $('#customer_note').val();
+        var bank_name = $('#customer_bank_name').val();
+        var acc_no = $('#customer_bank_acc_no').val();
+        var holder_name = $('#customer_bank_acc_holder').val();
 
         $.ajax({
             url: "{{route('add_cust')}}",
             type: "POST",
             data: {
                 _token: "{{ csrf_token() }}",
-                name: customer_name,
-                email: customer_email,
-                password: customer_pass
+                user_id:user_id,
+                name:name,
+                address:address,
+                email:email,
+                phone:phone,
+                note:note,
+                bank_name:bank_name,
+                acc_no:acc_no,
+                holder_name:holder_name
             },
             dataType: "json",
             success: function (data) {
@@ -1689,24 +1807,45 @@
             },
             dataType: "json",
             success: function (data) {
-                $('#customer_name_edit').val(data.data[0].name);
-                $('#customer_email_edit').val(data.data[0].email);
-                $('#id_customer_edit').val(data.data[0].id);
+                $('#user_id_cust_edit').val(data.data[0].user_id);
+                $('#name_cust_edit').val(data.data[0].name);
+                $('#address_cust_edit').val(data.data[0].address);
+                $('#email_cust_edit').val(data.data[0].email);
+                $('#phone_cust_edit').val(data.data[0].phone);
+                $('#note_cust_edit').val(data.data[0].note);
+                $('#bank_name_cust_edit').val(data.data[0].bank_name);
+                $('#bank_acc_no_cust_edit').val(data.data[0].acc_no);
+                $('#bank_acc_holder_cust_edit').val(data.data[0].acc_holder);
+				$('#id_customer_edit').val(data.data[0].id);
             }
         });
     })
     $(document).on('click', '.edit_customer_process', function () {
-        var id = $('#id_customer_edit').val();
-        var name = $('#customer_name_edit').val();
-        var email = $('#customer_email_edit').val();
+		var id = $('#id_customer_edit').val();
+        var user_id = $('#user_id_cust_edit').val();
+        var name = $('#name_cust_edit').val();
+        var address = $('#address_cust_edit').val();
+        var email = $('#email_cust_edit').val();
+        var phone = $('#phone_cust_edit').val();
+        var note = $('#note_cust_edit').val();
+        var bank_name = $('#bank_name_cust_edit').val();
+        var acc_no = $('#bank_acc_no_cust_edit').val();
+        var holder_name = $('#bank_acc_holder_cust_edit').val();
         $.ajax({
             url: "{{route('customer_edit_process')}}",
             type: "POST",
             data: {
                 _token: "{{ csrf_token() }}",
-                id: id,
-                name: name,
-                email: email
+                user_id:user_id,
+                name:name,
+                address:address,
+                email:email,
+                phone:phone,
+                note:note,
+                bank_name:bank_name,
+                acc_no:acc_no,
+                holder_name:holder_name,
+				id:id
             },
             dataType: "json",
             success: function (data) {
