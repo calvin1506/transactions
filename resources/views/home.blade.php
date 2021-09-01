@@ -47,7 +47,7 @@
         </div>
       </div>
     </div>
-    <h5><b>Assigning Jobs</b></h5>
+    <h5><b>Assign</b></h5>
     <div class="row">
 		<div class="card" style="width: 100%">
 			<div class="card-body">
@@ -94,9 +94,6 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Websites</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
         </div>
         <div class="modal-body">
           <div class="row">
@@ -135,9 +132,6 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Leaders</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
         </div>
         <div class="modal-body">
             <div class="row">
@@ -176,9 +170,6 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Operators</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
         </div>
         <div class="modal-body">
           <div class="row">
@@ -217,9 +208,6 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Customers</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
         </div>
         <div class="modal-body">
           <div class="row">
@@ -258,9 +246,6 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Banks</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
         </div>
         <div class="modal-body">
           <div class="row">
@@ -298,7 +283,25 @@
 
 
 
-
+<!-- Modal Delete -->
+<div class="modal fade" id="modaldelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Delete Data</h5>
+        </div>
+        <div class="modal-body">
+			<h5>Are you sure want to delete?</h5>
+        </div>
+        <div class="modal-footer">
+			<input type="hidden" name="type_delete" id="type_delete">
+			<input type="hidden" name="id_delete" id="id_delete">
+			<button type="button" class="btn btn-secondary delete_data_close" data-dismiss="modal">Close</button>
+			<button type="button" class="btn btn-danger delete_data">Delete</button>
+        </div>
+      </div>
+    </div>
+</div>
 
 
 
@@ -312,9 +315,6 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Add New Website</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
         </div>
         <div class="modal-body">
             <div class="row mb-1">
@@ -347,9 +347,6 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Edit Website</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
         </div>
         <div class="modal-body">
             <div class="row mb-1">
@@ -385,9 +382,6 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Add New Website</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
         </div>
         <div class="modal-body">
             <div class="row mb-1">
@@ -428,9 +422,6 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Edit Leader</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
       </div>
       <div class="modal-body">
         <div class="row mb-1">
@@ -466,9 +457,6 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Add New Operator</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
       </div>
       <div class="modal-body">
           <div class="row mb-1">
@@ -509,9 +497,6 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Edit Operator</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
       </div>
       <div class="modal-body">
         <div class="row mb-1">
@@ -548,9 +533,6 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Add New Customer</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
       </div>
       <div class="modal-body">
           <div class="row mb-1">
@@ -591,9 +573,6 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Edit Customer</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
       </div>
       <div class="modal-body">
         <div class="row mb-1">
@@ -630,9 +609,6 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Add New Bank Account</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
       </div>
       <div class="modal-body">
           <div class="row mb-1">
@@ -681,9 +657,6 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Edit Bank</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
       </div>
       <div class="modal-body">
         <div class="row mb-1">
@@ -754,7 +727,7 @@
                             html +='<td>'+data[i].web_name+'</td>';
                             html +='<td>'+formatNumber(data[i].init_coin)+'</td>';
                             html +='<td><button class="btn btn-sm btn-primary edit_web" data-id="'+data[i].id+'"data-toggle="modal" data-target="#modaleditweb">Edit</button></td>';
-                            html +='<td><a class="btn btn-sm btn-danger del_web" data-id="'+data[i].id+'" onclick="return confirm(`Want to delete content?`)">Delete</a></td>';
+                            html +='<td><button class="btn btn-sm btn-danger del_data" data-id="'+data[i].id+'"data-toggle="modal" data-target="#modaldelete">Delete</button></td>';
                         html +='</tr>';
                         no++;
                     }
@@ -781,7 +754,7 @@
                             htmlll +='<td>'+data[i].name+'</td>';
                             htmlll +='<td>'+data[i].email+'</td>';
                             htmlll +='<td><button class="btn btn-sm btn-primary edit_leader" data-id="'+data[i].id+'"data-toggle="modal" data-target="#modaleditleader">Edit</button></td>';
-                            htmlll +='<td><a class="btn btn-sm btn-danger del_leader" data-id="'+data[i].id+'" onclick="return confirm(`Want to delete Leader?`)">Delete</a></td>';
+                            htmlll +='<td><button class="btn btn-sm btn-danger del_data" data-id="'+data[i].id+'"data-toggle="modal" data-target="#modaldelete">Delete</button></td>';
                         htmlll +='</tr>';
                         no++;
                     }
@@ -808,7 +781,7 @@
                             htmlll +='<td>'+data[i].name+'</td>';
                             htmlll +='<td>'+data[i].email+'</td>';
                             htmlll +='<td><button class="btn btn-sm btn-primary edit_operator" data-id="'+data[i].id+'"data-toggle="modal" data-target="#modaleditoperator">Edit</button></td>';
-                            htmlll +='<td><a class="btn btn-sm btn-danger del_operator" data-id="'+data[i].id+'" onclick="return confirm(`Want to delete operator?`)">Delete</a></td>';
+                            htmlll +='<td><button class="btn btn-sm btn-danger del_data" data-id="'+data[i].id+'"data-toggle="modal" data-target="#modaldelete">Delete</button></td>';
                         htmlll +='</tr>';
                         no++;
                     }
@@ -835,7 +808,7 @@
                             htmlll +='<td>'+data[i].name+'</td>';
                             htmlll +='<td>'+data[i].email+'</td>';
                             htmlll +='<td><button class="btn btn-sm btn-primary edit_cust" data-id="'+data[i].id+'"data-toggle="modal" data-target="#modaleditcustomer">Edit</button></td>';
-                            htmlll +='<td><a class="btn btn-sm btn-danger del_cust" data-id="'+data[i].id+'" onclick="return confirm(`Want to delete operator?`)">Delete</a></td>';
+                            htmlll +='<td><button class="btn btn-sm btn-danger del_data" data-id="'+data[i].id+'"data-toggle="modal" data-target="#modaldelete">Delete</button></td>';
                         htmlll +='</tr>';
                         no++;
                     }
@@ -865,7 +838,7 @@
                             htmll +='<td>'+data[i].holder_name+'</td>';
                             htmll +='<td>'+formatNumber(data[i].saldo)+'</td>';
                             htmll +='<td><button class="btn btn-sm btn-primary edit_bank" data-id="'+data[i].id+'"data-toggle="modal" data-target="#modaleditbank">Edit</button></td>';
-                            htmll +='<td><a class="btn btn-sm btn-danger del_bank" data-id="'+data[i].id+'" onclick="return confirm(`Want to delete content?`)">Delete</a></td>';
+                            htmll +='<td><button class="btn btn-sm btn-danger del_data" data-id="'+data[i].id+'"data-toggle="modal" data-target="#modaldelete">Delete</button></td>';
                         htmll +='</tr>';
                         no++;
                     }
@@ -874,6 +847,89 @@
                 }
             });
         }
+
+		$(document).on('click', '.del_data', function(){
+			var type = $(this).data("type");
+			var id = $(this).data("id");
+			$('#type_delete').val(type);
+			$('#id_delete').val(id);
+
+
+
+		})
+
+		$(document).on('click', '.delete_data', function(){
+
+			var type = $('#type_delete').val();
+			var id = $('#id_delete').val();
+
+			if (type == "web") {
+				$.ajax({
+					url: "{{route('delete_web')}}",
+					type: "POST",
+					data: {_token:"{{ csrf_token() }}", id:id},
+					dataType: "json",
+					success: function(data) {
+						alert("Success Delete Website");
+						$('.delete_data_close').click();
+						get_web();
+
+					}
+				});
+			} else if(type == "leader") {
+				$.ajax({
+					url: "{{route('delete_leader')}}",
+					type: "POST",
+					data: {_token:"{{ csrf_token() }}", id:id},
+					dataType: "json",
+					success: function(data) {
+						alert("Success Delete Leader");
+						$('.delete_data_close').click();
+						get_leader();
+
+					}
+				});
+			} else if(type == "operator"){
+				$.ajax({
+					url: "{{route('delete_operator')}}",
+					type: "POST",
+					data: {_token:"{{ csrf_token() }}", id:id},
+					dataType: "json",
+					success: function(data) {
+						alert("Success Delete operator");
+						$('.delete_data_close').click();
+						get_operator();
+
+					}
+				});
+			} else if(type == "customer"){
+				$.ajax({
+					url: "{{route('delete_customer')}}",
+					type: "POST",
+					data: {_token:"{{ csrf_token() }}", id:id},
+					dataType: "json",
+					success: function(data) {
+						alert("Success Delete Customer");
+						$('.delete_data_close').click();
+						get_customer();
+
+					}
+				});
+			} else if(type == "bank"){
+				$.ajax({
+					url: "{{route('delete_bank')}}",
+					type: "POST",
+					data: {_token:"{{ csrf_token() }}", id:id},
+					dataType: "json",
+					success: function(data) {
+						alert("Success Delete Bank");
+						$('.delete_data_close').click();
+						get_bank();
+
+					}
+				});
+			}
+		})
         
 
         $(document).on('click', '.modal1', function(){
@@ -894,7 +950,8 @@
                             html +='<td>'+data[i].web_name+'</td>';
                             html +='<td>'+formatNumber(data[i].init_coin)+'</td>';
                             html +='<td><button class="btn btn-sm btn-primary edit_web" data-id="'+data[i].id+'"data-toggle="modal" data-target="#modaleditweb">Edit</button></td>';
-                            html +='<td><a class="btn btn-sm btn-danger del_web" data-id="'+data[i].id+'" onclick="return confirm(`Want to delete content?`)">Delete</a></td>';
+                            html +='<td><button class="btn btn-sm btn-danger del_data" data-type="web" data-id="'+data[i].id+'"data-toggle="modal" data-target="#modaldelete">Delete</button></td>';
+                            // html +='<td><a class="btn btn-sm btn-danger del_web" data-id="'+data[i].id+'" onclick="return confirm(`Want to delete content?`)">Delete</a></td>';
                         html +='</tr>';
                         no++;
                     }
@@ -990,7 +1047,7 @@
                             htmll +='<td>'+data[i].name+'</td>';
                             htmll +='<td>'+data[i].email+'</td>';
                             htmll +='<td><button class="btn btn-sm btn-primary edit_leader" data-id="'+data[i].id+'"data-toggle="modal" data-target="#modaleditleader">Edit</button></td>';
-                            htmll +='<td><a class="btn btn-sm btn-danger delete_leader" data-id="'+data[i].id+'" onclick="return confirm(`Want to delete content?`)">Delete</a></td>';
+                            htmll +='<td><button class="btn btn-sm btn-danger del_data" data-type="leader" data-id="'+data[i].id+'"data-toggle="modal" data-target="#modaldelete">Delete</button></td>';
                         htmll +='</tr>';
                         no++;
                     }
@@ -1089,7 +1146,7 @@
                             htmll +='<td>'+data[i].name+'</td>';
                             htmll +='<td>'+data[i].email+'</td>';
                             htmll +='<td><button class="btn btn-sm btn-primary edit_operator" data-id="'+data[i].id+'"data-toggle="modal" data-target="#modaleditoperator">Edit</button></td>';
-                            htmll +='<td><a class="btn btn-sm btn-danger delete_operator" data-id="'+data[i].id+'" onclick="return confirm(`Want to delete content?`)">Delete</a></td>';
+                            htmll +='<td><button class="btn btn-sm btn-danger del_data" data-type="operator" data-id="'+data[i].id+'"data-toggle="modal" data-target="#modaldelete">Delete</button></td>';
                         htmll +='</tr>';
                         no++;
                     }
@@ -1188,7 +1245,7 @@
                             htmll +='<td>'+data[i].name+'</td>';
                             htmll +='<td>'+data[i].email+'</td>';
                             htmll +='<td><button class="btn btn-sm btn-primary edit_cust" data-id="'+data[i].id+'"data-toggle="modal" data-target="#modaleditcustomer">Edit</button></td>';
-                            htmll +='<td><a class="btn btn-sm btn-danger del_cust" data-id="'+data[i].id+'" onclick="return confirm(`Want to delete content?`)">Delete</a></td>';
+                            htmll +='<td><button class="btn btn-sm btn-danger del_data" data-type="customer" data-id="'+data[i].id+'"data-toggle="modal" data-target="#modaldelete">Delete</button></td>';
                         htmll +='</tr>';
                         no++;
                     }
@@ -1289,7 +1346,7 @@
                             htmll +='<td>'+data[i].holder_name+'</td>';
                             htmll +='<td>'+formatNumber(data[i].saldo)+'</td>';
                             htmll +='<td><button class="btn btn-sm btn-primary edit_bank" data-id="'+data[i].id+'"data-toggle="modal" data-target="#modaleditbank">Edit</button></td>';
-                            htmll +='<td><a class="btn btn-sm btn-danger del_bank" data-id="'+data[i].id+'" onclick="return confirm(`Want to delete content?`)">Delete</a></td>';
+                            htmll +='<td><button class="btn btn-sm btn-danger del_data" data-type="bank" data-id="'+data[i].id+'"data-toggle="modal" data-target="#modaldelete">Delete</button></td>';
                         htmll +='</tr>';
                         no++;
                     }
