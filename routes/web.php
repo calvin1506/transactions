@@ -52,3 +52,7 @@ Route::post('/bank/delete', 'BankController@deletebank')->name('delete_bank');
 Route::post('/assign/get', 'AssignController@getdata')->name('get_data');
 Route::post('/assign/getdata', 'AssignController@getdataedit')->name('get_data_edit');
 Route::post('/assign/process', 'AssignController@dataprocess')->name('process_data');
+
+Route::post('/assign/getweb', 'AssignController@getdataweb')->name('get_data_web');
+Route::post('/assign/getdataweb', 'AssignController@getdataeditweb')->name('get_data_edit_web');
+Route::post('/assign/processweb', 'AssignController@dataprocessweb')->name('process_data_web');

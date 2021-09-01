@@ -64,7 +64,15 @@
                                 style="background-image: url('https://png.pngtree.com/element_our/png_detail/20181114/bank-icon-png_239804.jpg');background-size: cover;height: 145px;border-radius:100%;">
                             </div>
                         </a>
-                        <h6>Banks</h6>
+                        <h6>Assign Websites to Banks</h6>
+                    </div>
+					<div class="col-xl-2">
+                        <a href="#modal7" data-toggle="modal" data-target="#modal7" class="small-box-footer modal7">
+                            <div class="small-box bg-info"
+                                style="background-image: url('https://thumbs.dreamstime.com/b/www-internet-icon-search-bar-website-eps-148122440.jpg');background-size: cover;height: 145px;border-radius:100%;">
+                            </div>
+                        </a>
+                        <h6>Assign Leaders/Operators to Websites</h6>
                     </div>
                 </div>
             </div>
@@ -322,6 +330,38 @@
                                 </tr>
                             </thead>
                             <tbody id="tbl_assign_bank">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="reload()">Close</button>
+                {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal 7 -->
+<div class="modal fade" id="modal7" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Websites</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row mt-3 table-responsive">
+                    <div class="col-md-12">
+                        <table class="table table-striped text-center" id="tbl_assign_website_list">
+                            <thead>
+                                <tr>
+                                    <td>No</td>
+                                    <td>Website Name</td>
+                                    <td colspan="2">Actions</td>
+                                </tr>
+                            </thead>
+                            <tbody id="tbl_assign_website">
 
                             </tbody>
                         </table>
@@ -819,6 +859,97 @@
 				<input type="hidden" name="web_id" id="web_id">
                 <button type="button" class="btn btn-secondary assign_bank_edit_close" data-dismiss="modal">Close</button>
 				<button type="button" class="btn btn-primary assign_bank_edit_process">Edit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Detail Assign Website -->
+<div class="modal fade" id="modaldetailassignwebsite" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Website details</h5>
+            </div>
+            <div class="modal-body">
+				<div class="row mb-2">
+					<div class="col-md-12">
+						<h5><b>Assigned Leaders:</b></h5>
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-md-12">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<td>No</td>
+									<td>Leader Name</td>
+								</tr>
+							</thead>
+							<tbody id="web_assign_leads">
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-md-12">
+						<h5><b>Assigned Operators:</b></h5>
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-md-12">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<td>No</td>
+									<td>Operator Name</td>
+								</tr>
+							</thead>
+							<tbody id="web_assign_ops">
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary assign_bank_close" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Edit Assign Website -->
+<div class="modal fade" id="modaleditassignwebsite" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Websites detail edit</h5>
+            </div>
+            <div class="modal-body">
+				<div class="row mb-2">
+					<div class="col-md-4">
+						Leaders
+					</div>
+					<div class="col-md-8">
+						<div id="web_assign_edit_leads"></div>
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-md-4">
+						Operators
+					</div>
+					<div class="col-md-8">
+						<div id="web_assign_edit_ops"></div>
+					</div>
+				</div>
+            </div>
+            <div class="modal-footer">
+				<input type="hidden" name="web_id" id="web_id">
+                <button type="button" class="btn btn-secondary assign_website_edit_close" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary assign_website_edit_process">Edit</button>
             </div>
         </div>
     </div>
@@ -1825,5 +1956,141 @@
         });
 	})
 
+    $(document).on('click', '.modal7', function () {
+        $('#tbl_assign_bank').empty();
+        $.ajax({
+            url: "{{route('get_web')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}"
+            },
+            dataType: "json",
+            success: function (data) {
+                var data = data.data;
+                var htmll = "";
+                var no = 1;
+
+                for (i = 0; i < data.length; i++) {
+                    htmll += '<tr>';
+                    htmll += '<td>' + no + '</td>';
+                    htmll += '<td>' + data[i].web_name + '</td>';
+                    htmll +=
+                        '<td><button class="btn btn-sm btn-success detail_assign_website" data-id="' +
+                        data[i].id +
+                        '"data-toggle="modal" data-target="#modaldetailassignwebsite">Detail</button></td>';
+                    htmll +=
+                        '<td><button class="btn btn-sm btn-primary edit_assign_website" data-id="' +
+                        data[i].id +
+                        '"data-toggle="modal" data-target="#modaleditassignwebsite">Edit</button></td>';
+                    htmll += '</tr>';
+                    no++;
+                }
+                $('#tbl_assign_website').append(htmll);
+                $("#tbl_assign_website_list").DataTable();
+            }
+        });
+    })
+	$(document).on('click', '.detail_assign_website', function(){
+		$('#web_assign_leads').empty();
+		$('#web_assign_ops').empty();
+
+		var id = $(this).data("id");
+
+		$.ajax({
+            url: "{{route('get_data_web')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+				id:id
+            },
+            dataType: "json",
+            success: function (data) {
+				var leads = data.leads;
+				var ops = data.ops;
+				var html = "";
+				var htmll = "";
+				var no=1;
+				var no1=1;
+				console.log(leads);
+				console.log(ops);
+				for (i = 0; i < leads.length; i++) {
+					html += '<tr>'
+						html += '<td>'+no+'</td>'
+						html += '<td>'+leads[i]['name']+'</td>'
+					html += '</tr>'
+					no++;
+				}
+
+				for (i = 0; i < ops.length; i++) {
+					htmll += '<tr>'
+						htmll += '<td>'+no1+'</td>'
+						htmll += '<td>'+ops[i]['name']+'</td>'
+					htmll += '</tr>'
+					no1++;
+				}
+
+                $('#web_assign_leads').append(html);
+                $('#web_assign_ops').append(htmll);
+            }
+        });
+		
+	})
+	$(document).on('click', '.edit_assign_website', function(){
+		$('#web_assign_edit_leads').empty();
+		$('#web_assign_edit_ops').empty();
+		var id = $(this).data("id");
+
+		$.ajax({
+            url: "{{route('get_data_edit_web')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}"
+            },
+            dataType: "json",
+            success: function (data) {
+				var leads = data.leads;
+				var ops = data.ops;
+				var html = "";
+				var htmll = "";
+				var htmlll = "";
+
+				html += '<select multiple class="form-control" name="website_assigning_edit_leads" id="website_assigning_edit_leads">'
+					for (i = 0; i < leads.length; i++) {
+						html += '<option value="'+leads[i]['id']+'"> '+leads[i]['name']+' </option>'
+					}
+				html +=	'</select>'
+				htmll += '<select multiple class="form-control" name="website_assigning_edit_ops" id="website_assigning_edit_ops">'
+					for (i = 0; i < ops.length; i++) {
+						htmll += '<option value="'+ops[i]['id']+'"> '+ops[i]['name']+' </option>'
+					}
+				htmll +=	'</select>'
+
+                $('#web_assign_edit_leads').append(html);
+                $('#web_assign_edit_ops').append(htmll);
+				$('#web_id').val(id)
+            }
+        });
+	})
+	$(document).on('click', '.assign_website_edit_process', function(){
+		var leads = $('#website_assigning_edit_leads').val()
+		var ops = $('#website_assigning_edit_ops').val()
+		var web_id = $('#web_id').val()
+
+		$.ajax({
+            url: "{{route('process_data_web')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+				leaders:leads,
+				operators:ops,
+				id:web_id
+            },
+            dataType: "json",
+            success: function (data) {
+				alert("Success Assign Leaders/Operators to Website");
+				$('.assign_website_edit_close').click()
+            }
+        });
+	})
 </script>
 @endsection
