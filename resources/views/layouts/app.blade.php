@@ -21,6 +21,24 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <style>
+        [type=radio] { 
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+        }
+
+        /* IMAGE STYLES */
+        [type=radio] + img {
+        cursor: pointer;
+        }
+
+        /* CHECKED STYLES */
+        [type=radio]:checked + img {
+        outline: 2px solid #f00;
+        }
+    </style>
 </head>
 <body>
     <div id="app">

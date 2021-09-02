@@ -26,19 +26,26 @@ class AssignController extends Controller
     }
 
     public function dataprocess(Request $request){
-        $webs = array();
-        $web = DB::table('websites')
-                ->whereIn('id',$request->website)
-                ->get('web_name');
-        if(count($web) >0){
-            foreach($web as $w){
-                array_push($webs, $w->web_name);
-            }
-        }
-
+        // dd($request);
+        $banks = array();
         $update_bank = bank::where('id', $request->id)->first();
         $update_bank->website = json_encode($request->website);
         $update_bank->save();
+        array_push($banks, $update_bank->id);
+
+        $webs = array();
+        $web = DB::table('websites')
+                ->whereIn('id',$request->website)
+                ->get();
+        if(count($web) >0){
+            foreach($web as $w){
+                array_push($webs, $w->web_name);
+
+                $update_web = website::where('id', $w->id)->first();
+                $update_web->bank = json_encode($banks);
+                $update_web->save();
+            }
+        }
 
         $log = new log;
         $log->user = auth::user()->name;

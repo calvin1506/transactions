@@ -56,3 +56,6 @@ Route::post('/assign/process', 'AssignController@dataprocess')->name('process_da
 Route::post('/assign/getweb', 'AssignController@getdataweb')->name('get_data_web');
 Route::post('/assign/getdataweb', 'AssignController@getdataeditweb')->name('get_data_edit_web');
 Route::post('/assign/processweb', 'AssignController@dataprocessweb')->name('process_data_web');
+
+Route::post('/transaction/getdata', 'TransactionController@getdata')->name('get_data_trx');
+Route::post('/transaction/process', 'TransactionController@process')->name('trx_process');

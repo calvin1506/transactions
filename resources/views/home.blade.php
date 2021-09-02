@@ -83,13 +83,14 @@
     <div class="row">
         <div class="card" style="width: 100%">
             <div class="card-body">
-                <div class="row">
+                <div class="row text-center">
                     <div class="col-xl-2">
-                        <a href="#modal5" data-toggle="modal" data-target="#modal5" class="small-box-footer modal5">
+                        <a href="#modal8" data-toggle="modal" data-target="#modal8" class="small-box-footer modal8">
                             <div class="small-box bg-info"
-                                style="background-image: url('https://png.pngtree.com/element_our/png_detail/20181114/bank-icon-png_239804.jpg');background-size: cover;height: 145px;">
+                                style="background-image: url('https://static.thenounproject.com/png/488117-200.png');background-size: cover;height: 145px;background-position: center;border-radius:100%;">
                             </div>
                         </a>
+						<h6>Deposit / Withdrawal</h6>
                     </div>
                     <div class="col-xl-2">
                         <div class="small-box bg-info">
@@ -362,6 +363,38 @@
                                 </tr>
                             </thead>
                             <tbody id="tbl_assign_website">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="reload()">Close</button>
+                {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal 8 -->
+<div class="modal fade" id="modal8" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Websites</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row mt-3 table-responsive">
+                    <div class="col-md-12">
+                        <table class="table table-striped text-center" id="tbl_depo_wd_list">
+                            <thead>
+                                <tr>
+                                    <td>No</td>
+                                    <td>Website Name</td>
+                                    <td colspan="2">Actions</td>
+                                </tr>
+                            </thead>
+                            <tbody id="tbl_depo_wd">
 
                             </tbody>
                         </table>
@@ -1085,12 +1118,189 @@
     </div>
 </div>
 
+<!-- Modal Depo/WD -->
+<div class="modal fade" id="modaldepowd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Form Depo/WD</h5>
+            </div>
+            <div class="modal-body">
+				<div class="row mb-2">
+					<div class="col-md-12" id="web_name_detail_edit">
+
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-md-4">
+						User
+					</div>
+					<div class="col-md-8">
+						<form autocomplete="off">
+							<div class="autocomplete" style="width:300px;" id="users_div">
+							  
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-md-4">
+						Bank
+					</div>
+					<div class="col-md-8">
+						<div class="row" id="banks_div"></div>
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-md-4">
+						Type
+					</div>
+					<div class="col-md-8">
+						<div class="row text-center">
+							<div class="col-md-6">
+								<label style="background-color: lightblue; border-radius: 10px;width: 130px">
+									<div class="form-check form-check-inline">
+										<input class="form-check-input-money" type="radio" name="inlineRadioOptionsMoney" id="depo" value="deposit">
+										<img src="{{ asset("img/moneyIn.png") }}" style="max-width: 25px;margin-top: 5px;">
+									</div>
+									Deposit
+								</label>
+							</div>
+							<div class="col-md-6">
+								<label style="background-color: lightcoral; border-radius: 10px;width: 130px">
+									<div class="form-check form-check-inline">
+										<input class="form-check-input-money" type="radio" name="inlineRadioOptionsMoney" id="wd" value="withdrawal">
+										<img src="{{ asset("img/moneyOut.png") }}" style="max-width: 25px;margin-top: 5px;">
+									</div>
+									Withdrawal
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-md-4">
+						Amount
+					</div>
+					<div class="col-md-8">
+						<input class="form-control" type="number" name="amount" id="amount">
+					</div>
+				</div>
+            </div>
+            <div class="modal-footer">
+				<input type="hidden" name="web_id_depo_wd" id="web_id_depo_wd">
+                <button type="button" class="btn btn-secondary depo_wd_close" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary depo_wd_process">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @endsection
 
 @section('footer')
 
 <script>
+
+	function autocomplete(inp, arr) {
+			/*the autocomplete function takes two arguments,
+			the text field element and an array of possible autocompleted values:*/
+			var currentFocus;
+			/*execute a function when someone writes in the text field:*/
+			inp.addEventListener("input", function(e) {
+				var a, b, i, val = this.value;
+				/*close any already open lists of autocompleted values*/
+				closeAllLists();
+				if (!val) { return false;}
+				currentFocus = -1;
+				/*create a DIV element that will contain the items (values):*/
+				a = document.createElement("DIV");
+				a.setAttribute("id", this.id + "autocomplete-list");
+				a.setAttribute("class", "autocomplete-items");
+				/*append the DIV element as a child of the autocomplete container:*/
+				this.parentNode.appendChild(a);
+				/*for each item in the array...*/
+				for (i = 0; i < arr.length; i++) {
+					/*check if the item starts with the same letters as the text field value:*/
+					if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+					/*create a DIV element for each matching element:*/
+					b = document.createElement("DIV");
+					/*make the matching letters bold:*/
+					b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+					b.innerHTML += arr[i].substr(val.length);
+					/*insert a input field that will hold the current array item's value:*/
+					b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+					/*execute a function when someone clicks on the item value (DIV element):*/
+					b.addEventListener("click", function(e) {
+						/*insert the value for the autocomplete text field:*/
+						inp.value = this.getElementsByTagName("input")[0].value;
+						/*close the list of autocompleted values,
+						(or any other open lists of autocompleted values:*/
+						closeAllLists();
+					});
+					a.appendChild(b);
+					}
+				}
+			});
+			/*execute a function presses a key on the keyboard:*/
+			inp.addEventListener("keydown", function(e) {
+				var x = document.getElementById(this.id + "autocomplete-list");
+				if (x) x = x.getElementsByTagName("div");
+				if (e.keyCode == 40) {
+					/*If the arrow DOWN key is pressed,
+					increase the currentFocus variable:*/
+					currentFocus++;
+					/*and and make the current item more visible:*/
+					addActive(x);
+				} else if (e.keyCode == 38) { //up
+					/*If the arrow UP key is pressed,
+					decrease the currentFocus variable:*/
+					currentFocus--;
+					/*and and make the current item more visible:*/
+					addActive(x);
+				} else if (e.keyCode == 13) {
+					/*If the ENTER key is pressed, prevent the form from being submitted,*/
+					e.preventDefault();
+					if (currentFocus > -1) {
+					/*and simulate a click on the "active" item:*/
+					if (x) x[currentFocus].click();
+					}
+				}
+			});
+			function addActive(x) {
+				/*a function to classify an item as "active":*/
+				if (!x) return false;
+				/*start by removing the "active" class on all items:*/
+				removeActive(x);
+				if (currentFocus >= x.length) currentFocus = 0;
+				if (currentFocus < 0) currentFocus = (x.length - 1);
+				/*add class "autocomplete-active":*/
+				x[currentFocus].classList.add("autocomplete-active");
+			}
+			function removeActive(x) {
+				/*a function to remove the "active" class from all autocomplete items:*/
+				for (var i = 0; i < x.length; i++) {
+				x[i].classList.remove("autocomplete-active");
+				}
+			}
+			function closeAllLists(elmnt) {
+				/*close all autocomplete lists in the document,
+				except the one passed as an argument:*/
+				var x = document.getElementsByClassName("autocomplete-items");
+				for (var i = 0; i < x.length; i++) {
+				if (elmnt != x[i] && elmnt != inp) {
+					x[i].parentNode.removeChild(x[i]);
+				}
+				}
+			}
+			/*execute a function when someone clicks in the document:*/
+			document.addEventListener("click", function (e) {
+				closeAllLists(e.target);
+			});
+	}
+
     function reload() {
         window.location.reload(false);
     }
@@ -1225,7 +1435,6 @@
             }
         });
     }
-
     function get_bank() {
         $('#tbl_bank').empty();
         $.ajax({
@@ -1260,6 +1469,7 @@
             }
         });
     }
+
 
     $(document).on('click', '.del_data', function () {
         var type = $(this).data("type");
@@ -2287,5 +2497,119 @@
             }
         });
 	})
+
+
+	$(document).on('click', '.modal8', function () {
+        $('#tbl_depo_wd').empty();
+        $.ajax({
+            url: "{{route('get_web')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}"
+            },
+            dataType: "json",
+            success: function (data) {
+                var data = data.data;
+                var html = "";
+                var no = 1;
+
+                for (i = 0; i < data.length; i++) {
+                    html += '<tr>';
+                    html += '<td>' + no + '</td>';
+                    html += '<td>' + data[i].web_name + '</td>';
+                    html += '<td><button class="btn btn-sm btn-primary detail_depowd" data-id="' + data[
+                            i].id +
+                        '"data-toggle="modal" data-target="#modaldepowd">Depo/WD</button></td>';
+                    // html +='<td><a class="btn btn-sm btn-danger del_web" data-id="'+data[i].id+'" onclick="return confirm(`Want to delete content?`)">Delete</a></td>';
+                    html += '</tr>';
+                    no++;
+                }
+                $('#tbl_depo_wd').append(html);
+                $("#tbl_depo_wd_list").DataTable();
+            }
+        });
+    })
+	$(document).on('click', '.detail_depowd', function () {
+		$('#banks_div').empty();
+		$('#users_div').empty();
+		$("input[name='inlineRadioOptionsMoney']").prop('checked', false);
+		$('#amount').empty();
+		var id = $(this).data("id");
+		var customer = [];
+		var bank = [];
+
+		$.ajax({
+            url: "{{route('get_data_trx')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+				id:id
+            },
+            dataType: "json",
+            success: function (data) {
+				var banks = data.banks;
+				var customers = data.customers;
+				var bank = banks; 
+				var customer = customers; 
+				var html = "";
+				var htmll = "";
+
+				html += '<input id="InputUser" class="form-control" type="text" name="InputUser" placeholder="Users">';
+
+				for (let i = 0; i < banks.length; i++) {
+					// htmll += '<button class="btn btn-sm btn-bank" style="border=1px solid;"> <img src="{{ asset("img/icon-bank.jpg") }}" style="max-width: 25px;">'+banks[i]["bank_name"]+' - '+banks[i]["acc_no"]+'</button>';
+					// htmll += '<label>'+banks[i]["bank_name"]+' - '+banks[i]["acc_no"]+'</label><br>'
+					htmll += '<div class="col-md-6">'
+						htmll += '<label>';
+							htmll += '<div class="form-check form-check-inline">';
+								htmll += '<input class="form-check-input" type="radio" name="inlineRadioOptions" id="bank'+i+'" value="'+banks[i]["id"]+'">';
+								htmll += '<img src="{{ asset("img/icon-bank.jpg") }}" style="max-width: 25px;">'+banks[i]["bank_name"]+' - '+banks[i]["acc_no"];
+							htmll += '</div>';
+						htmll += '</label>';
+					htmll += '</div>';
+				}
+
+
+
+				
+				$('#users_div').append(html);
+				$('#banks_div').append(htmll);
+				$('#web_id_depo_wd').val(id);
+
+				autocomplete(document.getElementById("InputUser"), customer);
+
+            }
+        });
+	})
+	$(document).on('click', '.depo_wd_process', function () {
+
+		var user = $('#InputUser').val();
+		var amount = $('#amount').val();
+		var type = $("input[name='inlineRadioOptionsMoney']:checked").val()
+		var bank = $("input[name='inlineRadioOptions']:checked").val()
+		var web = $('#web_id_depo_wd').val();
+
+		$.ajax({
+            url: "{{route('trx_process')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+				web:web,
+				user:user,
+				amount:amount,
+				type:type,
+				bank:bank
+            },
+            dataType: "json",
+            success: function (data) {
+				alert('Success submit transaction!');
+				$('.depo_wd_close').click();
+
+            }
+        });
+	})
+
+
+
 </script>
 @endsection
