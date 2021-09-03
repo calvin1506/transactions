@@ -64,7 +64,7 @@
                                 style="background-image: url('https://png.pngtree.com/element_our/png_detail/20181114/bank-icon-png_239804.jpg');background-size: cover;height: 145px;border-radius:100%;">
                             </div>
                         </a>
-                        <h6>Assign Websites to Banks</h6>
+                        <h6>Assign Bank to Website</h6>
                     </div>
 					<div class="col-xl-2">
                         <a href="#modal7" data-toggle="modal" data-target="#modal7" class="small-box-footer modal7">
@@ -2554,6 +2554,7 @@
             },
             dataType: "json",
             success: function (data) {
+				var cek = data.cek;
 				var webs = data.webs;
 				var leads = data.leads;
 				var ops = data.ops;
@@ -2566,9 +2567,22 @@
 				htmlll += '<h5>Account No: '+bank[0]["acc_no"]+'</h5>'
 
 				html += '<select multiple class="form-control" name="website_assigning_edit" id="website_assigning_edit">'
-					for (i = 0; i < webs.length; i++) {
-						html += '<option value="'+webs[i]['id']+'"> '+webs[i]['web_name']+' </option>'
+					if (bank[0]["website"] == "-") {
+						for (i = 0; i < webs.length; i++) {
+							html += '<option value="'+webs[i]['id']+'"> '+webs[i]['web_name']+' </option>'
+						}
+					} else {
+						for (j = 0; j < webs.length; j++) {
+							if (jQuery.inArray(webs[j]['id'].toString(), cek)!== -1) {
+								html += '<option value="'+webs[j]['id']+'" selected> '+webs[j]['web_name']+' </option>'
+							} else {
+								html += '<option value="'+webs[j]['id']+'"> '+webs[j]['web_name']+' </option>'
+							}
+						}
 					}
+
+						
+					
 				html +=	'</select>'
 
                 $('#web_assign_edit').append(html);
@@ -2701,18 +2715,30 @@
 				var leads = data.leads;
 				var ops = data.ops;
 				var web = data.web;
+				var cek_lead = data.cek_lead;
+				var cek_op = data.cek_op;
+				var web = data.web;
 				var html = "";
 				var htmll = "";
 				var htmlll = "";
 
 				html += '<select multiple class="form-control" name="website_assigning_edit_leads" id="website_assigning_edit_leads">'
 					for (i = 0; i < leads.length; i++) {
-						html += '<option value="'+leads[i]['id']+'"> '+leads[i]['name']+' </option>'
+						if (jQuery.inArray(leads[i]['id'].toString(), cek_lead)!== -1) {
+							html += '<option value="'+leads[i]['id']+'" selected> '+leads[i]['name']+' </option>'
+						} else {
+							html += '<option value="'+leads[i]['id']+'"> '+leads[i]['name']+' </option>'
+						}
 					}
+					
 				html +=	'</select>'
 				htmll += '<select multiple class="form-control" name="website_assigning_edit_ops" id="website_assigning_edit_ops">'
 					for (i = 0; i < ops.length; i++) {
-						htmll += '<option value="'+ops[i]['id']+'"> '+ops[i]['name']+' </option>'
+						if (jQuery.inArray(ops[i]['id'].toString(), cek_op)!== -1) {
+							htmll += '<option value="'+ops[i]['id']+'" selected> '+ops[i]['name']+' </option>'
+						} else {
+							htmll += '<option value="'+ops[i]['id']+'"> '+ops[i]['name']+' </option>'
+						}
 					}
 				htmll +=	'</select>'
 
@@ -3116,7 +3142,7 @@
 		$('inlineRadioOptionsPending').empty();
 		$('amount_pending_cost').empty();
 		$('pending_note_cost').empty();
-		
+
 		var id = $('#pending_cost_id').val();
 		var note = $('#pending_note_cost').val();
 		var amount = $('#amount_pending_cost').val();

@@ -16,23 +16,25 @@ class AssignController extends Controller
         $data = bank::where('id', $request->id)->get();
         $array_data = explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $data[0]->website));
         $web = website::whereIn('id', $array_data)->get('web_name');
-
         return response()->json(["message"=>"success","data"=>$web, "bank"=>$data]);
     }
     public function getdataedit(Request $request){
         $webs = website::all();
         $data = bank::where('id', $request->id)->get();
-        return response()->json(["message"=>"success", "webs"=>$webs, "bank"=>$data]);
+        $cek = explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $data[0]->website));
+
+        return response()->json(["message"=>"success", "webs"=>$webs, "bank"=>$data, "cek"=>$cek]);
     }
 
     public function dataprocess(Request $request){
-        // dd($request);
+        // dd($request->id);
         $banks = array();
         $update_bank = bank::where('id', $request->id)->first();
+        // dd($update_bank->id);
         $update_bank->website = json_encode($request->website);
         $update_bank->save();
         array_push($banks, $update_bank->id);
-
+        // dd($banks);
         $webs = array();
         $web = DB::table('websites')
                 ->whereIn('id',$request->website)
@@ -40,16 +42,32 @@ class AssignController extends Controller
         if(count($web) >0){
             foreach($web as $w){
                 array_push($webs, $w->web_name);
-
                 $update_web = website::where('id', $w->id)->first();
-                $update_web->bank = json_encode($banks);
-                $update_web->save();
+                if ($update_web->bank == "-") {
+                    $update_web->bank = json_encode($banks);
+                    $update_web->save();
+                } else {
+                    $cek = explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $update_web->bank));
+                    if(in_array($request->id, $cek)){
+                        dd("sini");
+                        // $pos = array_search($request->id, $cek);
+                        // unset($cek[$pos]);
+                        // dd($cek);
+                    }else{
+                        $banks = explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $update_web->bank));
+                        array_push($banks, $update_bank->id);
+                        $update_web->bank = json_encode($banks);
+                        $update_web->save();
+                    }
+                    
+                }
+                
             }
         }
 
         $log = new log;
         $log->user = auth::user()->name;
-        $log->activity = "User: ".auth::user()->name." assign website: ".json_encode($webs)." to bank: ".$update_bank->bank_name." with account number: ".$update_bank->acc_no;
+        $log->activity = "User: ".auth::user()->name." assign website: ".json_encode($webs)." to bank: ".$update_bank[0]->bank_name." with account number: ".$update_bank[0]->acc_no;
         $log->save();
 
         return response()->json(["message"=>"success"]);
@@ -68,8 +86,9 @@ class AssignController extends Controller
         $data = website::where('id', $request->id)->get();
         $leads = user::where('role', 'Leader')->get();
         $ops = user::where('role', 'Operator')->get();
-
-        return response()->json(["message"=>"success", "leads"=>$leads, "ops"=>$ops, "web"=>$data]);
+        $cek_lead = $data[0]->leader;
+        $cek_op = $data[0]->operator;
+        return response()->json(["message"=>"success", "leads"=>$leads, "ops"=>$ops, "web"=>$data, "cek_lead"=>$cek_lead, "cek_op"=>$cek_op]);
     }
 
     public function dataprocessweb(Request $request){
