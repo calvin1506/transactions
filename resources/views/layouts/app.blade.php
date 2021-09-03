@@ -38,6 +38,20 @@
         [type=radio]:checked + img {
         outline: 2px solid #f00;
         }
+
+        /* .modal-dialog {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        }
+
+        .modal-content {
+        height: auto;
+        min-height: 75%;
+        border-radius: 0;
+        width: 87em;
+        } */
     </style>
 </head>
 <body>
@@ -72,11 +86,11 @@
                             @endif --}}
                         @else
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a id="navDropUser" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navDropUser">
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -90,6 +104,19 @@
                             </li>
                         @endguest
                     </ul>
+                    @if(Auth::check())
+                    <h5 style="padding:0;">
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                            onclick="event.preventDefault();
+                                            document.getElementById('logout-form').submit();" style="padding-top:10px;">
+                            <i class="fas fa-sign-out-alt" aria-hidden="true" style="color:black;"></i>
+                        </a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </h5>
+                    @endif
                 </div>
             </div>
         </nav>
@@ -101,7 +128,8 @@
 
  
 
-    <script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    {{-- <script src="{{asset('plugins/jquery/jquery.min.js')}}"></script> --}}
     <script src="{{asset('plugins/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('dist/js/adminlte.js')}}"></script>
     <script src="{{asset('plugins/moment/moment.min.js')}}"></script>    

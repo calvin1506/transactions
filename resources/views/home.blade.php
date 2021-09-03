@@ -93,17 +93,12 @@
 						<h6>Deposit / Withdrawal</h6>
                     </div>
                     <div class="col-xl-2">
-                        <div class="small-box bg-info">
-                            <div class="inner">
-                                <h3>150</h3>
-
-                                <p>Add / Deduct</p>
+                        <a href="#modal9" data-toggle="modal" data-target="#modal9" class="small-box-footer modal9">
+                            <div class="small-box bg-info"
+                                style="background-image: url('{{asset('img/icon-pending.png')}}');background-size: cover;height: 145px;background-position: center;border-radius:100%;">
                             </div>
-                            <div class="icon">
-                                <i class="ion ion-bag"></i>
-                            </div>
-                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                        </div>
+                        </a>
+						<h6>Pending Transactions</h6>
                     </div>
                 </div>
             </div>
@@ -408,6 +403,47 @@
         </div>
     </div>
 </div>
+<!-- Modal 9 -->
+<div class="modal fade" id="modal9" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Pending Transactions</h5>
+            </div>
+            <div class="modal-body">
+				<div class="row">
+                    <div class="col-md-12 text-right">
+                        <button class="btn btn-sm btn-primary modaladdnewpending" data-toggle="modal" data-target="#modaladdnewpending">Add New Pending Transaction</button>
+                    </div>
+                </div>
+                <div class="row mt-3 table-responsive">
+                    <div class="col-md-12">
+                        <table class="table table-striped text-center" id="tbl_pending_list">
+                            <thead>
+                                <tr>
+                                    <td>No</td>
+                                    <td>Status</td>
+                                    <td>Transaction</td>
+                                    <td>Bank Name</td>
+                                    <td>Account Number</td>
+                                    <td>Amount</td>
+                                    <td colspan="2">Actions</td>
+                                </tr>
+                            </thead>
+                            <tbody id="tbl_pending">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="reload()">Close</button>
+                {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Modal Delete -->
 <div class="modal fade" id="modaldelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -654,8 +690,6 @@
     </div>
 </div>
 
-
-
 <!-- Modal Add Customer -->
 <div class="modal fade" id="modaladdnewcustomer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
@@ -835,8 +869,6 @@
         </div>
     </div>
 </div>
-
-
 
 <!-- Modal Add Bank -->
 <div class="modal fade" id="modaladdnewbank" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -1184,7 +1216,7 @@
 						Amount
 					</div>
 					<div class="col-md-8">
-						<input class="form-control" type="number" name="amount" id="amount">
+						<input class="form-control" type="number" name="amount_depowd" id="amount_depowd">
 					</div>
 				</div>
             </div>
@@ -1192,6 +1224,184 @@
 				<input type="hidden" name="web_id_depo_wd" id="web_id_depo_wd">
                 <button type="button" class="btn btn-secondary depo_wd_close" data-dismiss="modal">Close</button>
 				<button type="button" class="btn btn-primary depo_wd_process">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Pending -->
+<div class="modal fade" id="modaladdnewpending" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Form Pending Transaction</h5>
+            </div>
+            <div class="modal-body">
+				<div class="row mb-2">
+					<div class="col-md-12" id="web_name_detail_edit">
+
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-md-4">
+						User
+					</div>
+					<div class="col-md-8">
+						<input class="form-control" type="text" name="user_pending" id="user_pending">
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-md-4">
+						Bank
+					</div>
+					<div class="col-md-8">
+						<div class="row" id="banks_pending_div"></div>
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-md-4">
+						Amount
+					</div>
+					<div class="col-md-8">
+						<input class="form-control" type="number" name="amount_pending" id="amount_pending">
+					</div>
+				</div>
+            </div>
+            <div class="modal-footer">
+				<input type="hidden" name="web_id_depo_wd" id="web_id_depo_wd">
+                <button type="button" class="btn btn-secondary pending_close" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary pending_process">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Beban Pending -->
+<div class="modal fade" id="modalbeban" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Form Cost Pending</h5>
+            </div>
+            <div class="modal-body">
+
+				<div class="row mb-2">
+					<div class="col-md-4">
+						Bank
+					</div>
+					<div class="col-md-8">
+						<div class="row" id="banks_div_pending_cost"></div>
+					</div>
+				</div>
+
+				<div class="row mb-2">
+					<div class="col-md-4">
+						Amount
+					</div>
+					<div class="col-md-8">
+						<input class="form-control" type="number" name="amount_pending_cost" id="amount_pending_cost">
+					</div>
+				</div>
+				<div class="row mt-1">
+					<div class="col-md-4">
+						<h6>Notes</h6>
+					</div>
+					<div class="col-md-8">
+						<textarea class="form-control" name="pending_note_cost" id="pending_note_cost" rows="3"></textarea>
+					</div>
+				</div>
+            </div>
+            <div class="modal-footer">
+				<input type="hidden" name="pending_cost_id" id="pending_cost_id">
+                <button type="button" class="btn btn-secondary beban_pending_close" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary beban_pending_process">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Depo/WD Pending -->
+<div class="modal fade" id="modaldepowdpending" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Form Depo/WD Pending</h5>
+            </div>
+            <div class="modal-body">
+				<div class="row mb-2">
+					<div class="col-md-12" id="web_name_detail_edit">
+
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-md-4">
+						User
+					</div>
+					<div class="col-md-8">
+						<form autocomplete="off">
+							<div class="autocomplete" style="width:300px;" id="users_div_pending_depowd">
+							  
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-md-4">
+						Website
+					</div>
+					<div class="col-md-8">
+						<div class="row" id="website_div_pending_depowd"></div>
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-md-4">
+						Bank
+					</div>
+					<div class="col-md-8">
+						<div class="row" id="banks_div_pending_depowd"></div>
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-md-4">
+						Type
+					</div>
+					<div class="col-md-8">
+						<div class="row text-center">
+							<div class="col-md-6">
+								<label style="background-color: lightblue; border-radius: 10px;width: 130px">
+									<div class="form-check form-check-inline">
+										<input class="form-check-input-money" type="radio" name="inlineRadioOptionsMoneyPending" id="depo" value="deposit">
+										<img src="{{ asset("img/moneyIn.png") }}" style="max-width: 25px;margin-top: 5px;">
+									</div>
+									Deposit
+								</label>
+							</div>
+							<div class="col-md-6">
+								<label style="background-color: lightcoral; border-radius: 10px;width: 130px">
+									<div class="form-check form-check-inline">
+										<input class="form-check-input-money" type="radio" name="inlineRadioOptionsMoneyPending" id="wd" value="withdrawal">
+										<img src="{{ asset("img/moneyOut.png") }}" style="max-width: 25px;margin-top: 5px;">
+									</div>
+									Withdrawal
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-md-4">
+						Amount
+					</div>
+					<div class="col-md-8">
+						<input class="form-control" type="number" name="amount_pending_depowd" id="amount_pending_depowd">
+					</div>
+				</div>
+            </div>
+            <div class="modal-footer">
+				<input type="hidden" name="pending_trx_id" id="pending_trx_id">
+                <button type="button" class="btn btn-secondary depo_wd__pending_close" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary depo_wd_pending_process">Submit</button>
             </div>
         </div>
     </div>
@@ -1435,6 +1645,7 @@
             }
         });
     }
+
     function get_bank() {
         $('#tbl_bank').empty();
         $.ajax({
@@ -1469,6 +1680,44 @@
             }
         });
     }
+
+	function get_pending(){
+		$('#tbl_pending').empty();
+        $.ajax({
+            url: "{{route('get_data_pending')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}"
+            },
+            dataType: "json",
+            success: function (data) {
+                var data = data.data;
+                var html = "";
+                var no = 1;
+
+                for (i = 0; i < data.length; i++) {
+                    html += '<tr>';
+                    html += '<td>' + no + '</td>';
+                    html += '<td>' + data[i].status + '</td>';
+					html += '<td>' + data[i].trx_name + '</td>';
+					html += '<td>' + data[i].bank_name + '</td>';
+					html += '<td>' + data[i].acc_no + '</td>';
+					html += '<td>' + formatNumber(data[i].amount) + '</td>';
+					if (data[i].status == "Pending") {
+						html += '<td><button class="btn btn-sm btn-primary pending_depowd" data-id="' + data[i].id +'"data-toggle="modal" data-target="#modaldepowdpending">Depo/WD</button></td>';
+                    	html += '<td><button class="btn btn-sm btn-danger beban_depowd" data-id="' + data[i].id +'"data-toggle="modal" data-target="#modalbeban">Costs</button></td>';	
+					} else {
+						html += '<td><button class="btn btn-sm btn-primary pending_depowd" data-id="" data-toggle="modal" disabled>Depo/WD</button></td>';
+                    	html += '<td><button class="btn btn-sm btn-danger beban_depowd" data-id="" data-toggle="modal" disabled>Costs</button></td>';
+					}
+                   	html += '</tr>';
+                    no++;
+                }
+                $('#tbl_pending').append(html);
+                $("#tbl_pending_list").DataTable();
+            }
+        });
+	}
 
 
     $(document).on('click', '.del_data', function () {
@@ -2533,7 +2782,7 @@
 		$('#banks_div').empty();
 		$('#users_div').empty();
 		$("input[name='inlineRadioOptionsMoney']").prop('checked', false);
-		$('#amount').empty();
+		$('#amount_depowd').empty();
 		var id = $(this).data("id");
 		var customer = [];
 		var bank = [];
@@ -2609,7 +2858,288 @@
         });
 	})
 
+	$(document).on('click', '.modal9', function () {
+        $('#tbl_pending').empty();
+        $.ajax({
+            url: "{{route('get_data_pending')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}"
+            },
+            dataType: "json",
+            success: function (data) {
+                var data = data.data;
+                var html = "";
+                var no = 1;
+
+                for (i = 0; i < data.length; i++) {
+                    html += '<tr>';
+                    html += '<td>' + no + '</td>';
+                    html += '<td>' + data[i].status + '</td>';
+					html += '<td>' + data[i].trx_name + '</td>';
+					html += '<td>' + data[i].bank_name + '</td>';
+					html += '<td>' + data[i].acc_no + '</td>';
+					html += '<td>' + formatNumber(data[i].amount) + '</td>';
+					if (data[i].status == "Pending") {
+						html += '<td><button class="btn btn-sm btn-primary pending_depowd" data-id="' + data[i].id +'"data-toggle="modal" data-target="#modaldepowdpending">Depo/WD</button></td>';
+                    	html += '<td><button class="btn btn-sm btn-danger beban_depowd" data-id="' + data[i].id +'"data-toggle="modal" data-target="#modalbeban">Costs</button></td>';	
+					} else {
+						html += '<td><button class="btn btn-sm btn-primary pending_depowd" data-id="" data-toggle="modal" disabled>Depo/WD</button></td>';
+                    	html += '<td><button class="btn btn-sm btn-danger beban_depowd" data-id="" data-toggle="modal" disabled>Costs</button></td>';
+					}
+                    
+                    // html +='<td><a class="btn btn-sm btn-danger del_web" data-id="'+data[i].id+'" onclick="return confirm(`Want to delete content?`)">Delete</a></td>';
+                    html += '</tr>';
+                    no++;
+                }
+                $('#tbl_pending').append(html);
+                $("#tbl_pending_list").DataTable();
+            }
+        });
+    })
+	$(document).on('click', '.modaladdnewpending', function () {
+		$('#banks_pending_div').empty();
+		$("input[name='inlineRadioOptionsMoney']").prop('checked', false);
+		$('#user_pending').empty();
+		$('#amount_pending').empty();
+
+		$.ajax({
+            url: "{{route('get_data_pending_bank')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+            },
+            dataType: "json",
+            success: function (data) {
+				var banks = data.banks;
+				var bank = banks;
+				var htmll = "";
+
+				for (let i = 0; i < banks.length; i++) {
+					// htmll += '<button class="btn btn-sm btn-bank" style="border=1px solid;"> <img src="{{ asset("img/icon-bank.jpg") }}" style="max-width: 25px;">'+banks[i]["bank_name"]+' - '+banks[i]["acc_no"]+'</button>';
+					// htmll += '<label>'+banks[i]["bank_name"]+' - '+banks[i]["acc_no"]+'</label><br>'
+					htmll += '<div class="col-md-6">'
+						htmll += '<label>';
+							htmll += '<div class="form-check form-check-inline">';
+								htmll += '<input class="form-check-input" type="radio" name="inlineRadioOptions" id="bank'+i+'" value="'+banks[i]["id"]+'">';
+								htmll += '<img src="{{ asset("img/icon-bank.jpg") }}" style="max-width: 25px;">'+banks[i]["bank_name"]+' - '+banks[i]["acc_no"];
+							htmll += '</div>';
+						htmll += '</label>';
+					htmll += '</div>';
+				}
+				$('#banks_pending_div').append(htmll);
+            }
+        });
+	})
+	$(document).on('click', '.pending_process', function () {
+
+		var user = $('#user_pending').val();
+		var amount = $('#amount_pending').val();
+		var bank = $("input[name='inlineRadioOptions']:checked").val()
+
+		$.ajax({
+			url: "{{route('pending_process')}}",
+			type: "POST",
+			data: {
+				_token: "{{ csrf_token() }}",
+				user:user,
+				amount:amount,
+				bank:bank
+			},
+			dataType: "json",
+			success: function (data) {
+				alert('Success submit pending transaction!');
+				$('.pending_close').click();
+				get_pending();
+			}
+		});
+	})
+	$(document).on('click', '.pending_depowd', function () {
+		$('#banks_div_pending_depowd').empty();
+		$('#users_div_pending_depowd').empty();
+		$('#website_div_pending_depowd').empty();
+		$("input[name='inlineRadioOptionsMoneyPending']").prop('checked', false);
+		$('#amount_pending_depowd').empty();
+		var id = $(this).data("id");
+		var customer_pending = [];
+		var bank = [];
+
+		$.ajax({
+            url: "{{route('get_data_pending_depowd')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+				id:id
+            },
+            dataType: "json",
+            success: function (data) {
+				var banks = data.banks;
+				var webs = data.website;
+				var customers = data.customers;
+				var amount = data.amount;
+				var bank = banks; 
+				var customer_pending = customers;
+				var active = data.active_bank;
+				var html = "";
+				var htmll = "";
+				var htmlll = "";
+
+				html += '<input id="InputUserPendingDepoWD" class="form-control" type="text" name="InputUserPendingDepoWD" placeholder="Users">';
+
+				for (let i = 0; i < banks.length; i++) {
+					// htmll += '<button class="btn btn-sm btn-bank" style="border=1px solid;"> <img src="{{ asset("img/icon-bank.jpg") }}" style="max-width: 25px;">'+banks[i]["bank_name"]+' - '+banks[i]["acc_no"]+'</button>';
+					// htmll += '<label>'+banks[i]["bank_name"]+' - '+banks[i]["acc_no"]+'</label><br>'
+					htmll += '<div class="col-md-6">'
+						htmll += '<label>';
+							htmll += '<div class="form-check form-check-inline">';
+								if(banks[i]['id'] == active){
+									var status = "checked";
+								}else{
+									var status = "";
+								}
+								htmll += '<input class="form-check-input" type="radio" name="inlineRadioOptionsBankPendingDepoWD" id="bank'+i+'" value="'+banks[i]["id"]+'" '+status+'>';
+								htmll += '<img src="{{ asset("img/icon-bank.jpg") }}" style="max-width: 25px;">'+banks[i]["bank_name"]+' - '+banks[i]["acc_no"];
+							htmll += '</div>';
+						htmll += '</label>';
+					htmll += '</div>';
+				}
+				for (let j = 0; j < webs.length; j++) {
+
+					htmlll += '<div class="col-md-6">'
+						htmlll += '<label>';
+							htmlll += '<div class="form-check form-check-inline">';
+								htmlll += '<input class="form-check-input" type="radio" name="inlineRadioOptionsPendingWeb" id="web'+j+'" value="'+webs[j]["id"]+'"">';
+								htmlll += '<img src="{{ asset("img/web-icon.png") }}" style="max-width: 25px;">'+webs[j]["web_name"];
+							htmlll += '</div>';
+						htmlll += '</label>';
+					htmlll += '</div>';
+				}
 
 
+				
+				$('#users_div_pending_depowd').append(html);
+				$('#banks_div_pending_depowd').append(htmll);
+				$('#website_div_pending_depowd').append(htmlll);
+				$('#amount_pending_depowd').val(amount);
+				$('#pending_trx_id').val(id);
+
+				autocomplete(document.getElementById("InputUserPendingDepoWD"), customer_pending);
+
+            }
+        });
+	})
+	$(document).on('click', '.beban_depowd', function () {
+		$('#banks_div_pending_cost').empty();
+		$('#users_depowd_pending_div').empty();
+		$("input[name='inlineRadioOptionsMoneyPending']").prop('checked', false);
+		$('#amount__depowd_pending_').empty();
+		var id = $(this).data("id");
+		var customer_pending = [];
+		var bank = [];
+
+		$.ajax({
+            url: "{{route('get_data_pending_cost')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+				id:id
+            },
+            dataType: "json",
+            success: function (data) {
+				var banks = data.banks;
+				var webs = data.website;
+				var customers = data.customers;
+				var amount = data.amount;
+				var bank = banks; 
+				var customer_pending = customers;
+				var active = data.active_bank;
+				var html = "";
+				var htmll = "";
+				var htmlll = "";
+
+				html += '<input id="InputUserPendingDepoWD" class="form-control" type="text" name="InputUserPendingDepoWD" placeholder="Users">';
+
+				for (let i = 0; i < banks.length; i++) {
+					htmll += '<div class="col-md-6">'
+						htmll += '<label>';
+							htmll += '<div class="form-check form-check-inline">';
+								if(banks[i]['id'] == active){
+									var status = "checked";
+								}else{
+									var status = "";
+								}
+								htmll += '<input class="form-check-input" type="radio" name="inlineRadioOptionsPending" id="bank'+i+'" value="'+banks[i]["id"]+'" '+status+'>';
+								htmll += '<img src="{{ asset("img/icon-bank.jpg") }}" style="max-width: 25px;">'+banks[i]["bank_name"]+' - '+banks[i]["acc_no"];
+							htmll += '</div>';
+						htmll += '</label>';
+					htmll += '</div>';
+				}
+
+
+
+				$('#banks_div_pending_cost').append(htmll);
+				$('#amount_pending_cost').val(amount);
+				$('#pending_cost_id').val(id);
+
+            }
+        });
+	})
+	$(document).on('click', '.depo_wd_pending_process', function () {
+		var id = $('#pending_trx_id').val();
+		var user = $('#InputUserPendingDepoWD').val();
+		var amount = $('#amount_pending_depowd').val();
+		var type = $("input[name='inlineRadioOptionsMoneyPending']:checked").val()
+		var bank = $("input[name='inlineRadioOptionsBankPendingDepoWD']:checked").val()
+		var web = $("input[name='inlineRadioOptionsPendingWeb']:checked").val()
+
+		$.ajax({
+            url: "{{route('pending_depowd_process')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+				web:web,
+				user:user,
+				amount:amount,
+				type:type,
+				bank:bank,
+				id_pending:id
+            },
+            dataType: "json",
+            success: function (data) {
+				alert('Success submit transaction!');
+				$('.depo_wd__pending_close').click();
+				get_pending();
+            }
+        });
+	})
+	$(document).on('click', '.beban_pending_process', function () {
+		$('inlineRadioOptionsPending').empty();
+		$('amount_pending_cost').empty();
+		$('pending_note_cost').empty();
+		
+		var id = $('#pending_cost_id').val();
+		var note = $('#pending_note_cost').val();
+		var amount = $('#amount_pending_cost').val();
+		var bank = $("input[name='inlineRadioOptionsPending']:checked").val();
+
+		$.ajax({
+            url: "{{route('cost_process')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+				note:note,
+				bank:bank,
+				amount:amount,
+				id_pending:id
+            },
+            dataType: "json",
+            success: function (data) {
+				alert('Success submit transaction!');
+				$('.beban_pending_close').click();
+				get_pending();
+            }
+        });
+	})
+	
 </script>
 @endsection

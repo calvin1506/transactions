@@ -59,3 +59,11 @@ Route::post('/assign/processweb', 'AssignController@dataprocessweb')->name('proc
 
 Route::post('/transaction/getdata', 'TransactionController@getdata')->name('get_data_trx');
 Route::post('/transaction/process', 'TransactionController@process')->name('trx_process');
+
+Route::post('/pending/getdata', 'PendingController@getdatabank')->name('get_data_pending_bank');
+Route::post('/pending/getdatapending', 'PendingController@getdatapending')->name('get_data_pending');
+Route::post('/pending/process', 'PendingController@pendingprocess')->name('pending_process');
+Route::post('/pending/getdatadepowd', 'PendingController@getdatapendingdepowd')->name('get_data_pending_depowd');
+Route::post('/pending/getdatacost', 'PendingController@getdatapendingcost')->name('get_data_pending_cost');
+Route::post('/pending/pendingdepowdprocess', 'PendingController@pendingdepowdprocess')->name('pending_depowd_process');
+Route::post('/pending/costprocess', 'PendingController@costprocess')->name('cost_process');
