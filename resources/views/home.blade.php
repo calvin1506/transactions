@@ -10,40 +10,40 @@
                 <div class="row text-center">
                     <div class="col-xl-2">
                         <a href="#modal5" data-toggle="modal" data-target="#modal5" class="small-box-footer modal5">
-                            <div class="small-box bg-info"
-                                style="background-image: url('https://png.pngtree.com/element_our/png_detail/20181114/bank-icon-png_239804.jpg');background-size: cover;height: 145px;border-radius:100%;">
+                            <div class="small-box"
+                                style="background-image: url('{{ asset("img/icon-bank.png") }}');background-size: cover;height: 145px;border-radius:100%;">
                             </div>
                         </a>
                         <h6>Banks</h6>
                     </div>
                     <div class="col-xl-2">
                         <a href="#modal1" data-toggle="modal" data-target="#modal1" class="small-box-footer modal1">
-                            <div class="small-box bg-info"
-                                style="background-image: url('https://thumbs.dreamstime.com/b/www-internet-icon-search-bar-website-eps-148122440.jpg');background-size: cover;height: 145px;border-radius:100%;">
+                            <div class="small-box "
+                                style="background-image: url('{{ asset("img/web-icon.png") }}');background-size: cover;height: 145px;border-radius:100%;">
                             </div>
                         </a>
                         <h6>Websites</h6>
                     </div>
                     <div class="col-xl-2">
                         <a href="#modal2" data-toggle="modal" data-target="#modal2" class="small-box-footer modal2">
-                            <div class="small-box bg-info"
-                                style="background-image: url('https://img.flaticon.com/icons/png/512/30/30355.png?size=1200x630f&pad=10,10,10,10&ext=png&bg=FFFFFFFF');background-size: cover;height: 145px;border-radius:100%;background-position: center;">
+                            <div class="small-box"
+                                style="background-image: url('{{asset('img/leader.png')}}');background-size: cover;height: 145px;border-radius:100%;">
                             </div>
                         </a>
                         <h6>Leaders</h6>
                     </div>
                     <div class="col-xl-2">
                         <a href="#modal3" data-toggle="modal" data-target="#modal3" class="small-box-footer modal3">
-                            <div class="small-box bg-info"
-                                style="background-image: url('https://i.pinimg.com/originals/d5/b0/4c/d5b04cc3dcd8c17702549ebc5f1acf1a.png');background-size: cover;height: 145px;border-radius:100%;background-position: center;">
+                            <div class="small-box"
+                                style="background-image: url('{{asset('img/op.png')}}');background-size: cover;height: 145px;border-radius:100%;">
                             </div>
                         </a>
                         <h6>Operators</h6>
                     </div>
                     <div class="col-xl-2">
                         <a href="#modal4" data-toggle="modal" data-target="#modal4" class="small-box-footer modal4">
-                            <div class="small-box bg-info"
-                                style="background-image: url('https://cdn3.vectorstock.com/i/1000x1000/33/82/buyer-with-shopping-bags-line-icon-customer-sign-vector-31643382.jpg');background-size: cover;height: 145px;border-radius:100%;background-position: center;">
+                            <div class="small-box"
+                                style="background-image: url('{{asset('img/customer.png')}}');background-size: cover;height: 145px;border-radius:100%;">
                             </div>
                         </a>
                         <h6>Customers</h6>
@@ -60,16 +60,16 @@
                 <div class="row text-center">
                     <div class="col-xl-2">
                         <a href="#modal6" data-toggle="modal" data-target="#modal6" class="small-box-footer modal6">
-                            <div class="small-box bg-info"
-                                style="background-image: url('https://png.pngtree.com/element_our/png_detail/20181114/bank-icon-png_239804.jpg');background-size: cover;height: 145px;border-radius:100%;">
+                            <div class="small-box"
+                                style="background-image: url('{{ asset("img/icon-bank.png") }}');background-size: cover;height: 145px;border-radius:100%;">
                             </div>
                         </a>
                         <h6>Assign Bank to Website</h6>
                     </div>
 					<div class="col-xl-2">
                         <a href="#modal7" data-toggle="modal" data-target="#modal7" class="small-box-footer modal7">
-                            <div class="small-box bg-info"
-                                style="background-image: url('https://thumbs.dreamstime.com/b/www-internet-icon-search-bar-website-eps-148122440.jpg');background-size: cover;height: 145px;border-radius:100%;">
+                            <div class="small-box"
+                                style="background-image: url('{{ asset("img/web-icon.png") }}');background-size: cover;height: 145px;border-radius:100%;">
                             </div>
                         </a>
                         <h6>Assign Leaders/Operators to Websites</h6>
@@ -86,7 +86,7 @@
                 <div class="row text-center">
                     <div class="col-xl-2">
                         <a href="#modal8" data-toggle="modal" data-target="#modal8" class="small-box-footer modal8">
-                            <div class="small-box bg-info"
+                            <div class="small-box"
                                 style="background-image: url('https://static.thenounproject.com/png/488117-200.png');background-size: cover;height: 145px;background-position: center;border-radius:100%;">
                             </div>
                         </a>
@@ -94,7 +94,7 @@
                     </div>
                     <div class="col-xl-2">
                         <a href="#modal9" data-toggle="modal" data-target="#modal9" class="small-box-footer modal9">
-                            <div class="small-box bg-info"
+                            <div class="small-box"
                                 style="background-image: url('{{asset('img/icon-pending.png')}}');background-size: cover;height: 145px;background-position: center;border-radius:100%;">
                             </div>
                         </a>
@@ -2838,7 +2838,7 @@
 						htmll += '<label>';
 							htmll += '<div class="form-check form-check-inline">';
 								htmll += '<input class="form-check-input" type="radio" name="inlineRadioOptions" id="bank'+i+'" value="'+banks[i]["id"]+'">';
-								htmll += '<img src="{{ asset("img/icon-bank.jpg") }}" style="max-width: 25px;">'+banks[i]["bank_name"]+' - '+banks[i]["acc_no"];
+								htmll += '<img src="{{ asset("img/icon-bank.png") }}" style="max-width: 25px;">'+banks[i]["bank_name"]+' - '+banks[i]["acc_no"];
 							htmll += '</div>';
 						htmll += '</label>';
 					htmll += '</div>';
@@ -2948,7 +2948,7 @@
 						htmll += '<label>';
 							htmll += '<div class="form-check form-check-inline">';
 								htmll += '<input class="form-check-input" type="radio" name="inlineRadioOptions" id="bank'+i+'" value="'+banks[i]["id"]+'">';
-								htmll += '<img src="{{ asset("img/icon-bank.jpg") }}" style="max-width: 25px;">'+banks[i]["bank_name"]+' - '+banks[i]["acc_no"];
+								htmll += '<img src="{{ asset("img/icon-bank.png") }}" style="max-width: 25px;">'+banks[i]["bank_name"]+' - '+banks[i]["acc_no"];
 							htmll += '</div>';
 						htmll += '</label>';
 					htmll += '</div>';
@@ -3020,11 +3020,13 @@
 							htmll += '<div class="form-check form-check-inline">';
 								if(banks[i]['id'] == active){
 									var status = "checked";
+									var attr = "";
 								}else{
 									var status = "";
+									var attr = "disabled";
 								}
-								htmll += '<input class="form-check-input" type="radio" name="inlineRadioOptionsBankPendingDepoWD" id="bank'+i+'" value="'+banks[i]["id"]+'" '+status+'>';
-								htmll += '<img src="{{ asset("img/icon-bank.jpg") }}" style="max-width: 25px;">'+banks[i]["bank_name"]+' - '+banks[i]["acc_no"];
+								htmll += '<input class="form-check-input" type="radio" name="inlineRadioOptionsBankPendingDepoWD" id="bank'+i+'" value="'+banks[i]["id"]+'" '+status+''+attr+'>';
+								htmll += '<img src="{{ asset("img/icon-bank.png") }}" style="max-width: 25px;">'+banks[i]["bank_name"]+' - '+banks[i]["acc_no"];
 							htmll += '</div>';
 						htmll += '</label>';
 					htmll += '</div>';
@@ -3091,11 +3093,13 @@
 							htmll += '<div class="form-check form-check-inline">';
 								if(banks[i]['id'] == active){
 									var status = "checked";
+									var attr = "";
 								}else{
 									var status = "";
+									var attr = "disabled";
 								}
-								htmll += '<input class="form-check-input" type="radio" name="inlineRadioOptionsPending" id="bank'+i+'" value="'+banks[i]["id"]+'" '+status+'>';
-								htmll += '<img src="{{ asset("img/icon-bank.jpg") }}" style="max-width: 25px;">'+banks[i]["bank_name"]+' - '+banks[i]["acc_no"];
+								htmll += '<input class="form-check-input" type="radio" name="inlineRadioOptionsPending" id="bank'+i+'" value="'+banks[i]["id"]+'" '+status+''+attr+'>';
+								htmll += '<img src="{{ asset("img/icon-bank.png") }}" style="max-width: 25px;">'+banks[i]["bank_name"]+' - '+banks[i]["acc_no"];
 							htmll += '</div>';
 						htmll += '</label>';
 					htmll += '</div>';
