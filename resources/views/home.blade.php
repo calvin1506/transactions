@@ -100,6 +100,22 @@
                         </a>
 						<h6>Pending Transactions</h6>
                     </div>
+                    <div class="col-xl-2">
+                        <a href="#modal10" data-toggle="modal" data-target="#modal10" class="small-box-footer modal10">
+                            <div class="small-box"
+                                style="background-image: url('{{asset('img/coin.png')}}');background-size: cover;height: 145px;background-position: center;border-radius:100%;">
+                            </div>
+                        </a>
+						<h6>Add / Deduct Coins</h6>
+                    </div>
+                    <div class="col-xl-2">
+                        <a href="#modal11" data-toggle="modal" data-target="#modal11" class="small-box-footer modal11">
+                            <div class="small-box"
+                                style="background-image: url('{{asset('img/cash.png')}}');background-size: cover;height: 145px;background-position: center;border-radius:100%;">
+                            </div>
+                        </a>
+						<h6>Add / Deduct Balance</h6>
+                    </div>
                 </div>
             </div>
         </div>
@@ -444,6 +460,75 @@
         </div>
     </div>
 </div>
+
+<!-- Modal 10 -->
+<div class="modal fade" id="modal10" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add / Deduct Coins</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row mt-3 table-responsive">
+                    <div class="col-md-12">
+                        <table class="table table-striped text-center" id="tbl_add_deduct_coins_list">
+                            <thead>
+                                <tr>
+                                    <td>No</td>
+                                    <td>Website Name</td>
+                                    <td>Coins</td>
+                                    <td colspan="2">Actions</td>
+                                </tr>
+                            </thead>
+                            <tbody id="tbl_add_deduct_coins">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="reload()">Close</button>
+                {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal 11 -->
+<div class="modal fade" id="modal11" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add / Deduct Balance</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row mt-3 table-responsive">
+                    <div class="col-md-12">
+                        <table class="table table-striped text-center" id="tbl_add_deduct_balance_list">
+                            <thead>
+                                <tr>
+                                    <td>No</td>
+                                    <td>Bank Name</td>
+                                    <td>Account Number</td>
+                                    <td>Balance</td>
+                                    <td colspan="2">Actions</td>
+                                </tr>
+                            </thead>
+                            <tbody id="tbl_add_deduct_balance">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="reload()">Close</button>
+                {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!-- Modal Delete -->
 <div class="modal fade" id="modaldelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -1407,6 +1492,198 @@
     </div>
 </div>
 
+<!-- Modal Add Coins -->
+<div class="modal fade" id="modaladdcoins" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Coins</h5>
+            </div>
+            <div class="modal-body">
+				<div class="row mb-2">
+					<div class="col-md-4">
+						Website Name
+					</div>
+					<div class="col-md-8">
+						<input type="text" class="form-control" name="web_name_add" id="web_name_add" readonly>
+						<input type="hidden"  name="web_id_add" id="web_id_add">
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-md-4">
+						Available Coins
+					</div>
+					<div class="col-md-8">
+						<input type="text" class="form-control" name="avail_coins_add" id="avail_coins_add" readonly>
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-md-4">
+						Add Amount
+					</div>
+					<div class="col-md-8">
+						<input type="number" class="form-control" name="req_amount_add_coin" id="req_amount_add_coin">
+					</div>
+				</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary add_coins_close" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary add_coins_process">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal deduct Coins -->
+<div class="modal fade" id="modaldeductcoins" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Deduct Coins</h5>
+            </div>
+            <div class="modal-body">
+				<div class="row mb-2">
+					<div class="col-md-4">
+						Website Name
+					</div>
+					<div class="col-md-8">
+						<input type="text" class="form-control" name="web_name_deduct" id="web_name_deduct" readonly>
+						<input type="hidden"  name="web_id_deduct" id="web_id_deduct">
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-md-4">
+						Available Coins
+					</div>
+					<div class="col-md-8">
+						<input type="text" class="form-control" name="avail_coins_deduct" id="avail_coins_deduct" readonly>
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-md-4">
+						Deduct Amount
+					</div>
+					<div class="col-md-8">
+						<input type="number" class="form-control" name="req_amount_deduct_coin" id="req_amount_deduct_coin">
+					</div>
+				</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary deduct_coins_close" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary deduct_coins_process">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Add Balance -->
+<div class="modal fade" id="modaladdbalance" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Balance</h5>
+            </div>
+            <div class="modal-body">
+				<div class="row mb-2">
+					<div class="col-md-12" id="web_name_detail_edit">
+
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-md-4">
+						Bank Name
+					</div>
+					<div class="col-md-8">
+						<input type="text" class="form-control" name="bank_name_add" id="bank_name_add" readonly>
+						<input type="hidden"  name="bank_id_add" id="bank_id_add">
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-md-4">
+						Account Number
+					</div>
+					<div class="col-md-8">
+						<input type="text" class="form-control" name="acc_no_add" id="acc_no_add" readonly>
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-md-4">
+						Available Balance
+					</div>
+					<div class="col-md-8">
+						<input type="text" class="form-control" name="avail_balance_add" id="avail_balance_add" readonly>
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-md-4">
+						Add Amount
+					</div>
+					<div class="col-md-8">
+						<input type="number" class="form-control" name="req_amount_add_balance" id="req_amount_add_balance">
+					</div>
+				</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary add_balance_close" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary add_balance_process">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Deduct balance -->
+<div class="modal fade" id="modaldeductbalance" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Deduct Balance</h5>
+            </div>
+            <div class="modal-body">
+				<div class="row mb-2">
+					<div class="col-md-4">
+						Bank Name
+					</div>
+					<div class="col-md-8">
+						<input type="text" class="form-control" name="bank_name_deduct" id="bank_name_deduct" readonly>
+						<input type="hidden"  name="bank_id_deduct" id="bank_id_deduct">
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-md-4">
+						Account Number
+					</div>
+					<div class="col-md-8">
+						<input type="text" class="form-control" name="acc_no_deduct" id="acc_no_deduct" readonly>
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-md-4">
+						Available Balance
+					</div>
+					<div class="col-md-8">
+						<input type="text" class="form-control" name="avail_balance_deduct" id="avail_balance_deduct" readonly>
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-md-4">
+						Deduct Amount
+					</div>
+					<div class="col-md-8">
+						<input type="number" class="form-control" name="req_amount_deduct_balance" id="req_amount_deduct_balance">
+					</div>
+				</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary deduct_balance_close" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary deduct_balance_process">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 @endsection
 
@@ -1718,6 +1995,68 @@
             }
         });
 	}
+
+	function get_add_deduct_coin(){
+        $('#tbl_add_deduct_coins').empty();
+        $.ajax({
+            url: "{{route('get_data_add_deduct_coin')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}"
+            },
+            dataType: "json",
+            success: function (data) {
+                var data = data.data;
+                var html = "";
+                var no = 1;
+
+                for (i = 0; i < data.length; i++) {
+                    html += '<tr>';
+                    html += '<td>' + no + '</td>';
+                    html += '<td>' + data[i].web_name + '</td>';
+					html += '<td>' + formatNumber(data[i].init_coin) + '</td>';
+					html += '<td><button class="btn btn-sm btn-primary add_coins" data-id="' + data[i].id +'"data-toggle="modal" data-target="#modaladdcoins">Add Coins</button></td>';
+					html += '<td><button class="btn btn-sm btn-danger deduct_coins" data-id="' + data[i].id +'"data-toggle="modal" data-target="#modaldeductcoins">Deduct Coins</button></td>';	
+					html += '</tr>';
+                    no++;
+                }
+                $('#tbl_add_deduct_coins').append(html);
+                $("#tbl_add_deduct_coins_list").DataTable();
+            }
+        });
+	}
+	function get_add_deduct_balance(){
+		$('#tbl_add_deduct_balance').empty();
+        $.ajax({
+            url: "{{route('get_data_add_deduct_balance')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}"
+            },
+            dataType: "json",
+            success: function (data) {
+                var data = data.data;
+                var html = "";
+                var no = 1;
+
+                for (i = 0; i < data.length; i++) {
+                    html += '<tr>';
+                    html += '<td>' + no + '</td>';
+                    html += '<td>' + data[i].bank_name + '</td>';
+                    html += '<td>' + data[i].acc_no + '</td>';
+					html += '<td>' + formatNumber(data[i].saldo) + '</td>';
+					html += '<td><button class="btn btn-sm btn-primary add_balance" data-id="' + data[i].id +'"data-toggle="modal" data-target="#modaladdbalance">Add Balance</button></td>';
+					html += '<td><button class="btn btn-sm btn-danger deduct_balance" data-id="' + data[i].id +'"data-toggle="modal" data-target="#modaldeductbalance">Deduct Balance</button></td>';	
+					html += '</tr>';
+                    no++;
+                }
+                $('#tbl_add_deduct_balance').append(html);
+                $("#tbl_add_deduct_balance_list").DataTable();
+            }
+        });
+	}
+
+
 
 
     $(document).on('click', '.del_data', function () {
@@ -3167,6 +3506,246 @@
 				alert('Success submit transaction!');
 				$('.beban_pending_close').click();
 				get_pending();
+            }
+        });
+	})
+
+
+	$(document).on('click', '.modal10', function () {
+        $('#tbl_add_deduct_coins').empty();
+        $.ajax({
+            url: "{{route('get_data_add_deduct_coin')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}"
+            },
+            dataType: "json",
+            success: function (data) {
+                var data = data.data;
+                var html = "";
+                var no = 1;
+
+                for (i = 0; i < data.length; i++) {
+                    html += '<tr>';
+                    html += '<td>' + no + '</td>';
+                    html += '<td>' + data[i].web_name + '</td>';
+					html += '<td>' + formatNumber(data[i].init_coin) + '</td>';
+					html += '<td><button class="btn btn-sm btn-primary add_coins" data-id="' + data[i].id +'"data-toggle="modal" data-target="#modaladdcoins">Add Coins</button></td>';
+					html += '<td><button class="btn btn-sm btn-danger deduct_coins" data-id="' + data[i].id +'"data-toggle="modal" data-target="#modaldeductcoins">Deduct Coins</button></td>';	
+					html += '</tr>';
+                    no++;
+                }
+                $('#tbl_add_deduct_coins').append(html);
+                $("#tbl_add_deduct_coins_list").DataTable();
+            }
+        });
+    })
+	$(document).on('click', '.add_coins', function () {
+		$('#req_amount_add_coin').val('');
+		var id = $(this).data("id");
+		$.ajax({
+            url: "{{route('get_data_add_deduct_coin_detail')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+				id:id
+            },
+            dataType: "json",
+            success: function (data) {
+                var data = data.data;
+
+                $('#web_name_add').val(data[0]["web_name"]);
+                $("#avail_coins_add").val(formatNumber(data[0]["init_coin"]));
+                $("#web_id_add").val(data[0]["id"]);
+            }
+        });
+	})
+	$(document).on('click', '.deduct_coins', function () {
+		$('#req_amount_deduct_coin').val('');
+		var id = $(this).data("id");
+		$.ajax({
+            url: "{{route('get_data_add_deduct_coin_detail')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+				id:id
+            },
+            dataType: "json",
+            success: function (data) {
+                var data = data.data;
+
+                $('#web_name_deduct').val(data[0]["web_name"]);
+                $("#avail_coins_deduct").val(formatNumber(data[0]["init_coin"]));
+                $("#web_id_deduct").val(data[0]["id"]);
+            }
+        });
+	})
+	$(document).on('click', '.add_coins_process', function () {
+		var id = $("#web_id_add").val();
+		var amount = $('#req_amount_add_coin').val();
+
+		$.ajax({
+            url: "{{route('add_coin_process')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+				id:id,
+				amount:amount
+            },
+            dataType: "json",
+            success: function (data) {
+				alert("Success submit request!");
+				$('.add_coins_close').click();
+				get_add_deduct_coin()
+            }
+        });
+		
+		
+	})
+	$(document).on('click', '.deduct_coins_process', function () {
+		var id = $("#web_id_deduct").val();
+		var amount = $('#req_amount_deduct_coin').val();
+		console.log(id);
+		console.log(amount);
+		$.ajax({
+            url: "{{route('deduct_coin_process')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+				id:id,
+				amount:amount
+            },
+            dataType: "json",
+            success: function (data) {
+
+				if(data.message == "error"){
+					alert("Requested amount bigger than available coins!");
+				}else{
+					alert("Success submit request!");
+					$('.deduct_coins_close').click();
+					get_add_deduct_coin()
+				}
+
+            }
+        });
+	})
+
+	$(document).on('click', '.modal11', function () {
+        $('#tbl_add_deduct_balance').empty();
+        $.ajax({
+            url: "{{route('get_data_add_deduct_balance')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}"
+            },
+            dataType: "json",
+            success: function (data) {
+                var data = data.data;
+                var html = "";
+                var no = 1;
+
+                for (i = 0; i < data.length; i++) {
+                    html += '<tr>';
+                    html += '<td>' + no + '</td>';
+                    html += '<td>' + data[i].bank_name + '</td>';
+                    html += '<td>' + data[i].acc_no + '</td>';
+					html += '<td>' + formatNumber(data[i].saldo) + '</td>';
+					html += '<td><button class="btn btn-sm btn-primary add_balance" data-id="' + data[i].id +'"data-toggle="modal" data-target="#modaladdbalance">Add Balance</button></td>';
+					html += '<td><button class="btn btn-sm btn-danger deduct_balance" data-id="' + data[i].id +'"data-toggle="modal" data-target="#modaldeductbalance">Deduct Balance</button></td>';	
+					html += '</tr>';
+                    no++;
+                }
+                $('#tbl_add_deduct_balance').append(html);
+                $("#tbl_add_deduct_balance_list").DataTable();
+            }
+        });
+    })
+
+	$(document).on('click', '.add_balance', function () {
+		$('#req_amount_add_balance').val('');
+		var id = $(this).data("id");
+		$.ajax({
+            url: "{{route('get_data_add_deduct_balance_detail')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+				id:id
+            },
+            dataType: "json",
+            success: function (data) {
+                var data = data.data;
+
+                $('#bank_name_add').val(data[0]["bank_name"]);
+                $("#acc_no_add").val(data[0]["acc_no"]);
+                $("#bank_id_add").val(data[0]["id"]);
+                $("#avail_balance_add").val(formatNumber(data[0]["saldo"]));
+            }
+        });
+	})
+	$(document).on('click', '.deduct_balance', function () {
+		$('#req_amount_deduct_balance').val('');
+		var id = $(this).data("id");
+				$.ajax({
+            url: "{{route('get_data_add_deduct_balance_detail')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+				id:id
+            },
+            dataType: "json",
+            success: function (data) {
+                var data = data.data;
+
+                $('#bank_name_deduct').val(data[0]["bank_name"]);
+                $("#acc_no_deduct").val(data[0]["acc_no"]);
+				$("#bank_id_deduct").val(data[0]["id"]);
+                $("#avail_balance_deduct").val(formatNumber(data[0]["saldo"]));
+            }
+        });
+	})
+	$(document).on('click', '.add_balance_process', function () {
+		var id = $("#bank_id_add").val();
+		var amount = $("#req_amount_add_balance").val();
+		console.log(id);
+		console.log(amount);
+		$.ajax({
+            url: "{{route('add_balance_process')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+				id:id,
+				amount:amount
+            },
+            dataType: "json",
+            success: function (data) {
+				alert("Success submit request!");
+				$('.add_balance_close').click();
+				get_add_deduct_balance()
+            }
+        });
+	})
+	$(document).on('click', '.deduct_balance_process', function () {
+		var id = $("#bank_id_deduct").val();
+		var amount = $("#req_amount_deduct_balance").val();
+		console.log(id);
+		console.log(amount);
+		$.ajax({
+            url: "{{route('deduct_balance_process')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+				id:id,
+				amount:amount
+            },
+            dataType: "json",
+            success: function (data) {
+				if(data.message == "error"){
+					alert("Requested amount bigger than available coins!");
+				}else{
+					alert("Success submit request!");
+					$('.deduct_balance_close').click();
+					get_add_deduct_balance()
+				}
             }
         });
 	})

@@ -59,6 +59,14 @@ Route::post('/assign/processweb', 'AssignController@dataprocessweb')->name('proc
 
 Route::post('/transaction/getdata', 'TransactionController@getdata')->name('get_data_trx');
 Route::post('/transaction/process', 'TransactionController@process')->name('trx_process');
+Route::post('/transaction/getdata/adddeductcoin', 'TransactionController@getdataadddeductcoin')->name('get_data_add_deduct_coin');
+Route::post('/transaction/getdata/adddeductcoindetail', 'TransactionController@getdataadddeductcoindetail')->name('get_data_add_deduct_coin_detail');
+Route::post('/transaction/addcoinprocess', 'TransactionController@addcoinprocess')->name('add_coin_process');
+Route::post('/transaction/deductcoinprocess', 'TransactionController@deductcoinprocess')->name('deduct_coin_process');
+Route::post('/transaction/getdata/adddeductbalance', 'TransactionController@getdataadddeductbalance')->name('get_data_add_deduct_balance');
+Route::post('/transaction/getdata/adddeductbalancedetail', 'TransactionController@getdataadddeductbalancedetail')->name('get_data_add_deduct_balance_detail');
+Route::post('/transaction/addbalanceprocess', 'TransactionController@addbalanceprocess')->name('add_balance_process');
+Route::post('/transaction/deductbalanceprocess', 'TransactionController@deductbalanceprocess')->name('deduct_balance_process');
 
 Route::post('/pending/getdata', 'PendingController@getdatabank')->name('get_data_pending_bank');
 Route::post('/pending/getdatapending', 'PendingController@getdatapending')->name('get_data_pending');
