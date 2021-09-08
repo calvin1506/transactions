@@ -58,6 +58,7 @@ Route::post('/assign/getdataweb', 'AssignController@getdataeditweb')->name('get_
 Route::post('/assign/processweb', 'AssignController@dataprocessweb')->name('process_data_web');
 
 Route::post('/transaction/getdata', 'TransactionController@getdata')->name('get_data_trx');
+Route::post('/transaction/getdatabank', 'TransactionController@getdatabank')->name('get_data_bank');
 Route::post('/transaction/process', 'TransactionController@process')->name('trx_process');
 Route::post('/transaction/getdata/adddeductcoin', 'TransactionController@getdataadddeductcoin')->name('get_data_add_deduct_coin');
 Route::post('/transaction/getdata/adddeductcoindetail', 'TransactionController@getdataadddeductcoindetail')->name('get_data_add_deduct_coin_detail');

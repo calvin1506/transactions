@@ -252,7 +252,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12 text-right">
-                        <button class="btn btn-sm btn-primary" data-toggle="modal"
+                        <button class="btn btn-sm btn-primary get_bank_add_cust" data-toggle="modal"
                             data-target="#modaladdnewcustomer">Add New Customer</button>
                     </div>
                 </div>
@@ -608,7 +608,7 @@
                         <h6>Initial Coins</h6>
                     </div>
                     <div class="col-md-10">
-                        <input class="form-control" type="number" name="init_coin_edit" id="init_coin_edit">
+                        <input class="form-control" type="number" name="init_coin_edit" id="init_coin_edit" readonly>
                     </div>
                 </div>
             </div>
@@ -856,6 +856,16 @@
 						<input class="form-control" type="text" name="customer_bank_acc_holder" id="customer_bank_acc_holder">
 					</div>
 				</div>
+				<div class="row mb-2">
+					<div class="col-md-2">
+						Website
+					</div>
+					<div class="col-md-10">
+						<div class="row" id="banks_div_add_customer">
+
+						</div>
+					</div>
+				</div>
 			</div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary add_customer_close" data-dismiss="modal">Close</button>
@@ -945,6 +955,16 @@
                         <input class="form-control" type="text" name="bank_acc_holder_cust_edit" id="bank_acc_holder_cust_edit">
                     </div>
                 </div>
+				<div class="row mb-2">
+					<div class="col-md-2">
+						Website
+					</div>
+					<div class="col-md-10">
+						<div class="row" id="banks_div_add_customer_edit">
+
+						</div>
+					</div>
+				</div>
             </div>
             <div class="modal-footer">
                 <input type="hidden" name="id_customer_edit" id="id_customer_edit">
@@ -1241,7 +1261,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Form Depo/WD</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Form Depo / WD / Bonus</h5>
             </div>
             <div class="modal-body">
 				<div class="row mb-2">
@@ -1275,8 +1295,8 @@
 					</div>
 					<div class="col-md-8">
 						<div class="row text-center">
-							<div class="col-md-6">
-								<label style="background-color: lightblue; border-radius: 10px;width: 130px">
+							<div class="col-md-4">
+								<label style="background-color: lightblue; border-radius: 10px;width: 80px">
 									<div class="form-check form-check-inline">
 										<input class="form-check-input-money" type="radio" name="inlineRadioOptionsMoney" id="depo" value="deposit">
 										<img src="{{ asset("img/moneyIn.png") }}" style="max-width: 25px;margin-top: 5px;">
@@ -1284,13 +1304,22 @@
 									Deposit
 								</label>
 							</div>
-							<div class="col-md-6">
-								<label style="background-color: lightcoral; border-radius: 10px;width: 130px">
+							<div class="col-md-4">
+								<label style="background-color: lightcoral; border-radius: 10px;width: 80px">
 									<div class="form-check form-check-inline">
 										<input class="form-check-input-money" type="radio" name="inlineRadioOptionsMoney" id="wd" value="withdrawal">
 										<img src="{{ asset("img/moneyOut.png") }}" style="max-width: 25px;margin-top: 5px;">
 									</div>
 									Withdrawal
+								</label>
+							</div>
+							<div class="col-md-4">
+								<label style="background-color: lightgreen; border-radius: 10px;width: 80px">
+									<div class="form-check form-check-inline">
+										<input class="form-check-input-money" type="radio" name="inlineRadioOptionsMoney" id="bonus" value="bonus">
+										<img src="{{ asset("img/bonus.png") }}" style="max-width: 25px;margin-top: 5px;">
+									</div>
+									Bonus
 								</label>
 							</div>
 						</div>
@@ -2554,6 +2583,40 @@
             }
         });
     })
+	$(document).on('click', '.get_bank_add_cust', function () {
+        var user_id = $('#customer_user_id').val('');
+        var name = $('#customer_name').val('');
+        var address = $('#customer_address').val('');
+        var email = $('#customer_email').val('');
+        var phone = $('#customer_phone').val('');
+        var note = $('#customer_note').val('');
+        var bank_name = $('#customer_bank_name').val('');
+        var acc_no = $('#customer_bank_acc_no').val('');
+        var holder_name = $('#customer_bank_acc_holder').val('');
+		var web = $('#banks_div_add_customer').empty();
+
+		$.ajax({
+            url: "{{route('get_data_bank')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+            },
+            dataType: "json",
+            success: function (data) {
+				var webs = data.webs;
+				var htmll = "";
+
+
+				htmll += '<select class="form-control" name="web_add_customer" id="web_add_customer">'
+					for (i = 0; i < webs.length; i++) {
+						htmll += '<option value="'+webs[i]['id']+'"> '+webs[i]['web_name']+' </option>'
+					}
+				htmll += '</select>'
+				
+				$('#banks_div_add_customer').append(htmll);
+            }
+        });
+	})
     $(document).on('click', '.add_customer', function () {
         var user_id = $('#customer_user_id').val();
         var name = $('#customer_name').val();
@@ -2564,6 +2627,7 @@
         var bank_name = $('#customer_bank_name').val();
         var acc_no = $('#customer_bank_acc_no').val();
         var holder_name = $('#customer_bank_acc_holder').val();
+		var web = $('#web_add_customer').val();
 
         $.ajax({
             url: "{{route('add_cust')}}",
@@ -2578,7 +2642,8 @@
                 note:note,
                 bank_name:bank_name,
                 acc_no:acc_no,
-                holder_name:holder_name
+                holder_name:holder_name,
+				web:web
             },
             dataType: "json",
             success: function (data) {
@@ -2595,6 +2660,7 @@
         });
     })
     $(document).on('click', '.edit_cust', function () {
+		$('#banks_div_add_customer_edit').empty();
         var id = $(this).data("id");
         $.ajax({
             url: "{{route('get_cust_edit')}}",
@@ -2605,6 +2671,7 @@
             },
             dataType: "json",
             success: function (data) {
+				console.log(data);
                 $('#user_id_cust_edit').val(data.data[0].user_id);
                 $('#name_cust_edit').val(data.data[0].name);
                 $('#address_cust_edit').val(data.data[0].address);
@@ -2615,6 +2682,22 @@
                 $('#bank_acc_no_cust_edit').val(data.data[0].acc_no);
                 $('#bank_acc_holder_cust_edit').val(data.data[0].acc_holder);
 				$('#id_customer_edit').val(data.data[0].id);
+
+				var cek = data.cek;
+				var webs = data.webs;
+				var htmll = "";
+
+				htmll += '<select class="form-control" name="web_add_customer_edit" id="web_add_customer_edit">'
+					for (j = 0; j < webs.length; j++) {
+						if (jQuery.inArray(webs[j]['id'].toString(), cek)!== -1) {
+							htmll += '<option value="'+webs[j]['id']+'" selected> '+webs[j]['website_name']+' </option>'
+						} else {
+							htmll += '<option value="'+webs[j]['id']+'"> '+webs[j]['website_name']+' </option>'
+						}
+					}
+				htmll += '</select>'
+
+				$('#banks_div_add_customer_edit').append(htmll);
             }
         });
     })
@@ -2629,6 +2712,7 @@
         var bank_name = $('#bank_name_cust_edit').val();
         var acc_no = $('#bank_acc_no_cust_edit').val();
         var holder_name = $('#bank_acc_holder_cust_edit').val();
+		var web = $('#web_add_customer_edit').val();
         $.ajax({
             url: "{{route('customer_edit_process')}}",
             type: "POST",
@@ -2643,7 +2727,8 @@
                 bank_name:bank_name,
                 acc_no:acc_no,
                 holder_name:holder_name,
-				id:id
+				id:id,
+				web:web
             },
             dataType: "json",
             success: function (data) {
@@ -3131,9 +3216,8 @@
                     html += '<tr>';
                     html += '<td>' + no + '</td>';
                     html += '<td>' + data[i].web_name + '</td>';
-                    html += '<td><button class="btn btn-sm btn-primary detail_depowd" data-id="' + data[
-                            i].id +
-                        '"data-toggle="modal" data-target="#modaldepowd">Depo/WD</button></td>';
+                    html += '<td><button class="btn btn-sm btn-primary detail_depowd" data-id="' + data[i].id +'"data-toggle="modal" data-target="#modaldepowd">Depo / WD / Bonus</button></td>';
+                    // html += '<td><button class="btn btn-sm btn-success bonus_user" data-id="' + data[i].id +'"data-toggle="modal" data-target="#modalbonus">Bonus</button></td>';
                     // html +='<td><a class="btn btn-sm btn-danger del_web" data-id="'+data[i].id+'" onclick="return confirm(`Want to delete content?`)">Delete</a></td>';
                     html += '</tr>';
                     no++;
@@ -3198,7 +3282,7 @@
 	$(document).on('click', '.depo_wd_process', function () {
 
 		var user = $('#InputUser').val();
-		var amount = $('#amount').val();
+		var amount = $('#amount_depowd').val();
 		var type = $("input[name='inlineRadioOptionsMoney']:checked").val()
 		var bank = $("input[name='inlineRadioOptions']:checked").val()
 		var web = $('#web_id_depo_wd').val();

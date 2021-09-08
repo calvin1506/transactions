@@ -15,6 +15,7 @@ class Customer extends Model
         'note', 
         'bank_name', 
         'acc_no', 
-        'acc_holder'
+        'acc_holder',
+        'website'
     ];
 }

@@ -23,7 +23,7 @@ class TransactionController extends Controller
         $banks = bank::whereIn('id', explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $data[0]->bank)))->get();
 
         foreach($custs as $cust){
-            array_push($arr_cust, $cust->name);
+            array_push($arr_cust, $cust->user_id);
         }
 
         for($i=0; $i < count($banks); $i++){
@@ -35,17 +35,23 @@ class TransactionController extends Controller
         return response()->json(["message"=>"success","customers"=>$arr_cust, "banks"=>$arr_bank]);
     }
 
+    public function getdatabank(){
+        $webs = website::all();
+        return response()->json(["message"=>"success", "webs"=>$webs]);
+    }
+
     public function process(Request $request){
         // dd($request);
-        $bank = bank::where('id', $request->bank)->first();
         $web = website::where('id', $request->web)->first();
-        $cust = Customer::where('name', $request->user)->get("name");
-        $old_balance = (int)$bank->saldo;
         $old_coin = (int)$web->init_coin;
+        if($request->type == "withdrawal"){
+            $bank = bank::where('id', $request->bank)->first();
+            $old_balance = (int)$bank->saldo;
+        }
 
         if($request->type == "deposit"){
             $trx = new trx;
-            $trx->trx_type = $request->type;
+            $trx->trx_type = "Deposit";
             $trx->user_name = $request->user;
             $trx->bank_name = $bank->bank_name;
             $trx->acc_no = $bank->acc_no;
@@ -67,9 +73,9 @@ class TransactionController extends Controller
             $log->user = auth::user()->name;
             $log->activity = "User: ".auth::user()->name." approve ".$request->type." senilai ".$request->amount." untuk Player ".$request->user;
             $log->save();
-        }else{
+        }else if($request->type == "withdrawal"){
             $trx = new trx;
-            $trx->trx_type = $request->type;
+            $trx->trx_type = "Withdrawal";
             $trx->user_name = $request->user;
             $trx->bank_name = $bank->bank_name;
             $trx->acc_no = $bank->acc_no;
@@ -90,6 +96,27 @@ class TransactionController extends Controller
             $log = new log;
             $log->user = auth::user()->name;
             $log->activity = "User: ".auth::user()->name." approve ".$request->type." senilai ".$request->amount." untuk Player ".$request->user;
+            $log->save();
+        } else {
+            $trx = new trx;
+            $trx->trx_type = "Bonus";
+            $trx->user_name = $request->user;
+            $trx->bank_name = "-";
+            $trx->acc_no = "-";
+            $trx->website_name = $web->web_name;
+            $trx->amount = $request->amount;
+            $trx->old_web_coin = $old_coin;
+            $trx->new_web_coin = $old_coin - $request->amount;
+            $trx->old_bank_balance = 0;
+            $trx->new_bank_balance = 0;
+            $trx->save();
+
+            $web->init_coin = $old_coin - $request->amount;
+            $web->save();
+
+            $log = new log;
+            $log->user = auth::user()->name;
+            $log->activity = "User: ".auth::user()->name." submit ".$request->type." ,amount: ".$request->amount." for Player ".$request->user;
             $log->save();
         }
         return response()->json(["message"=>"success"]);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\User;
+use App\website;
 use App\Customer;
 use App\activity_log as log;
 use Illuminate\Http\Request;
@@ -154,6 +155,7 @@ class UserController extends Controller
         return response()->json(["message"=>"success", "data"=>$cust]);
     }
     public function addcust(Request $request){
+        // dd($request->web);
         $validator = Validator::make($request->all(), [
             'user_id'=>'required|unique:customers',
             'name'=>'required',
@@ -163,7 +165,8 @@ class UserController extends Controller
             'note'=>'required',
             'bank_name'=>'required',
             'acc_no'=>'required|unique:customers',
-            'holder_name'=>'required' 
+            'holder_name'=>'required',
+            'web'=>'required' 
         ]);
 
         if($validator->passes()){
@@ -177,7 +180,26 @@ class UserController extends Controller
             $ops->bank_name = $request->bank_name;
             $ops->acc_no = $request->acc_no;
             $ops->acc_holder = $request->holder_name;
+            $ops->website = $request->web;
             $ops->save();
+
+            // $user = array();
+            // $data = customer::where('user_id', $request->user_id)->get();
+            // array_push($user, $data[0]->id);
+            // $webs = website::whereIn('id', $request->web)->get();
+
+            // foreach ($webs as $web) {
+            //     $update = website::where('id', $web->id)->first();
+            //     if ($web->customer == "-") {
+            //         $update->customer = json_encode($user);
+            //         $update->save();
+            //     } else {
+            //         $update_cust = explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $update->customer));
+            //         array_push($update_cust, $data[0]->id);
+            //         $update->customer = json_encode($update_cust);
+            //         $update->save();
+            //     }
+            // }
 
             $log = new log;
             $log->user = auth::user()->name;
@@ -196,7 +218,14 @@ class UserController extends Controller
     }
     public function getcustedit(Request $request){
         $data = customer::where('id', $request->id)->get();
-        return response()->json(["message"=>"success", "data"=>$data]);
+        $arr_web = array();
+        $webs = website::all();
+        $cek_web = explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $data[0]->website));
+        for($i=0; $i < count($webs); $i++){
+            $arr_web[$i]["id"] = $webs[$i]->id;
+            $arr_web[$i]["website_name"] = $webs[$i]->web_name;
+        }
+        return response()->json(["message"=>"success", "data"=>$data, "webs"=>$arr_web, "cek"=>$cek_web]);
     }
     public function customereditprocess(Request $request){
         $customer_edit = customer::where('id', $request->id)->first();
@@ -213,7 +242,7 @@ class UserController extends Controller
         ", bank_name: ".$customer_edit->bank_name." to ".$request->bank_name.
         ", account number from: ".$customer_edit->acc_no." to ".$request->acc_no.
         ", account holder from: ".$customer_edit->acc_holder." to ".$request->holder_name;
-        $log->save();
+
 
         $customer_edit->user_id = $request->user_id;
         $customer_edit->name = $request->name;
@@ -224,6 +253,9 @@ class UserController extends Controller
         $customer_edit->bank_name = $request->bank_name;
         $customer_edit->acc_no = $request->acc_no;
         $customer_edit->acc_holder = $request->holder_name;
+        $customer_edit->website = $request->web;
+
+        $log->save();
         $customer_edit->save();
 
         return response()->json(["message"=>"success"]);
