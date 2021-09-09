@@ -27,47 +27,54 @@ class AssignController extends Controller
     }
 
     public function dataprocess(Request $request){
-        // dd($request->id);
-        $banks = array();
-        $update_bank = bank::where('id', $request->id)->first();
-        // dd($update_bank->id);
-        $update_bank->website = json_encode($request->website);
-        $update_bank->save();
-        array_push($banks, $update_bank->id);
-        // dd($banks);
-        $webs = array();
-        $web = DB::table('websites')
-                ->whereIn('id',$request->website)
-                ->get();
-        if(count($web) >0){
-            foreach($web as $w){
-                array_push($webs, $w->web_name);
-                $update_web = website::where('id', $w->id)->first();
-                if ($update_web->bank == "-") {
-                    $update_web->bank = json_encode($banks);
-                    $update_web->save();
-                } else {
-                    $cek = explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $update_web->bank));
-                    if(in_array($request->id, $cek)){
-                        dd("sini");
-                        // $pos = array_search($request->id, $cek);
-                        // unset($cek[$pos]);
-                        // dd($cek);
-                    }else{
-                        $banks = explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $update_web->bank));
-                        array_push($banks, $update_bank->id);
-                        $update_web->bank = json_encode($banks);
-                        $update_web->save();
-                    }
-                    
-                }
+        // dd($request);
+
+        $bank = bank::where('id', $request->id)->first();
+        $webs = website::whereIn('id', $request->website)->get();
+
+        $arr_bank = array();
+        array_push($arr_bank, $request->id);
+
+        foreach ($webs as $web) {
+            $update_web = website::where('id', $web->id)->first();
+            if($web->bank == "-"){
+                dd("1");
+                $update_web->bank = json_encode($arr_bank);
+                $update_web->save();
+            } else {
+                $old_web = explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $bank->website));
+                $new_web = $request->website;
+                $diff = array_diff($old_web, $new_web);
+
+                if (count($diff) >0 ) {
+                    $new_webs = website::whereIn('id', $diff)->get();
                 
+                    foreach ($new_webs as $new ) {
+                        $old_bank = explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $new->bank));
+                        $update_new_data_bank = website::where('id', $new->id)->first();
+                        if(in_array($request->id, $old_bank)){
+                            $pos = array_search($request->id, $old_web);
+                            unset($old_bank[$pos]);
+                            $update_new_data_bank->bank = json_encode(array_values($old_bank));
+                            $update_new_data_bank->save();
+                        }
+                    }
+                } else {
+                    $old_data = explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $update_web->bank));
+                    array_push($old_data, $request->id);
+                    dd($old_data);
+                    $update_web->bank = json_encode($old_data);
+                    $update_web->save();
+                }
             }
         }
 
+        $bank->website = json_encode($request->website);
+        $bank->save();
+
         $log = new log;
         $log->user = auth::user()->name;
-        $log->activity = "User: ".auth::user()->name." assign website: ".json_encode($webs)." to bank: ".$update_bank[0]->bank_name." with account number: ".$update_bank[0]->acc_no;
+        $log->activity = "User: ".auth::user()->name." assign website: ".json_encode($webs)." to bank: ".$bank->bank_name." with account number: ".$bank->acc_no;
         $log->save();
 
         return response()->json(["message"=>"success"]);
