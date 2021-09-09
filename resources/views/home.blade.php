@@ -3,56 +3,79 @@
 @section('content')
 
 <div class="container">
+
+    @if (session('success')) 
+    <div class="alert alert-success alert-dismissable">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>{{session('success')}}</strong>
+    </div>  
+    @endif
+
+    @if (session('error')) 
+    <div class="alert alert-danger alert-dismissable">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>{{session('error')}}</strong>
+    </div>  
+    @endif
+    
     <h5><b>Initial Setup</b></h5>
     <div class="row">
         <div class="card" style="width: 100%">
             <div class="card-body">
                 <div class="row text-center">
-                    <div class="col-xl-2">
-                        <a href="#modal5" data-toggle="modal" data-target="#modal5" class="small-box-footer modal5">
-                            <div class="small-box"
-                                style="background-image: url('{{ asset("img/icon-bank.png") }}');background-size: cover;height: 145px;border-radius:100%;">
-                            </div>
-                        </a>
-                        <h6>Banks</h6>
-                    </div>
-                    <div class="col-xl-2">
-                        <a href="#modal1" data-toggle="modal" data-target="#modal1" class="small-box-footer modal1">
-                            <div class="small-box "
-                                style="background-image: url('{{ asset("img/web-icon.png") }}');background-size: cover;height: 145px;border-radius:100%;">
-                            </div>
-                        </a>
-                        <h6>Websites</h6>
-                    </div>
-                    <div class="col-xl-2">
-                        <a href="#modal2" data-toggle="modal" data-target="#modal2" class="small-box-footer modal2">
-                            <div class="small-box"
-                                style="background-image: url('{{asset('img/leader.png')}}');background-size: cover;height: 145px;border-radius:100%;">
-                            </div>
-                        </a>
-                        <h6>Leaders</h6>
-                    </div>
-                    <div class="col-xl-2">
-                        <a href="#modal3" data-toggle="modal" data-target="#modal3" class="small-box-footer modal3">
-                            <div class="small-box"
-                                style="background-image: url('{{asset('img/op.png')}}');background-size: cover;height: 145px;border-radius:100%;">
-                            </div>
-                        </a>
-                        <h6>Operators</h6>
-                    </div>
-                    <div class="col-xl-2">
-                        <a href="#modal4" data-toggle="modal" data-target="#modal4" class="small-box-footer modal4">
-                            <div class="small-box"
-                                style="background-image: url('{{asset('img/customer.png')}}');background-size: cover;height: 145px;border-radius:100%;">
-                            </div>
-                        </a>
-                        <h6>Customers</h6>
-                    </div>
+                    @if (auth::user()->role == "superadmin" )
+                        <div class="col-xl-2">
+                            <a href="#modal5" data-toggle="modal" data-target="#modal5" class="small-box-footer modal5">
+                                <div class="small-box"
+                                    style="background-image: url('{{ asset("img/icon-bank.png") }}');background-size: cover;height: 145px;border-radius:100%;">
+                                </div>
+                            </a>
+                            <h6>Banks</h6>
+                        </div>
+                        <div class="col-xl-2">
+                            <a href="#modal1" data-toggle="modal" data-target="#modal1" class="small-box-footer modal1">
+                                <div class="small-box "
+                                    style="background-image: url('{{ asset("img/web-icon.png") }}');background-size: cover;height: 145px;border-radius:100%;">
+                                </div>
+                            </a>
+                            <h6>Websites</h6>
+                        </div>
+                        
+                        <div class="col-xl-2">
+                            <a href="#modal2" data-toggle="modal" data-target="#modal2" class="small-box-footer modal2">
+                                <div class="small-box"
+                                    style="background-image: url('{{asset('img/leader.png')}}');background-size: cover;height: 145px;border-radius:100%;">
+                                </div>
+                            </a>
+                            <h6>Leaders</h6>
+                        </div>
+                    @endif
+                    @if (auth::user()->role == "Leader" || auth::user()->role == "Operator")
+                        @if (auth::user()->role == "Leader")
+                            <div class="col-xl-2">
+                                <a href="#modal3" data-toggle="modal" data-target="#modal3" class="small-box-footer modal3">
+                                    <div class="small-box"
+                                        style="background-image: url('{{asset('img/op.png')}}');background-size: cover;height: 145px;border-radius:100%;">
+                                    </div>
+                                </a>
+                                <h6>Operators</h6>
+                            </div> 
+                        @endif
+                        <div class="col-xl-2">
+                            <a href="#modal4" data-toggle="modal" data-target="#modal4" class="small-box-footer modal4">
+                                <div class="small-box"
+                                    style="background-image: url('{{asset('img/customer.png')}}');background-size: cover;height: 145px;border-radius:100%;">
+                                </div>
+                            </a>
+                            <h6>Customers</h6>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
     </div>
 
+    @if(auth::user()->role == "superadmin" || auth::user()->role == "Leader")
     <h5><b>Assign</b></h5>
     <div class="row">
         <div class="card" style="width: 100%">
@@ -78,48 +101,58 @@
             </div>
         </div>
     </div>
-
-    <h5><b>Transactions</b></h5>
-    <div class="row">
-        <div class="card" style="width: 100%">
-            <div class="card-body">
-                <div class="row text-center">
-                    <div class="col-xl-2">
-                        <a href="#modal8" data-toggle="modal" data-target="#modal8" class="small-box-footer modal8">
-                            <div class="small-box"
-                                style="background-image: url('https://static.thenounproject.com/png/488117-200.png');background-size: cover;height: 145px;background-position: center;border-radius:100%;">
-                            </div>
-                        </a>
-						<h6>Deposit / Withdrawal</h6>
-                    </div>
-                    <div class="col-xl-2">
-                        <a href="#modal9" data-toggle="modal" data-target="#modal9" class="small-box-footer modal9">
-                            <div class="small-box"
-                                style="background-image: url('{{asset('img/icon-pending.png')}}');background-size: cover;height: 145px;background-position: center;border-radius:100%;">
-                            </div>
-                        </a>
-						<h6>Pending Transactions</h6>
-                    </div>
-                    <div class="col-xl-2">
-                        <a href="#modal10" data-toggle="modal" data-target="#modal10" class="small-box-footer modal10">
-                            <div class="small-box"
-                                style="background-image: url('{{asset('img/coin.png')}}');background-size: cover;height: 145px;background-position: center;border-radius:100%;">
-                            </div>
-                        </a>
-						<h6>Add / Deduct Coins</h6>
-                    </div>
-                    <div class="col-xl-2">
-                        <a href="#modal11" data-toggle="modal" data-target="#modal11" class="small-box-footer modal11">
-                            <div class="small-box"
-                                style="background-image: url('{{asset('img/cash.png')}}');background-size: cover;height: 145px;background-position: center;border-radius:100%;">
-                            </div>
-                        </a>
-						<h6>Add / Deduct Balance</h6>
+    @endif
+    @if (auth::user()->role == "Leader" || auth::user()->role == "Operator")
+        <h5><b>Transactions</b></h5>
+        <div class="row">
+            <div class="card" style="width: 100%">
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-xl-2">
+                            <a href="#modal8" data-toggle="modal" data-target="#modal8" class="small-box-footer modal8">
+                                <div class="small-box"
+                                    style="background-image: url('https://static.thenounproject.com/png/488117-200.png');background-size: cover;height: 145px;background-position: center;border-radius:100%;">
+                                </div>
+                            </a>
+                            <h6>Deposit / Withdrawal</h6>
+                        </div>
+                        <div class="col-xl-2">
+                            <a href="#modal9" data-toggle="modal" data-target="#modal9" class="small-box-footer modal9">
+                                <div class="small-box"
+                                    style="background-image: url('{{asset('img/icon-pending.png')}}');background-size: cover;height: 145px;background-position: center;border-radius:100%;">
+                                </div>
+                            </a>
+                            <h6>Pending Transactions</h6>
+                        </div>
+                        <div class="col-xl-2">
+                            <a href="#modal10" data-toggle="modal" data-target="#modal10" class="small-box-footer modal10">
+                                <div class="small-box"
+                                    style="background-image: url('{{asset('img/coin.png')}}');background-size: cover;height: 145px;background-position: center;border-radius:100%;">
+                                </div>
+                            </a>
+                            <h6>Add / Deduct Coins</h6>
+                        </div>
+                        <div class="col-xl-2">
+                            <a href="#modal11" data-toggle="modal" data-target="#modal11" class="small-box-footer modal11">
+                                <div class="small-box"
+                                    style="background-image: url('{{asset('img/cash.png')}}');background-size: cover;height: 145px;background-position: center;border-radius:100%;">
+                                </div>
+                            </a>
+                            <h6>Add / Deduct Balance</h6>
+                        </div>
+                        <div class="col-xl-2">
+                            <a href="#modal12" data-toggle="modal" data-target="#modal12" class="small-box-footer modal12">
+                                <div class="small-box"
+                                    style="background-image: url('{{asset('img/cashback.png')}}');background-size: cover;height: 145px;background-position: center;border-radius:100%;">
+                                </div>
+                            </a>
+                            <h6>Cashback</h6>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endif
 </div>
 
 
@@ -460,7 +493,6 @@
         </div>
     </div>
 </div>
-
 <!-- Modal 10 -->
 <div class="modal fade" id="modal10" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -515,6 +547,44 @@
                                 </tr>
                             </thead>
                             <tbody id="tbl_add_deduct_balance">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="reload()">Close</button>
+                {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal 12 -->
+<div class="modal fade" id="modal12" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cashback</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <button class="btn btn-sm btn-primary addnewcashback" data-toggle="modal"
+                            data-target="#modaladdnewcashback">Submit New Cashback</button>
+                    </div>
+                </div>
+                <div class="row mt-3 table-responsive">
+                    <div class="col-md-12">
+                        <table class="table table-striped text-center" id="tbl_cashback_list">
+                            <thead>
+                                <tr>
+                                    <td>No</td>
+                                    <td>Transaction Number</td>
+                                    <td colspan="2">Actions</td>
+                                </tr>
+                            </thead>
+                            <tbody id="tbl_cashback">
 
                             </tbody>
                         </table>
@@ -1229,14 +1299,17 @@
 
 					</div>
 				</div>
-				<div class="row mb-2">
-					<div class="col-md-4">
-						Leaders
-					</div>
-					<div class="col-md-8">
-						<div id="web_assign_edit_leads"></div>
-					</div>
-				</div>
+                @if (auth::user()->role == "superadmin")
+                    <div class="row mb-2">
+                        <div class="col-md-4">
+                            Leaders
+                        </div>
+                        <div class="col-md-8">
+                            <div id="web_assign_edit_leads"></div>
+                        </div>
+                    </div> 
+                @endif
+
 				<div class="row mb-2">
 					<div class="col-md-4">
 						Operators
@@ -1713,6 +1786,157 @@
 </div>
 
 
+<!-- Modal Add Cashback -->
+<div class="modal fade" id="modaladdnewcashback" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Submit Cashback</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12">
+                        <div class="card card-primary card-tabs">
+                          <div class="card-header p-0 pt-1">
+                            <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                              <li class="nav-item">
+                                <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Single Input</a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Multiple Input</a>
+                              </li>
+                            </ul>
+                          </div>
+                          <div class="card-body">
+                            <div class="tab-content" id="custom-tabs-one-tabContent">
+                              <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+                                 <div class="row mb-2 mb-2">
+                                     <div class="col-md-3">Users</div>
+                                     <div class="col-md-9">
+                                        <form autocomplete="off">
+                                            <div class="autocomplete" style="width:300px;" id="users_div_cashback">
+                                              
+                                            </div>
+                                        </form>
+                                     </div>
+                                 </div>
+                                 <div class="row mb-2 mb-2">
+                                    <div class="col-md-3">Banks</div>
+                                    <div class="col-md-9">
+                                       <div class="row" id="banks_div_cashback_single"></div>
+                                    </div>
+                                </div>
+                                 <div class="row mb-2 mb-2">
+                                     <div class="col-md-3">Amount</div>
+                                     <div class="col-md-9">
+                                         <input class="form-control" type="number" name="amount_add_cashback" id="amount_add_cashback">
+                                         
+                                     </div>
+                                 </div>
+                                 <div class="row mb-2-mt-2">
+                                    <div class="col-md-12 text-center">
+                                        <input type="hidden" name="type" id="cashback_single" value="cb_single">
+                                        <button type="button" class="btn btn-primary cashback_single_process">Submit</button>
+                                    </div>
+                                </div>
+                              </div>
+
+
+                              <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+                                    <form method="POST" action="{{route('multi_cashback_process')}}" enctype="multipart/form-data" id="form_cashback_multi">
+                                        @csrf
+                                        <div class="row mb-2 mb-2">
+                                            <div class="col-md-3">Banks</div>
+                                            <div class="col-md-9">
+                                                <div class="row" id="banks_div_cashback_multiple"></div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2 mb-2">
+                                            <div class="col-md-4">Select file</div>
+                                            <div class="col-md-8">
+                                                <input class="form-control" type="file" name="file_add_cashback" id="file_add_cashback">
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="row mb-2-mt-2">
+                                            <div class="col-md-12 text-center">
+                                                <input type="hidden" name="type" id="cashback_multi" value="cb_multi">
+                                                <button type="submit" class="btn btn-primary cashback_multi_process">Submit</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary cashback_close" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Cashback Detail -->
+<div class="modal fade" id="modalcashbackdetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cashback Detail</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row mt-2 mb-2">
+                    <div class="col-md-4">
+                       Transaction Number 
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" name="trx_number_detail_cashback" id="trx_number_detail_cashback" readonly>
+                    </div>
+                </div>
+                <div class="row mt-2 mb-2">
+                    <div class="col-md-4">
+                        User ID
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" name="user_id_detail_cashback" id="user_id_detail_cashback" readonly>
+                    </div>
+                </div>
+                <div class="row mt-2 mb-2">
+                    <div class="col-md-4">
+                        Amount
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" name="amount_detail_cashback" id="amount_detail_cashback" readonly>
+                    </div>
+                </div>
+                <div class="row mt-2 mb-2">
+                    <div class="col-md-4">
+                        Bank Name
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" name="bank_name_detail_cashback" id="bank_name_detail_cashback" readonly>
+                    </div>
+                </div>
+                <div class="row mt-2 mb-2">
+                    <div class="col-md-4">
+                        Account Number
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" name="acc_no_detail_cashback" id="acc_no_detail_cashback" readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 @endsection
 
@@ -2024,7 +2248,6 @@
             }
         });
 	}
-
 	function get_add_deduct_coin(){
         $('#tbl_add_deduct_coins').empty();
         $.ajax({
@@ -2084,6 +2307,34 @@
             }
         });
 	}
+
+    function get_cashback_list(){
+        $('#tbl_cashback').empty();
+        $.ajax({
+            url: "{{route('get_cashback')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}"
+            },
+            dataType: "json",
+            success: function (data) {
+                var data = data.data;
+                var html = "";
+                var no = 1;
+
+                for (i = 0; i < data.length; i++) {
+                    html += '<tr>';
+                    html += '<td>' + no + '</td>';
+                    html += '<td>' + data[i].trx_number + '</td>';
+                    html += '<td><button class="btn btn-sm btn-primary cashback_detail" data-id="' + data[i].id +'"data-toggle="modal" data-target="#modalcashbackdetail">Detail</button></td>';	
+					html += '</tr>';
+                    no++;
+                }
+                $('#tbl_cashback').append(html);
+                $("#tbl_cashback_list").DataTable();
+            }
+        });
+    }
 
 
 
@@ -3744,7 +3995,6 @@
             }
         });
     })
-
 	$(document).on('click', '.add_balance', function () {
 		$('#req_amount_add_balance').val('');
 		var id = $(this).data("id");
@@ -3790,8 +4040,6 @@
 	$(document).on('click', '.add_balance_process', function () {
 		var id = $("#bank_id_add").val();
 		var amount = $("#req_amount_add_balance").val();
-		console.log(id);
-		console.log(amount);
 		$.ajax({
             url: "{{route('add_balance_process')}}",
             type: "POST",
@@ -3833,6 +4081,164 @@
             }
         });
 	})
-	
+
+    $(document).on('click', '.modal12', function () {
+        $('#tbl_cashback').empty();
+        $.ajax({
+            url: "{{route('get_cashback')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}"
+            },
+            dataType: "json",
+            success: function (data) {
+                var data = data.data;
+                var html = "";
+                var no = 1;
+
+                for (i = 0; i < data.length; i++) {
+                    html += '<tr>';
+                    html += '<td>' + no + '</td>';
+                    html += '<td>' + data[i].trx_number + '</td>';
+                    html += '<td><button class="btn btn-sm btn-primary cashback_detail" data-id="' + data[i].id +'"data-toggle="modal" data-target="#modalcashbackdetail">Detail</button></td>';	
+					html += '</tr>';
+                    no++;
+                }
+                $('#tbl_cashback').append(html);
+                $("#tbl_cashback_list").DataTable();
+            }
+        });
+    })
+    $(document).on('click', '.addnewcashback', function () {
+
+        $('#banks_div_cashback_single').empty();
+        $('#banks_div_cashback_multiple').empty();
+
+        $.ajax({
+            url: "{{route('get_data_cashback')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}"
+            },
+            dataType: "json",
+            success: function (data) {
+                var customers = data.custs;
+                var banks = data.banks;
+				var bank = banks;
+				var customer = customers;
+				var html = "";
+				var htmll = "";
+				var htmlll = "";
+
+				html += '<input id="InputUser" class="form-control" type="text" name="InputUser" placeholder="Users">';
+
+				for (let i = 0; i < banks.length; i++) {
+					// htmll += '<button class="btn btn-sm btn-bank" style="border=1px solid;"> <img src="{{ asset("img/icon-bank.jpg") }}" style="max-width: 25px;">'+banks[i]["bank_name"]+' - '+banks[i]["acc_no"]+'</button>';
+					// htmll += '<label>'+banks[i]["bank_name"]+' - '+banks[i]["acc_no"]+'</label><br>'
+					htmll += '<div class="col-md-6">'
+						htmll += '<label>';
+							htmll += '<div class="form-check form-check-inline">';
+								htmll += '<input class="form-check-input" type="radio" name="inlineRadioOptionsCashbackSingle" id="bank'+i+'" value="'+banks[i]["id"]+'">';
+								htmll += '<img src="{{ asset("img/icon-bank.png") }}" style="max-width: 25px;">'+banks[i]["bank_name"]+' - '+banks[i]["acc_no"];
+							htmll += '</div>';
+						htmll += '</label>';
+					htmll += '</div>';
+				}
+				for (let j = 0; j < banks.length; j++) {
+					// htmll += '<button class="btn btn-sm btn-bank" style="border=1px solid;"> <img src="{{ asset("img/icon-bank.jpg") }}" style="max-width: 25px;">'+banks[i]["bank_name"]+' - '+banks[i]["acc_no"]+'</button>';
+					// htmll += '<label>'+banks[i]["bank_name"]+' - '+banks[i]["acc_no"]+'</label><br>'
+					htmlll += '<div class="col-md-6">'
+						htmlll += '<label>';
+							htmlll += '<div class="form-check form-check-inline">';
+								htmlll += '<input class="form-check-input" type="radio" name="inlineRadioOptionsCashbackMulti" id="bank'+j+'" value="'+banks[j]["id"]+'">';
+								htmlll += '<img src="{{ asset("img/icon-bank.png") }}" style="max-width: 25px;">'+banks[j]["bank_name"]+' - '+banks[j]["acc_no"];
+							htmlll += '</div>';
+						htmlll += '</label>';
+					htmlll += '</div>';
+				}
+				$('#users_div_cashback').append(html);
+				$('#banks_div_cashback_single').append(htmll);
+				$('#banks_div_cashback_multiple').append(htmlll);
+
+				autocomplete(document.getElementById("InputUser"), customer);
+            }
+        });
+    })
+    $(document).on('click', '.cashback_single_process', function () {
+        var user_id = $('#InputUser').val();
+        var amount = $('#amount_add_cashback').val();
+        var type = $('#cashback_single').val();
+        var bank = $("input[name='inlineRadioOptionsCashbackSingle']:checked").val();
+
+        $.ajax({
+            url: "{{route('single_cashback_process')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+				id:user_id,
+				amount:amount,
+				type:type,
+				bank:bank
+            },
+            dataType: "json",
+            success: function (data) {
+                alert('Success Submit Cashback');
+				$('.cashback_close').click();
+				get_cashback_list()
+            }
+        });
+    })
+    $(document).on('click', '.cashback_detail', function () {
+        $('#trx_number_detail_cashback').val('');
+        $('#user_id_detail_cashback').val('');
+        $('#amount_detail_cashback').val('');
+        $('#bank_name_detail_cashback').val('');
+        $('#acc_no_detail_cashback').val('');
+
+        var id = $(this).data("id");
+
+        $.ajax({
+            url: "{{route('get_data_cashback_detail')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+                id:id
+            },
+            dataType: "json",
+            success: function (data) {
+                var data = data.data;
+                console.log(data);
+                $('#trx_number_detail_cashback').val(data[0].trx_number);
+                $('#user_id_detail_cashback').val(data[0].user_id);
+                $('#amount_detail_cashback').val(formatNumber(data[0].amount));
+                $('#bank_name_detail_cashback').val(data[0].bank_name);
+                $('#acc_no_detail_cashback').val(data[0].acc_no); 
+            }
+        });
+
+    })
+
+    $('#form_cashback_multi').on('submit', function (e) {
+        e.preventDefault();
+        var type = $('#cashback_multi').val();
+        var bank = $("input[name='inlineRadioOptionsCashbackMulti']:checked").val();
+
+        console.log(type);
+        console.log(bank);
+
+        $.ajax({
+            url: "{{route('multi_cashback_process')}}",
+            type: "POST",
+            data: new FormData(this),
+            dataType: "json",
+            contentType:false,
+            cache: false,
+            processData: false,
+            success: function (data) {
+
+            }
+        });
+    })
+    
 </script>
 @endsection

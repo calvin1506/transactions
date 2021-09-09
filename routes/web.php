@@ -76,3 +76,9 @@ Route::post('/pending/getdatadepowd', 'PendingController@getdatapendingdepowd')-
 Route::post('/pending/getdatacost', 'PendingController@getdatapendingcost')->name('get_data_pending_cost');
 Route::post('/pending/pendingdepowdprocess', 'PendingController@pendingdepowdprocess')->name('pending_depowd_process');
 Route::post('/pending/costprocess', 'PendingController@costprocess')->name('cost_process');
+
+Route::post('/cashback/get', 'CashbackController@getcashback')->name('get_cashback');
+Route::post('/cashback/getdata', 'CashbackController@getdatacashback')->name('get_data_cashback');
+Route::post('/cashback/getdatadetail', 'CashbackController@getdatacashbackdetail')->name('get_data_cashback_detail');
+Route::post('/cashback/singlecashbackprocess', 'CashbackController@singlecashbackprocess')->name('single_cashback_process');
+Route::post('/cashback/multicashbackprocess', 'CashbackController@multicashbackprocess')->name('multi_cashback_process');
