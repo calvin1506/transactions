@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use App\bank;
 use App\User;
-use App\website;
+use App\website as web;
 use App\Customer;
 use App\transaction as trx;
 use App\activity_log as log;
@@ -123,8 +123,30 @@ class TransactionController extends Controller
     }
 
     public function getdataadddeductcoin(Request $request){
-        $data = website::all();
-        return response()->json(["message"=>"success","data"=>$data]);
+        if (auth::user()->role == "superadmin") {
+            $web = web::all();
+        } else if(auth::user()->role == "Leader"){
+            $webs = web::all();
+            $arr_web = array();
+            foreach($webs as $web){
+                if(in_array(auth::user()->id, explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $web->leader)))){
+                    array_push($arr_web, $web->id);
+                }
+            }
+            $web = web::whereIn('id', $arr_web)->get();
+        }else{
+            $webs = web::all();
+            $arr_web = array();
+            foreach($webs as $web){
+                if(in_array(auth::user()->id, explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $web->operator)))){
+                    array_push($arr_web, $web->id);
+                }
+            }
+            $web = web::whereIn('id', $arr_web)->get(); 
+        }
+
+
+        return response()->json(["message"=>"success", "data"=>$web]);
     }
     public function getdataadddeductcoindetail(Request $request){
         // dd($request);
