@@ -1821,14 +1821,20 @@
                                         </form>
                                      </div>
                                  </div>
-                                 <div class="row mb-2 mb-2">
+                                 {{-- <div class="row mb-2 mb-2">
                                     <div class="col-md-3">Banks</div>
                                     <div class="col-md-9">
                                        <div class="row" id="banks_div_cashback_single"></div>
                                     </div>
-                                </div>
+                                 </div> --}}
                                  <div class="row mb-2 mb-2">
-                                     <div class="col-md-3">Amount</div>
+                                    <div class="col-md-3">Website</div>
+                                    <div class="col-md-9">
+                                       <div class="row" id="web_div_cashback_single"></div>
+                                    </div>
+                                 </div>
+                                 <div class="row mb-2 mb-2">
+                                     <div class="col-md-3">Coins</div>
                                      <div class="col-md-9">
                                          <input class="form-control" type="number" name="amount_add_cashback" id="amount_add_cashback">
                                          
@@ -1846,12 +1852,18 @@
                               <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
                                     <form method="POST" action="{{route('multi_cashback_process')}}" enctype="multipart/form-data" id="form_cashback_multi">
                                         @csrf
-                                        <div class="row mb-2 mb-2">
+                                        {{-- <div class="row mb-2 mb-2">
                                             <div class="col-md-3">Banks</div>
                                             <div class="col-md-9">
                                                 <div class="row" id="banks_div_cashback_multiple"></div>
                                             </div>
-                                        </div>
+                                        </div> --}}
+                                        <div class="row mb-2 mb-2">
+                                            <div class="col-md-3">Website</div>
+                                            <div class="col-md-9">
+                                               <div class="row" id="web_div_cashback_multiple"></div>
+                                            </div>
+                                         </div>
                                         <div class="row mb-2 mb-2">
                                             <div class="col-md-4">Select file</div>
                                             <div class="col-md-8">
@@ -1914,18 +1926,10 @@
                 </div>
                 <div class="row mt-2 mb-2">
                     <div class="col-md-4">
-                        Bank Name
+                        Web Name
                     </div>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" name="bank_name_detail_cashback" id="bank_name_detail_cashback" readonly>
-                    </div>
-                </div>
-                <div class="row mt-2 mb-2">
-                    <div class="col-md-4">
-                        Account Number
-                    </div>
-                    <div class="col-md-8">
-                        <input type="text" class="form-control" name="acc_no_detail_cashback" id="acc_no_detail_cashback" readonly>
+                        <input type="text" class="form-control" name="web_name_detail_cashback" id="web_name_detail_cashback" readonly>
                     </div>
                 </div>
             </div>
@@ -4110,9 +4114,9 @@
         });
     })
     $(document).on('click', '.addnewcashback', function () {
-
-        $('#banks_div_cashback_single').empty();
-        $('#banks_div_cashback_multiple').empty();
+        $('#users_div_cashback').empty();
+        $('#web_div_cashback_single').empty();
+        $('#web_div_cashback_multiple').empty();
 
         $.ajax({
             url: "{{route('get_data_cashback')}}",
@@ -4124,6 +4128,7 @@
             success: function (data) {
                 var customers = data.custs;
                 var banks = data.banks;
+                var webs = data.webs
 				var bank = banks;
 				var customer = customers;
 				var html = "";
@@ -4132,33 +4137,29 @@
 
 				html += '<input id="InputUser" class="form-control" type="text" name="InputUser" placeholder="Users">';
 
-				for (let i = 0; i < banks.length; i++) {
-					// htmll += '<button class="btn btn-sm btn-bank" style="border=1px solid;"> <img src="{{ asset("img/icon-bank.jpg") }}" style="max-width: 25px;">'+banks[i]["bank_name"]+' - '+banks[i]["acc_no"]+'</button>';
-					// htmll += '<label>'+banks[i]["bank_name"]+' - '+banks[i]["acc_no"]+'</label><br>'
+				for (let i = 0; i < webs.length; i++) {
 					htmll += '<div class="col-md-6">'
 						htmll += '<label>';
 							htmll += '<div class="form-check form-check-inline">';
-								htmll += '<input class="form-check-input" type="radio" name="inlineRadioOptionsCashbackSingle" id="bank'+i+'" value="'+banks[i]["id"]+'">';
-								htmll += '<img src="{{ asset("img/icon-bank.png") }}" style="max-width: 25px;">'+banks[i]["bank_name"]+' - '+banks[i]["acc_no"];
+								htmll += '<input class="form-check-input" type="radio" name="inlineRadioOptionsCashbackSingle" id="web'+i+'" value="'+webs[i]["id"]+'">';
+								htmll += '<img src="{{ asset("img/web-icon.png") }}" style="max-width: 25px;">'+webs[i]["web_name"]
 							htmll += '</div>';
 						htmll += '</label>';
 					htmll += '</div>';
 				}
-				for (let j = 0; j < banks.length; j++) {
-					// htmll += '<button class="btn btn-sm btn-bank" style="border=1px solid;"> <img src="{{ asset("img/icon-bank.jpg") }}" style="max-width: 25px;">'+banks[i]["bank_name"]+' - '+banks[i]["acc_no"]+'</button>';
-					// htmll += '<label>'+banks[i]["bank_name"]+' - '+banks[i]["acc_no"]+'</label><br>'
+				for (let j = 0; j < webs.length; j++) {
 					htmlll += '<div class="col-md-6">'
 						htmlll += '<label>';
 							htmlll += '<div class="form-check form-check-inline">';
-								htmlll += '<input class="form-check-input" type="radio" name="inlineRadioOptionsCashbackMulti" id="bank'+j+'" value="'+banks[j]["id"]+'">';
-								htmlll += '<img src="{{ asset("img/icon-bank.png") }}" style="max-width: 25px;">'+banks[j]["bank_name"]+' - '+banks[j]["acc_no"];
+								htmlll += '<input class="form-check-input" type="radio" name="inlineRadioOptionsCashbackMulti" id="web'+j+'" value="'+webs[j]["id"]+'">';
+								htmlll += '<img src="{{ asset("img/web-icon.png") }}" style="max-width: 25px;">'+webs[j]["web_name"]
 							htmlll += '</div>';
 						htmlll += '</label>';
 					htmlll += '</div>';
 				}
 				$('#users_div_cashback').append(html);
-				$('#banks_div_cashback_single').append(htmll);
-				$('#banks_div_cashback_multiple').append(htmlll);
+				$('#web_div_cashback_single').append(htmll);
+				$('#web_div_cashback_multiple').append(htmlll);
 
 				autocomplete(document.getElementById("InputUser"), customer);
             }
@@ -4168,7 +4169,7 @@
         var user_id = $('#InputUser').val();
         var amount = $('#amount_add_cashback').val();
         var type = $('#cashback_single').val();
-        var bank = $("input[name='inlineRadioOptionsCashbackSingle']:checked").val();
+        var web = $("input[name='inlineRadioOptionsCashbackSingle']:checked").val();
 
         $.ajax({
             url: "{{route('single_cashback_process')}}",
@@ -4178,7 +4179,7 @@
 				id:user_id,
 				amount:amount,
 				type:type,
-				bank:bank
+				web:web
             },
             dataType: "json",
             success: function (data) {
@@ -4192,8 +4193,7 @@
         $('#trx_number_detail_cashback').val('');
         $('#user_id_detail_cashback').val('');
         $('#amount_detail_cashback').val('');
-        $('#bank_name_detail_cashback').val('');
-        $('#acc_no_detail_cashback').val('');
+        $('#web_name_detail_cashback').val('');
 
         var id = $(this).data("id");
 
@@ -4211,8 +4211,7 @@
                 $('#trx_number_detail_cashback').val(data[0].trx_number);
                 $('#user_id_detail_cashback').val(data[0].user_id);
                 $('#amount_detail_cashback').val(formatNumber(data[0].amount));
-                $('#bank_name_detail_cashback').val(data[0].bank_name);
-                $('#acc_no_detail_cashback').val(data[0].acc_no); 
+                $('#web_name_detail_cashback').val(data[0].web_name);
             }
         });
 
@@ -4221,7 +4220,7 @@
     $('#form_cashback_multi').on('submit', function (e) {
         e.preventDefault();
         var type = $('#cashback_multi').val();
-        var bank = $("input[name='inlineRadioOptionsCashbackMulti']:checked").val();
+        var web = $("input[name='inlineRadioOptionsCashbackMulti']:checked").val();
 
         console.log(type);
         console.log(bank);

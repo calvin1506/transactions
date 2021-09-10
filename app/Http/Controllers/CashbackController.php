@@ -27,8 +27,10 @@ class CashbackController extends Controller
     public function getdatacashback(){
         $arr_cust = array();
         $arr_bank = array();
+        $arr_web = array();
         $banks = bank::all();
         $custs = customer::all();
+        $websites = website::all();
         // dd($custs);
         foreach($custs as $cust){
             array_push($arr_cust, $cust->user_id);
@@ -38,8 +40,12 @@ class CashbackController extends Controller
             $arr_bank[$i]["bank_name"] = $banks[$i]->bank_name;
             $arr_bank[$i]["acc_no"] = $banks[$i]->acc_no;
         }
+        for ($j=0; $j < count($websites); $j++) { 
+            $arr_web[$j]["id"] = $websites[$j]->id;
+            $arr_web[$j]["web_name"] = $websites[$j]->web_name;
+        }
 
-        return response()->json(["message"=>"success", "custs"=>$arr_cust, "banks"=>$arr_bank]);
+        return response()->json(["message"=>"success", "custs"=>$arr_cust, "banks"=>$arr_bank, "webs"=>$arr_web]);
     }
 
     public function getdatacashbackdetail(Request $request){
@@ -48,8 +54,8 @@ class CashbackController extends Controller
     }
 
     public function singlecashbackprocess(Request $request){
-
-        $bank = bank::where('id', $request->bank)->first();
+        
+        $web = website::where('id', $request->web)->first();
 
         $cek = cashback::all()->count();
 
@@ -63,26 +69,25 @@ class CashbackController extends Controller
         $cb->trx_number = $trx_num;
         $cb->user_id = $request->id;
         $cb->amount = $request->amount;
-        $cb->bank_id = $bank->id;
-        $cb->bank_name = $bank->bank_name;
-        $cb->acc_no = $bank->acc_no;
+        $cb->web_id = $web->id;
+        $cb->web_name = $web->web_name;
         $cb->save();
 
-        $trx = new transaction;
+        $trx = new trx;
         $trx->trx_type = "Cashback";
         $trx->user_name = $request->id;
-        $trx->bank_name = $bank->bank_name;
-        $trx->acc_no = $bank->acc_no;
-        $trx->website_name = "-";
+        $trx->bank_name = "-";
+        $trx->acc_no = "-";
+        $trx->website_name = $web->web_name;
         $trx->amount = $request->amount;
-        $trx->old_web_coin = 0;
-        $trx->new_web_coin = 0;
-        $trx->old_bank_balance = $bank->saldo;
-        $trx->new_bank_balance = $bank->saldo - $request->amount;
+        $trx->old_web_coin = $web->init_coin;
+        $trx->new_web_coin = $web->init_coin - $request->amount;
+        $trx->old_bank_balance = 0;
+        $trx->new_bank_balance = 0;
         $trx->save();
 
-        $bank->saldo = $bank->saldo - $request->amount;
-        $bank->save();
+        $web->init_coin = $web->init_coin - $request->amount;
+        $web->save();
 
         $log = new log;
         $log->user = auth::user()->name;
@@ -94,7 +99,7 @@ class CashbackController extends Controller
     }
 
     public function multicashbackprocess(Request $request){
-        // dd($request);
+
         // validasi
 		$this->validate($request, [
 			'file_add_cashback' => 'required|mimes:csv,xls,xlsx'
@@ -131,14 +136,14 @@ class CashbackController extends Controller
             $total += $arr_cb[$j]["amount"];
         }
 
-        $bankCek = bank::where('id', $request->inlineRadioOptionsCashbackMulti)->get();
+        $webCek = website::where('id', $request->inlineRadioOptionsCashbackMulti)->get();
 
         for ($k=0; $k < count($arr_cb) ; $k++) { 
-            if ($total > $bankCek[0]->saldo) {
+            if ($total > $webCek[0]->init_coin) {
                 return back()->with('error', 'Cashback total amount bigger than available bank balance');
             } else {
-                $bank = bank::where('id', $request->inlineRadioOptionsCashbackMulti)->first();
-                $old_balance = $bank->saldo;
+                $web = website::where('id', $request->inlineRadioOptionsCashbackMulti)->first();
+                $old_balance = $web->init_coin;
 
                 $cekCB = cashback::all()->count();
     
@@ -153,26 +158,25 @@ class CashbackController extends Controller
                 $cb->trx_number = $trx_num;
                 $cb->user_id = $arr_cb[$k]["user_id"];
                 $cb->amount = $arr_cb[$k]["amount"];
-                $cb->bank_id = $bank->id;
-                $cb->bank_name = $bank->bank_name;
-                $cb->acc_no = $bank->acc_no;
+                $cb->web_id = $web->id;
+                $cb->web_name = $web->web_name;
                 $cb->save();
     
                 $trx = new trx;
                 $trx->trx_type = "Cashback";
                 $trx->user_name = $arr_cb[$k]["user_id"];
-                $trx->bank_name = $bank->bank_name;
-                $trx->acc_no = $bank->acc_no;
-                $trx->website_name = '-';
+                $trx->bank_name ="-";
+                $trx->acc_no = "-";
+                $trx->website_name = $web->web_name;
                 $trx->amount = $arr_cb[$k]["amount"];
-                $trx->old_web_coin = 0;
-                $trx->new_web_coin = 0;
-                $trx->old_bank_balance = $old_balance;
-                $trx->new_bank_balance = $old_balance - $arr_cb[$k]["amount"];
+                $trx->old_web_coin = $old_balance;
+                $trx->new_web_coin = $old_balance - $arr_cb[$k]["amount"];
+                $trx->old_bank_balance = 0;
+                $trx->new_bank_balance = 0;
                 $trx->save();
 
-                $bank->saldo = $bank->saldo - $arr_cb[$k]["amount"];
-                $bank->save();
+                $web->init_coin = $web->init_coin - $arr_cb[$k]["amount"];
+                $web->save();
 
                 $log = new log;
                 $log->user = auth::user()->name;
