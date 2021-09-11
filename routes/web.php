@@ -82,3 +82,8 @@ Route::post('/cashback/getdata', 'CashbackController@getdatacashback')->name('ge
 Route::post('/cashback/getdatadetail', 'CashbackController@getdatacashbackdetail')->name('get_data_cashback_detail');
 Route::post('/cashback/singlecashbackprocess', 'CashbackController@singlecashbackprocess')->name('single_cashback_process');
 Route::post('/cashback/multicashbackprocess', 'CashbackController@multicashbackprocess')->name('multi_cashback_process');
+
+Route::get('/report/{type}', 'ReportController@reportweb')->name('report_web');
+Route::post('/report/process', 'ReportController@reportprocess')->name('report_process');
+// Route::post('/report', 'ReportController@getwebreport')->name('get_web_report');
+// Route::post('/report/get', 'ReportController@reportgetdetaii')->name('report_get_detail');

@@ -76,31 +76,31 @@
     </div>
 
     @if(auth::user()->role == "superadmin" || auth::user()->role == "Leader")
-    <h5><b>Assign</b></h5>
-    <div class="row">
-        <div class="card" style="width: 100%">
-            <div class="card-body">
-                <div class="row text-center">
-                    <div class="col-xl-2">
-                        <a href="#modal6" data-toggle="modal" data-target="#modal6" class="small-box-footer modal6">
-                            <div class="small-box"
-                                style="background-image: url('{{ asset("img/icon-bank.png") }}');background-size: cover;height: 90px;width: 100px;margin-left:30px;border-radius:100%;">
-                            </div>
-                        </a>
-                        <h6>Assign Bank to Website</h6>
-                    </div>
-					<div class="col-xl-2">
-                        <a href="#modal7" data-toggle="modal" data-target="#modal7" class="small-box-footer modal7">
-                            <div class="small-box"
-                                style="background-image: url('{{ asset("img/web-icon.png") }}');background-size: cover;height: 90px;width: 100px;margin-left:30px;border-radius:100%;">
-                            </div>
-                        </a>
-                        <h6>Assign Leaders/Operators to Websites</h6>
+        <h5><b>Assign</b></h5>
+        <div class="row">
+            <div class="card" style="width: 100%">
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-xl-2">
+                            <a href="#modal6" data-toggle="modal" data-target="#modal6" class="small-box-footer modal6">
+                                <div class="small-box"
+                                    style="background-image: url('{{ asset("img/icon-bank.png") }}');background-size: cover;height: 90px;width: 100px;margin-left:30px;border-radius:100%;">
+                                </div>
+                            </a>
+                            <h6>Assign Bank to Website</h6>
+                        </div>
+                        <div class="col-xl-2">
+                            <a href="#modal7" data-toggle="modal" data-target="#modal7" class="small-box-footer modal7">
+                                <div class="small-box"
+                                    style="background-image: url('{{ asset("img/web-icon.png") }}');background-size: cover;height: 90px;width: 100px;margin-left:30px;border-radius:100%;">
+                                </div>
+                            </a>
+                            <h6>Assign Leaders/Operators to Websites</h6>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     @endif
     @if (auth::user()->role == "Leader" || auth::user()->role == "Operator")
         <h5><b>Transactions</b></h5>
@@ -111,7 +111,7 @@
                         <div class="col-xl-2">
                             <a href="#modal8" data-toggle="modal" data-target="#modal8" class="small-box-footer modal8">
                                 <div class="small-box"
-                                    style="background-image: url('https://static.thenounproject.com/png/488117-200.png');background-size: cover;height: 90px;width: 100px;margin-left:30px;border-radius:100%;">
+                                    style="background-image: url('{{asset('img/depo_wd.png')}}');background-size: cover;height: 90px;width: 100px;margin-left:30px;border-radius:100%;">
                                 </div>
                             </a>
                             <h6>Deposit / Withdrawal</h6>
@@ -153,6 +153,40 @@
             </div>
         </div>
     @endif
+
+    <h5><b>Reporting</b></h5>
+    <div class="row">
+        <div class="card" style="width: 100%">
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-xl-2">
+                        <a href="{{route('report_web', ['type' => 'Website'])}}" target="_blank" class="small-box-footer modal13">
+                            <div class="small-box"
+                                style="background-image: url('{{asset('img/web-icon.png')}}');background-size: cover;height: 90px;width: 100px;margin-left:30px;border-radius:100%;">
+                            </div>
+                        </a>
+                        <h6>Websites Report</h6>
+                    </div>
+                    <div class="col-xl-2">
+                        <a href="{{route('report_web', ['type' => 'Bank'])}}" target="_blank" class="small-box-footer modal13">
+                            <div class="small-box"
+                                style="background-image: url('{{asset('img/icon-bank.png')}}');background-size: cover;height: 90px;width: 100px;margin-left:30px;border-radius:100%;">
+                            </div>
+                        </a>
+                        <h6>Banks Report</h6>
+                    </div>
+                    <div class="col-xl-2">
+                        <a href="{{route('report_web', ['type' => 'Customer'])}}" target="_blank" class="small-box-footer modal13">
+                            <div class="small-box"
+                                style="background-image: url('{{asset('img/customer.png')}}');background-size: cover;height: 90px;width: 100px;margin-left:30px;border-radius:100%;">
+                            </div>
+                        </a>
+                        <h6>User/Customer Report</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 
@@ -598,6 +632,7 @@
         </div>
     </div>
 </div>
+
 
 
 <!-- Modal Delete -->
@@ -1946,8 +1981,13 @@
 
 @section('footer')
 
-<script>
+<script src="{{asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{asset('plugins/moment/moment.min.js')}}"></script>    
+<script src="{{asset('plugins/daterangepicker/daterangepicker.js')}}"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.2/datatables.min.js"></script>
+{{-- <script src="{{asset('plugins/datatables/jquery.dataTables.min.js')}}"></script> --}}
 
+<script>
 	function autocomplete(inp, arr) {
 			/*the autocomplete function takes two arguments,
 			the text field element and an array of possible autocompleted values:*/
@@ -2834,7 +2874,7 @@
                     no++;
                 }
                 $('#tbl_customer').append(htmll);
-                $("#tbl_customer_list").DataTable();
+                $('#tbl_customer_list').DataTable();
             }
         });
     })
@@ -4216,7 +4256,6 @@
         });
 
     })
-
     $('#form_cashback_multi').on('submit', function (e) {
         e.preventDefault();
         var type = $('#cashback_multi').val();
@@ -4238,6 +4277,6 @@
             }
         });
     })
-    
+
 </script>
 @endsection

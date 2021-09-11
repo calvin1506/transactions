@@ -11,9 +11,10 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-    <link rel="stylesheet" href="{{('plugins/fontawesome-free/css/all.min.css')}}">
-    <link rel="stylesheet" href="{{('dist/css/adminlte.min.css')}}">
-    <link rel="stylesheet" href="{{('plugins/daterangepicker/daterangepicker.css')}}">
+    <link rel="stylesheet" href="{{asset('plugins/fontawesome-free/css/all.min.css')}}">
+    <link rel="stylesheet" href="{{asset('dist/css/adminlte.min.css')}}">
+    <link rel="stylesheet" href="{{asset('plugins/daterangepicker/daterangepicker.css')}}">
+
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -39,19 +40,20 @@
         outline: 2px solid #f00;
         }
 
-        /* .modal-dialog {
+        .modal-dialog-report {
         width: 100%;
         height: 100%;
         margin: 0;
         padding: 0;
+        left: 10%
         }
 
-        .modal-content {
+        .modal-content-report {
         height: auto;
-        min-height: 75%;
+        min-height: 100%;
         border-radius: 0;
         width: 87em;
-        } */
+        }
     </style>
 </head>
 <body>
@@ -76,14 +78,7 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
-                            {{-- <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif --}}
+
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navDropUser" class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -126,20 +121,13 @@
         </main>
     </div>
 
- 
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    {{-- <script src="{{asset('plugins/jquery/jquery.min.js')}}"></script> --}}
-    <script src="{{asset('plugins/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{asset('dist/js/adminlte.js')}}"></script>
-    <script src="{{asset('plugins/moment/moment.min.js')}}"></script>    
-    <script src="{{asset('plugins/daterangepicker/daterangepicker.js')}}"></script>
-    <script src="{{asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
     <script>
         function formatNumber(num) {
           return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
       }
-      </script>
+    </script>
+    <script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
+    {{-- <script src="{{asset('dist/js/adminlte.js')}}"></script> --}}
      @yield('footer')
 </body>
 </html>
