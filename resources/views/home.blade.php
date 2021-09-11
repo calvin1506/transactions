@@ -2335,7 +2335,6 @@
             dataType: "json",
             success: function (data) {
                 var data = data.data;
-                console.log(data);
                 var htmll = "";
                 var no = 1;
 
@@ -2715,7 +2714,6 @@
             dataType: "json",
             success: function (data) {
                 var data = data.data;
-                console.log(data);
                 var htmll = "";
                 var no = 1;
 
@@ -2847,7 +2845,6 @@
             dataType: "json",
             success: function (data) {
                 var data = data.data;
-                console.log(data);
                 var htmll = "";
                 var no = 1;
 
@@ -3090,7 +3087,6 @@
             },
             dataType: "json",
             success: function (data) {
-				console.log(data);
                 $('#user_id_cust_edit').val(data.data[0].user_id);
                 $('#name_cust_edit').val(data.data[0].name);
                 $('#address_cust_edit').val(data.data[0].address);
@@ -3189,7 +3185,6 @@
             dataType: "json",
             success: function (data) {
                 var data = data.data;
-                console.log(data);
                 var htmll = "";
                 var no = 1;
 
@@ -3523,8 +3518,6 @@
 				var htmlll = "";
 				var no=1;
 				var no1=1;
-				console.log(leads);
-				console.log(ops);
 				for (i = 0; i < leads.length; i++) {
 					html += '<tr>'
 						html += '<td>'+no+'</td>'
@@ -4118,8 +4111,6 @@
 	$(document).on('click', '.deduct_coins_process', function () {
 		var id = $("#web_id_deduct").val();
 		var amount = $('#req_amount_deduct_coin').val();
-		console.log(id);
-		console.log(amount);
 		$.ajax({
             url: "{{route('deduct_coin_process')}}",
             type: "POST",
@@ -4237,8 +4228,6 @@
 	$(document).on('click', '.deduct_balance_process', function () {
 		var id = $("#bank_id_deduct").val();
 		var amount = $("#req_amount_deduct_balance").val();
-		console.log(id);
-		console.log(amount);
 		$.ajax({
             url: "{{route('deduct_balance_process')}}",
             type: "POST",
@@ -4381,7 +4370,6 @@
             dataType: "json",
             success: function (data) {
                 var data = data.data;
-                console.log(data);
                 $('#trx_number_detail_cashback').val(data[0].trx_number);
                 $('#user_id_detail_cashback').val(data[0].user_id);
                 $('#amount_detail_cashback').val(formatNumber(data[0].amount));
@@ -4394,9 +4382,6 @@
         e.preventDefault();
         var type = $('#cashback_multi').val();
         var web = $("input[name='inlineRadioOptionsCashbackMulti']:checked").val();
-
-        console.log(type);
-        console.log(bank);
 
         $.ajax({
             url: "{{route('multi_cashback_process')}}",
