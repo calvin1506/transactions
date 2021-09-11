@@ -25,6 +25,14 @@
                 <div class="row text-center">
                     @if (auth::user()->role == "superadmin" )
                         <div class="col-xl-2">
+                            <a href="#modal13" data-toggle="modal" data-target="#modal13" class="small-box-footer modal13">
+                                <div class="small-box"
+                                    style="background-image: url('{{ asset("img/bank_master.png") }}');background-size: cover;height: 90px;width: 100px;margin-left:30px;border-radius:100%;">
+                                </div>
+                            </a>
+                            <h6>Bank Master</h6>
+                        </div>
+                        <div class="col-xl-2">
                             <a href="#modal5" data-toggle="modal" data-target="#modal5" class="small-box-footer modal5">
                                 <div class="small-box"
                                     style="background-image: url('{{ asset("img/icon-bank.png") }}');background-size: cover;height: 90px;width: 100px;margin-left:30px;border-radius:100%;">
@@ -366,7 +374,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12 text-right">
-                        <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modaladdnewbank">Add
+                        <button class="btn btn-sm btn-primary get_bank_master" data-toggle="modal" data-target="#modaladdnewbank">Add
                             New Bank</button>
                     </div>
                 </div>
@@ -627,6 +635,45 @@
                                 </tr>
                             </thead>
                             <tbody id="tbl_cashback">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="reload()">Close</button>
+                {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal 13 -->
+<div class="modal fade" id="modal13" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Bank Master</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <button class="btn btn-sm btn-primary addnewbankmaster" data-toggle="modal"
+                            data-target="#modaladdnewbankmaster">Add New Bank Master</button>
+                    </div>
+                </div>
+                <div class="row mt-3 table-responsive">
+                    <div class="col-md-12">
+                        <table class="table table-striped text-center" id="tbl_bank_master_list">
+                            <thead>
+                                <tr>
+                                    <td>No</td>
+                                    <td>Bank Master Name</td>
+                                    <td>Bank Master Alias</td>
+                                    <td colspan="2">Actions</td>
+                                </tr>
+                            </thead>
+                            <tbody id="tbl_bank_master">
 
                             </tbody>
                         </table>
@@ -1166,7 +1213,7 @@
                         <h6>Bank Name</h6>
                     </div>
                     <div class="col-md-10">
-                        <input class="form-control" type="text" name="bank_name" id="bank_name">
+                        <select class="form-control" name="bank_master_id" id="bank_master_id"></select>
                     </div>
                 </div>
                 <div class="row mb-1">
@@ -1231,7 +1278,7 @@
                         <h6>Bank Name</h6>
                     </div>
                     <div class="col-md-10">
-                        <input class="form-control" type="text" name="bank_name_edit" id="bank_name_edit">
+                        <select class="form-control" name="bank_master_id_edit" id="bank_master_id_edit"></select>
                     </div>
                 </div>
                 <div class="row mb-1">
@@ -2079,6 +2126,66 @@
     </div>
 </div>
 
+<!-- Modal Add Bank Master -->
+<div class="modal fade" id="modaladdnewbankmaster" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Bank Master</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row mt-2 mb-2">
+                    <div class="col-md-4">Bank Master Name</div>
+                    <div class="col-md-8">
+                        <input class="form-control" type="text" name="bank_master_name" id="bank_master_name">
+                    </div>
+                </div>
+                <div class="row mt-2 mb-2">
+                    <div class="col-md-4">Bank Master Alias</div>
+                    <div class="col-md-8">
+                        <input class="form-control" type="text" name="bank_master_alias" id="bank_master_alias">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary master_bank_close" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary master_bank_process" data-dismiss="modal">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Edit Bank Master -->
+<div class="modal fade" id="modalbankmasteredit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cashback Detail</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row mt-2 mb-2">
+                    <div class="col-md-4">Bank Master Name</div>
+                    <div class="col-md-8">
+                        <input class="form-control" type="text" name="bank_master_name_edit" id="bank_master_name_edit">
+                    </div>
+                </div>
+                <div class="row mt-2 mb-2">
+                    <div class="col-md-4">Bank Master Alias</div>
+                    <div class="col-md-8">
+                        <input class="form-control" type="text" name="bank_master_alias_edit" id="bank_master_alias_edit">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" name="master_bank_edit_id" id="master_bank_edit_id">
+                <button type="button" class="btn btn-secondary master_bank_edit_close" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary master_bank_edit_process" data-dismiss="modal">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 @endsection
@@ -2324,6 +2431,35 @@
         });
     }
 
+    function get_bank_master() {
+        $('#tbl_bank_master').empty();
+        $.ajax({
+            url: "{{route('get_bank_master')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}"
+            },
+            dataType: "json",
+            success: function (data) {
+                var data = data.data;
+                var html = "";
+                var no = 1;
+
+                for (i = 0; i < data.length; i++) {
+                    html += '<tr>';
+                    html += '<td>' + no + '</td>';
+                    html += '<td>' + data[i].bank_master_name + '</td>';
+                    html += '<td>' + data[i].bank_master_alias + '</td>';
+                    html += '<td><button class="btn btn-sm btn-primary bank_master_edit" data-id="' + data[i].id +'"data-toggle="modal" data-target="#modalbankmasteredit">Edit</button></td>';	
+                    html += '<td><button class="btn btn-sm btn-danger del_data" data-type="bank_master" data-id="' +data[i].id +'"data-toggle="modal" data-target="#modaldelete">Delete</button></td>';
+					html += '</tr>';
+                    no++;
+                }
+                $('#tbl_bank_master').append(html);
+                $("#tbl_bank_master_list").DataTable();
+            }
+        });
+    }
     function get_bank() {
         $('#tbl_bank').empty();
         $.ajax({
@@ -2578,6 +2714,22 @@
                     alert("Success Delete Bank");
                     $('.delete_data_close').click();
                     get_bank();
+
+                }
+            });
+        } else if (type == "bank_master"){
+            $.ajax({
+                url: "{{route('bank_master_delete')}}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    id: id
+                },
+                dataType: "json",
+                success: function (data) {
+                    alert("Success Delete Bank");
+                    $('.delete_data_close').click();
+                    get_bank_master();
 
                 }
             });
@@ -3210,8 +3362,28 @@
             }
         });
     })
+    $(document).on('click', '.get_bank_master', function () {
+        $('#bank_master_id').empty();
+        $.ajax({
+            url: "{{route('get_bank_master_data')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}"
+            },
+            dataType: "json",
+            success: function (data) {
+                var master = data.data;
+                var html = "";
+
+                for (let i = 0; i < master.length; i++) {
+                    html += '<option value="'+master[i].id+'">'+master[i].bank_master_name+'</option>';   
+                }
+                $('#bank_master_id').append(html);
+            }
+        });
+    })
     $(document).on('click', '.add_bank', function () {
-        var bank_name = $('#bank_name').val();
+        var bank_master_id = $('#bank_master_id').val();
         var acc_no = $('#acc_no').val();
         var holder_name = $('#holder_name').val();
         var saldo = $('#saldo').val();
@@ -3223,7 +3395,7 @@
             type: "POST",
             data: {
                 _token: "{{ csrf_token() }}",
-                bank_name: bank_name,
+                bank_master_id: bank_master_id, 
                 acc_no: acc_no,
                 holder_name: holder_name,
                 saldo: saldo,
@@ -3244,6 +3416,7 @@
         });
     })
     $(document).on('click', '.edit_bank', function () {
+        $('#bank_master_id_edit').empty();
         var id = $(this).data("id");
         $.ajax({
             url: "{{route('get_bank_edit')}}",
@@ -3254,7 +3427,15 @@
             },
             dataType: "json",
             success: function (data) {
-                $('#bank_name_edit').val(data.data[0].bank_name);
+                var master = data.master;
+                var html = "";
+
+                for (let i = 0; i < master.length; i++) {
+                    html += '<option value="'+master[i].id+'">'+master[i].bank_master_name+'</option>';   
+                }
+
+                $('#bank_master_id_edit').append(html);
+                $('#bank_master_id_edit').val(data.data[0].bank_master_id);
                 $('#acc_no_edit').val(data.data[0].acc_no);
                 $('#holder_name_edit').val(data.data[0].holder_name);
                 $('#saldo_edit').val(data.data[0].saldo);
@@ -3265,7 +3446,7 @@
         });
     })
     $(document).on('click', '.edit_bank_process', function () {
-        var bank_name = $('#bank_name_edit').val();
+        var bank_master_id_edit = $('#bank_master_id_edit').val();
         var acc_no = $('#acc_no_edit').val();
         var holder_name = $('#holder_name_edit').val();
         var saldo = $('#saldo_edit').val();
@@ -3278,7 +3459,7 @@
             data: {
                 _token: "{{ csrf_token() }}",
                 id: id,
-                bank_name: bank_name,
+                bank_master_id_edit: bank_master_id_edit,
                 acc_no: acc_no,
                 holder_name: holder_name,
                 saldo: saldo,
@@ -4393,6 +4574,112 @@
             processData: false,
             success: function (data) {
 
+            }
+        });
+    })
+
+    $(document).on('click', '.modal13', function () {
+        $('#tbl_bank_master').empty();
+        $.ajax({
+            url: "{{route('get_bank_master')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}"
+            },
+            dataType: "json",
+            success: function (data) {
+                var data = data.data;
+                var html = "";
+                var no = 1;
+
+                for (i = 0; i < data.length; i++) {
+                    html += '<tr>';
+                    html += '<td>' + no + '</td>';
+                    html += '<td>' + data[i].bank_master_name + '</td>';
+                    html += '<td>' + data[i].bank_master_alias + '</td>';
+                    html += '<td><button class="btn btn-sm btn-primary bank_master_edit" data-id="' + data[i].id +'"data-toggle="modal" data-target="#modalbankmasteredit">Edit</button></td>';	
+                    html += '<td><button class="btn btn-sm btn-danger del_data" data-type="bank_master" data-id="' +data[i].id +'"data-toggle="modal" data-target="#modaldelete">Delete</button></td>';
+					html += '</tr>';
+                    no++;
+                }
+                $('#tbl_bank_master').append(html);
+                $("#tbl_bank_master_list").DataTable();
+            }
+        });
+    })
+    $(document).on('click', '.addnewbankmaster', function () {
+        $('#bank_master_name').val('');
+        $('#bank_master_alias').val('');
+    })
+    $(document).on('click', '.master_bank_process', function () {
+        var bank_master_name = $('#bank_master_name').val();
+        var bank_master_alias = $('#bank_master_alias').val();
+
+        $.ajax({
+            url: "{{route('add_bank_master')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+                bank_master_name: bank_master_name,
+                bank_master_alias: bank_master_alias
+            },
+            dataType: "json",
+            success: function (data) {
+
+                if (data.message == "success") {
+                    alert("Success Add Bank Master");
+                    $('.master_bank_close').click();
+                    get_bank_master();
+                } else {
+                    alert(data.data);
+                }
+            }
+        });
+    })
+    $(document).on('click', '.bank_master_edit', function () {
+        $('#bank_master_name_edit').val('');
+        $('#bank_master_alias_edit').val('');
+        var id = $(this).data("id");
+
+        $.ajax({
+            url: "{{route('get_bank_master_edit')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+                id:id
+            },
+            dataType: "json",
+            success: function (data) {
+                $('#bank_master_name_edit').val(data.data[0].bank_master_name);
+                $('#bank_master_alias_edit').val(data.data[0].bank_master_alias);
+                $('#master_bank_edit_id').val(data.data[0].id);
+            }
+        });
+    })
+    $(document).on('click', '.master_bank_edit_process', function () { 
+        var bank_master_name = $('#bank_master_name_edit').val();
+        var bank_master_alias = $('#bank_master_alias_edit').val();
+        var id = $('#master_bank_edit_id').val();
+
+        $.ajax({
+            url: "{{route('get_bank_master_edit_process')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+                bank_master_name: bank_master_name,
+                bank_master_alias: bank_master_alias,
+                id:id
+            },
+            dataType: "json",
+            success: function (data) {
+
+                if (data.message == "success") {
+                    alert("Success Edit Bank Master");
+                    $('.master_bank_edit_close').click();
+                    get_bank_master();
+                } else {
+                    alert(data.data);
+                }
             }
         });
     })

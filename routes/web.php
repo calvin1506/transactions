@@ -44,10 +44,16 @@ Route::post('/cust/editprocess', 'UserController@customereditprocess')->name('cu
 Route::post('/cust/delete', 'UserController@deletecustomer')->name('delete_customer');
 
 Route::post('/bank/get', 'BankController@getbank')->name('get_bank');
+Route::post('/bank/get/bankmaster', 'BankController@getbankmasterdata')->name('get_bank_master_data');
 Route::post('/bank/add', 'BankController@addbank')->name('add_bank');
 Route::post('/bank/getedit', 'BankController@getbankedit')->name('get_bank_edit');
 Route::post('/bank/editprocess', 'BankController@bankeditprocess')->name('bank_edit_process');
 Route::post('/bank/delete', 'BankController@deletebank')->name('delete_bank');
+Route::post('/bank/get/master', 'BankController@getbankmaster')->name('get_bank_master');
+Route::post('/bank/add/master', 'BankController@addbankmaster')->name('add_bank_master');
+Route::post('/bank/add/master/edit', 'BankController@getbankmasteredit')->name('get_bank_master_edit');
+Route::post('/bank/add/master/edit/process', 'BankController@getbankmastereditprocess')->name('get_bank_master_edit_process');
+Route::post('/bank/add/master/delete', 'BankController@bankmasterdelete')->name('bank_master_delete');
 
 Route::post('/assign/get', 'AssignController@getdata')->name('get_data');
 Route::post('/assign/getdata', 'AssignController@getdataedit')->name('get_data_edit');
