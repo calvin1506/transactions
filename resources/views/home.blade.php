@@ -768,6 +768,22 @@
                         <input class="form-control" type="password" name="leader_pass" id="leader_pass">
                     </div>
                 </div>
+                <div class="row mt-1">
+                    <div class="col-md-2">
+                        <h6>Username Apps</h6>
+                    </div>
+                    <div class="col-md-10">
+                        <input class="form-control" type="text" name="leader_username_apps" id="leader_username_apps">
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col-md-2">
+                        <h6>Password Apps</h6>
+                    </div>
+                    <div class="col-md-10">
+                        <input class="form-control" type="text" name="leader_pass_pass" id="leader_pass_pass">
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary add_leader_close" data-dismiss="modal">Close</button>
@@ -799,6 +815,22 @@
                     </div>
                     <div class="col-md-10">
                         <input class="form-control" type="email" name="leader_email_edit" id="leader_email_edit">
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col-md-2">
+                        <h6>Username Apps</h6>
+                    </div>
+                    <div class="col-md-10">
+                        <input class="form-control" type="text" name="leader_username_apps_edit" id="leader_username_apps_edit">
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col-md-2">
+                        <h6>Password Apps</h6>
+                    </div>
+                    <div class="col-md-10">
+                        <input class="form-control" type="text" name="leader_pass_pass_edit" id="leader_pass_pass_edit">
                     </div>
                 </div>
             </div>
@@ -845,6 +877,22 @@
                         <input class="form-control" type="password" name="operator_pass" id="operator_pass">
                     </div>
                 </div>
+                <div class="row mt-1">
+                    <div class="col-md-2">
+                        <h6>Username Apps</h6>
+                    </div>
+                    <div class="col-md-10">
+                        <input class="form-control" type="text" name="operator_username_apps" id="operator_username_apps">
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col-md-2">
+                        <h6>Password Apps</h6>
+                    </div>
+                    <div class="col-md-10">
+                        <input class="form-control" type="text" name="operator_pass_pass" id="operator_pass_pass">
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary add_operator_close" data-dismiss="modal">Close</button>
@@ -876,6 +924,22 @@
                     </div>
                     <div class="col-md-10">
                         <input class="form-control" type="email" name="operator_email_edit" id="operator_email_edit">
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col-md-2">
+                        <h6>Username Apps</h6>
+                    </div>
+                    <div class="col-md-10">
+                        <input class="form-control" type="text" name="operator_username_apps_edit" id="operator_username_apps_edit">
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col-md-2">
+                        <h6>Password Apps</h6>
+                    </div>
+                    <div class="col-md-10">
+                        <input class="form-control" type="text" name="operator_pass_pass_edit" id="operator_pass_pass_edit">
                     </div>
                 </div>
             </div>
@@ -1129,6 +1193,22 @@
                         <input class="form-control" type="text" name="saldo" id="saldo">
                     </div>
                 </div>
+                <div class="row mb-1">
+                    <div class="col-md-2">
+                        <h6>Username</h6>
+                    </div>
+                    <div class="col-md-10">
+                        <input class="form-control" type="text" name="username_ibank" id="username_ibank">
+                    </div>
+                </div>
+                <div class="row mb-1">
+                    <div class="col-md-2">
+                        <h6>Password</h6>
+                    </div>
+                    <div class="col-md-10">
+                        <input class="form-control" type="text" name="pass_ibank" id="pass_ibank">
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary add_bank_close" data-dismiss="modal">Close</button>
@@ -1176,6 +1256,22 @@
                     </div>
                     <div class="col-md-10">
                         <input class="form-control" type="text" name="saldo_edit" id="saldo_edit">
+                    </div>
+                </div>
+                <div class="row mb-1">
+                    <div class="col-md-2">
+                        <h6>Username</h6>
+                    </div>
+                    <div class="col-md-10">
+                        <input class="form-control" type="text" name="username_ibank_edit" id="username_ibank_edit">
+                    </div>
+                </div>
+                <div class="row mb-1">
+                    <div class="col-md-2">
+                        <h6>Password</h6>
+                    </div>
+                    <div class="col-md-10">
+                        <input class="form-control" type="text" name="pass_ibank_edit" id="pass_ibank_edit">
                     </div>
                 </div>
             </div>
@@ -2647,6 +2743,8 @@
         var leader_name = $('#leader_name').val();
         var leader_email = $('#leader_email').val();
         var leader_pass = $('#leader_pass').val();
+        var username = $('#leader_username_apps').val();
+        var password_apps = $('#leader_pass_pass').val();
 
         $.ajax({
             url: "{{route('add_leader')}}",
@@ -2655,7 +2753,9 @@
                 _token: "{{ csrf_token() }}",
                 name: leader_name,
                 email: leader_email,
-                password: leader_pass
+                password: leader_pass,
+                username:username,
+                pass_app: password_apps
             },
             dataType: "json",
             success: function (data) {
@@ -2685,6 +2785,8 @@
                 $('#leader_name_edit').val(data.data[0].name);
                 $('#leader_email_edit').val(data.data[0].email);
                 $('#id_leader_edit').val(data.data[0].id);
+                $('#leader_username_apps_edit').val(data.data[0].username);
+                $('#leader_pass_pass_edit').val(data.data[0].password_apps);
             }
         });
     })
@@ -2692,6 +2794,8 @@
         var id = $('#id_leader_edit').val();
         var name = $('#leader_name_edit').val();
         var email = $('#leader_email_edit').val();
+        var username = $('#leader_username_apps_edit').val();
+        var password_apps = $('#leader_pass_pass_edit').val();
         $.ajax({
             url: "{{route('leader_edit_process')}}",
             type: "POST",
@@ -2699,7 +2803,9 @@
                 _token: "{{ csrf_token() }}",
                 id: id,
                 name: name,
-                email: email
+                email: email,
+                username:username,
+                pass_app: password_apps
             },
             dataType: "json",
             success: function (data) {
@@ -2769,6 +2875,8 @@
         var operator_name = $('#operator_name').val();
         var operator_email = $('#operator_email').val();
         var operator_pass = $('#operator_pass').val();
+        var username = $('#operator_username_apps').val();
+        var password_apps = $('#operator_pass_pass').val();
 
         $.ajax({
             url: "{{route('add_operator')}}",
@@ -2777,7 +2885,9 @@
                 _token: "{{ csrf_token() }}",
                 name: operator_name,
                 email: operator_email,
-                password: operator_pass
+                password: operator_pass,
+                username:username,
+                pass_app: password_apps
             },
             dataType: "json",
             success: function (data) {
@@ -2807,6 +2917,8 @@
                 $('#operator_name_edit').val(data.data[0].name);
                 $('#operator_email_edit').val(data.data[0].email);
                 $('#id_operator_edit').val(data.data[0].id);
+                $('#operator_username_apps_edit').val(data.data[0].username);
+                $('#operator_pass_pass_edit').val(data.data[0].password_apps);
             }
         });
     })
@@ -2814,6 +2926,8 @@
         var id = $('#id_operator_edit').val();
         var name = $('#operator_name_edit').val();
         var email = $('#operator_email_edit').val();
+        var username = $('#operator_username_apps_edit').val();
+        var password_apps = $('#operator_pass_pass_edit').val();
         $.ajax({
             url: "{{route('operator_edit_process')}}",
             type: "POST",
@@ -2821,7 +2935,9 @@
                 _token: "{{ csrf_token() }}",
                 id: id,
                 name: name,
-                email: email
+                email: email,
+                username:username,
+                pass_app: password_apps
             },
             dataType: "json",
             success: function (data) {
@@ -3104,6 +3220,8 @@
         var acc_no = $('#acc_no').val();
         var holder_name = $('#holder_name').val();
         var saldo = $('#saldo').val();
+        var login_name = $('#username_ibank').val();
+        var login_password = $('#pass_ibank').val();
 
         $.ajax({
             url: "{{route('add_bank')}}",
@@ -3113,7 +3231,9 @@
                 bank_name: bank_name,
                 acc_no: acc_no,
                 holder_name: holder_name,
-                saldo: saldo
+                saldo: saldo,
+                login_name: login_name,
+                login_password: login_password
             },
             dataType: "json",
             success: function (data) {
@@ -3143,6 +3263,8 @@
                 $('#acc_no_edit').val(data.data[0].acc_no);
                 $('#holder_name_edit').val(data.data[0].holder_name);
                 $('#saldo_edit').val(data.data[0].saldo);
+                $('#username_ibank_edit').val(data.data[0].login_name);
+                $('#pass_ibank_edit').val(data.data[0].login_password);
                 $('#id_bank_edit').val(data.data[0].id);
             }
         });
@@ -3153,6 +3275,8 @@
         var holder_name = $('#holder_name_edit').val();
         var saldo = $('#saldo_edit').val();
         var id = $('#id_bank_edit').val();
+        var login_name = $('#username_ibank_edit').val();
+        var login_password = $('#pass_ibank_edit').val();
         $.ajax({
             url: "{{route('bank_edit_process')}}",
             type: "POST",
@@ -3162,7 +3286,9 @@
                 bank_name: bank_name,
                 acc_no: acc_no,
                 holder_name: holder_name,
-                saldo: saldo
+                saldo: saldo,
+                login_name: login_name,
+                login_password: login_password
             },
             dataType: "json",
             success: function (data) {

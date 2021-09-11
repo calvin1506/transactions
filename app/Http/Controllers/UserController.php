@@ -27,6 +27,8 @@ class UserController extends Controller
             'name' => 'required',
             'email' => 'required|unique:users',
             'password' => 'required|min:6', 
+            'username' => 'required', 
+            'pass_app' => 'required', 
         ]);
 
         if($validator->passes()){
@@ -37,6 +39,8 @@ class UserController extends Controller
             $leadeer->name = $request->name;
             $leadeer->email = $request->email;
             $leadeer->password = Hash::make($request->password);
+            $leadeer->username = $request->username;
+            $leadeer->password_apps = $request->pass_app;
             $leadeer->save();
 
             $log = new log;
@@ -67,6 +71,8 @@ class UserController extends Controller
 
         $leader_edit->name = $request->name;
         $leader_edit->email = $request->email;
+        $leader_edit->username = $request->username;
+        $leader_edit->password_apps = $request->pass_app;
         $leader_edit->save();
 
         return response()->json(["message"=>"success"]);
@@ -92,7 +98,9 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required|unique:users',
-            'password' => 'required|min:6', 
+            'password' => 'required|min:6',
+            'username' => 'required', 
+            'pass_app' => 'required', 
         ]);
 
         if($validator->passes()){
@@ -103,6 +111,8 @@ class UserController extends Controller
             $ops->name = $request->name;
             $ops->email = $request->email;
             $ops->password = Hash::make($request->password);
+            $ops->username = $request->username;
+            $ops->password_apps = $request->pass_app;
             $ops->save();
 
             $log = new log;
@@ -132,6 +142,8 @@ class UserController extends Controller
 
         $operator_edit->name = $request->name;
         $operator_edit->email = $request->email;
+        $operator_edit->username = $request->username;
+        $operator_edit->password_apps = $request->pass_app;
         $operator_edit->save();
 
         return response()->json(["message"=>"success"]);

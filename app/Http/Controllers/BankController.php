@@ -22,6 +22,8 @@ class BankController extends Controller
             'acc_no' => 'required|unique:banks',
             'holder_name' => 'required', 
             'saldo' => 'required', 
+            'login_name' => 'required', 
+            'login_password' => 'required', 
         ]);
 
         if($validator->passes()){
@@ -30,6 +32,8 @@ class BankController extends Controller
             $bank->acc_no = $request->acc_no;
             $bank->holder_name = $request->holder_name;
             $bank->saldo = $request->saldo;
+            $bank->login_name = $request->login_name;
+            $bank->login_password = $request->login_password;
             $bank->save();
 
             $log = new log;
@@ -61,6 +65,8 @@ class BankController extends Controller
         $bank_edit->acc_no = $request->acc_no;
         $bank_edit->holder_name = $request->holder_name;
         $bank_edit->saldo = $request->saldo;
+        $bank_edit->login_name = $request->login_name;
+        $bank_edit->login_password = $request->login_password;
         $bank_edit->save();
 
         return response()->json(["message"=>"success"]);
