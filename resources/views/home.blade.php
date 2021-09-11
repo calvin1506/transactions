@@ -3347,13 +3347,8 @@
                     htmll += '<td>' + data[i].acc_no + '</td>';
                     htmll += '<td>' + data[i].holder_name + '</td>';
                     htmll += '<td>' + formatNumber(data[i].saldo) + '</td>';
-                    htmll += '<td><button class="btn btn-sm btn-primary edit_bank" data-id="' +
-                        data[i].id +
-                        '"data-toggle="modal" data-target="#modaleditbank">Edit</button></td>';
-                    htmll +=
-                        '<td><button class="btn btn-sm btn-danger del_data" data-type="bank" data-id="' +
-                        data[i].id +
-                        '"data-toggle="modal" data-target="#modaldelete">Delete</button></td>';
+                    // htmll += '<td><button class="btn btn-sm btn-primary edit_bank" data-id="' +data[i].id +'"data-toggle="modal" data-target="#modaleditbank">Edit</button></td>';
+                    htmll +='<td><button class="btn btn-sm btn-danger del_data" data-type="bank" data-id="' +data[i].id +'"data-toggle="modal" data-target="#modaldelete">Delete</button></td>';
                     htmll += '</tr>';
                     no++;
                 }
