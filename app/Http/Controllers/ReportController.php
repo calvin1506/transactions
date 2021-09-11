@@ -52,8 +52,30 @@ class ReportController extends Controller
             }
         } else if ($type == "Bank") {
             $data = bank::all();
-        } else {
+        } else if ($type == "Customer") {
             $data = customer::all();
+        } else{
+            if (auth::user()->role == "superadmin") {
+                $data = web::all();
+            } else if(auth::user()->role == "Leader"){
+                $webs = web::all();
+                $arr_web = array();
+                foreach($webs as $web){
+                    if(in_array(auth::user()->id, explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $web->leader)))){
+                        array_push($arr_web, $web->id);
+                    }
+                }
+                $data = web::whereIn('id', $arr_web)->get();
+            }else{
+                $webs = web::all();
+                $arr_web = array();
+                foreach($webs as $web){
+                    if(in_array(auth::user()->id, explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $web->operator)))){
+                        array_push($arr_web, $web->id);
+                    }
+                }
+                $data = web::whereIn('id', $arr_web)->get(); 
+            }
         }
         
         return view('report',["type"=>$type_report,"data"=>$data]);
@@ -72,7 +94,7 @@ class ReportController extends Controller
                    ->where('updated_at', '>=', $timeFrom)
                    ->where('updated_at','<=',$timeTo)
                    ->orderBy('created_at', 'ASC')->get();
-            // dd($data);
+
             return response()->json(["message"=>"success","period"=>$period,"type"=>$request->type, "webs"=>$web, "data"=>$data]);
         } else if($request->type == "Bank"){
             $bank = bank::where('id', $request->id)->get();
@@ -81,13 +103,30 @@ class ReportController extends Controller
             ->where('updated_at','<=',$timeTo)
             ->orderBy('created_at', 'ASC')->get();
             return response()->json(["message"=>"success","period"=>$period,"type"=>$request->type, "banks"=>$bank, "data"=>$data]);
-        } else {
+        } else if($request->type == "Customer") {
             $custs = customer::where('id', $request->id)->get();
             $data = trx::where('user_name', $custs[0]->user_id)
             ->where('updated_at', '>=', $timeFrom)
             ->where('updated_at','<=',$timeTo)
             ->orderBy('created_at', 'ASC')->get();
             return response()->json(["message"=>"success","period"=>$period,"type"=>$request->type, "custs"=>$custs, "data"=>$data]);
+        }else{
+            $web = web::where('id', $request->id)->get();
+            if ($request->trx == "all") {
+                $data = trx::where('website_name', $web[0]->web_name)
+                ->where('updated_at', '>=', $timeFrom)
+                ->where('updated_at','<=',$timeTo)
+                ->whereIn('trx_type',["bonus", "Bonus", "cashback", "Cashback"])
+                ->orderBy('created_at', 'ASC')->get();
+            } else {
+                $data = trx::where('website_name', $web[0]->web_name)
+                ->where('updated_at', '>=', $timeFrom)
+                ->where('updated_at','<=',$timeTo)
+                ->where('trx_type',$request->trx)
+                ->orderBy('created_at', 'ASC')->get();
+            }
+            
+            return response()->json(["message"=>"success","period"=>$period,"type"=>$request->type, "webs"=>$web, "data"=>$data]);
         }
         
     }

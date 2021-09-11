@@ -183,6 +183,14 @@
                         </a>
                         <h6>User/Customer Report</h6>
                     </div>
+                    <div class="col-xl-2">
+                        <a href="{{route('report_web', ['type' => 'Cashback'])}}" target="_blank" class="small-box-footer modal13">
+                            <div class="small-box"
+                                style="background-image: url('{{asset('img/cashback.png')}}');background-size: cover;height: 90px;width: 100px;margin-left:30px;border-radius:100%;">
+                            </div>
+                        </a>
+                        <h6>Cashback/Bonus Report</h6>
+                    </div>
                 </div>
             </div>
         </div>
