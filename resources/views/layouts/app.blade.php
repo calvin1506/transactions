@@ -40,7 +40,7 @@
         outline: 2px solid #f00;
         }
 
-        .modal-dialog-report {
+        .modal-dialog-besar {
         width: 100%;
         height: 100%;
         margin: 0;
@@ -48,7 +48,7 @@
         left: 10%
         }
 
-        .modal-content-report {
+        .modal-content-besar {
         height: auto;
         min-height: 100%;
         border-radius: 0;
