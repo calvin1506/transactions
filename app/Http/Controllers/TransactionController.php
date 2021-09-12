@@ -19,7 +19,7 @@ class TransactionController extends Controller
         $arr_cust = array();
         $arr_bank = array();
         $custs = customer::all();
-        $data = website::where('id', $request->id)->get();
+        $data = web::where('id', $request->id)->get();
         $banks = bank::whereIn('id', explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $data[0]->bank)))->get();
 
         foreach($custs as $cust){
@@ -36,17 +36,19 @@ class TransactionController extends Controller
     }
 
     public function getdatabank(){
-        $webs = website::all();
+        $webs = web::all();
         return response()->json(["message"=>"success", "webs"=>$webs]);
     }
 
     public function process(Request $request){
         // dd($request);
-        $web = website::where('id', $request->web)->first();
+        $web = web::where('id', $request->web)->first();
+        $bank = bank::where('id', $request->bank)->first();
         $old_coin = (int)$web->init_coin;
+        $old_balance = (int)$bank->saldo;
         if($request->type == "withdrawal"){
-            $bank = bank::where('id', $request->bank)->first();
-            $old_balance = (int)$bank->saldo;
+            
+            
         }
 
         if($request->type == "deposit"){
@@ -150,7 +152,7 @@ class TransactionController extends Controller
     }
     public function getdataadddeductcoindetail(Request $request){
         // dd($request);
-        $data = website::where('id', $request->id)->get();
+        $data = web::where('id', $request->id)->get();
         return response()->json(["message"=>"success","data"=>$data]);
     }
 
@@ -158,7 +160,7 @@ class TransactionController extends Controller
         $id = $request->id;
         $amount = $request->amount;
 
-        $web = website::where('id', $request->id)->first();
+        $web = web::where('id', $request->id)->first();
 
 
 
@@ -189,7 +191,7 @@ class TransactionController extends Controller
         $id = $request->id;
         $amount = $request->amount;
 
-        $web = website::where('id', $request->id)->first();
+        $web = web::where('id', $request->id)->first();
 
         if ($web->init_coin < $request->amount) {
             return response()->json(["message"=>"error"]);

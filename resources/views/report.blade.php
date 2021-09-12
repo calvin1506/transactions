@@ -237,21 +237,178 @@
         var time = $('#reservation').val();
         var id = $('.id_input').val();
         var type = $('#type').val();
-        if (type = "Cashback") {
-            var trx = $('#trx').val();
-            $.ajax({
-                url: "{{route('report_process')}}",
-                type: "POST",
-                data: {
-                    _token: "{{ csrf_token() }}",
-                    time:time,
-                    id:id,
-                    type:type,
-                    trx:trx
-                },
-                dataType: "json",
-                success: function (data) {
+        var trx = $('#trx').val();
+        // console.log(type);
 
+        $.ajax({
+            url: "{{route('report_process')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+                time:time,
+                id:id,
+                type:type,
+                trx:trx
+            },
+            dataType: "json",
+            success: function (data) {
+
+                var type = data.type;
+                var period = data.period;
+                if (type ==  "Website") {
+                    $('#report_web_name').val('');
+                    $('#report_web_period').val('');
+                    $('#table-report').DataTable().destroy();
+                    $('#div_table_report').empty();
+                    var webs = data.webs;
+                    var data = data.data;
+                    var html = "";
+                    var no = 1;
+
+                    // html += ''
+                    html += '<div class="row table-responsive mt-5" style="width: 100%;">';
+                        html += '<table class="table table-striped" id="table_report">';
+                            html += '<thead>';
+                                html += '<tr>';
+                                    html += '<td>No</td>';
+                                    html += '<td>User</td>';
+                                    html += '<td>Tanggal Transaksi</td>';
+                                    html += '<td>Tipe Transaksi</td>';
+                                    html += '<td>Jumlah</td>';
+                                    html += '<td>Koin Awal</td>';
+                                    html += '<td>Koin Akhir</td>';
+                                html += '</tr>';
+                            html += '</thead>';
+                            html += '<tbody>';
+                                for(var i = 0; i < data.length; i++ ) {
+                                    html += '<tr>';
+                                        html += '<td>'+no+'</td>';
+                                        html += '<td>'+data[i].user_name+'</td>';
+                                        html += '<td>'+data[i].created_at+'</td>';
+                                        html += '<td>'+data[i].trx_type+'</td>';
+                                        html += '<td>'+formatNumber(data[i].amount)+'</td>';
+                                        html += '<td>'+formatNumber(data[i].old_web_coin)+'</td>';
+                                        html += '<td>'+formatNumber(data[i].new_web_coin)+'</td>';
+                                    html += '</tr>';
+                                    no++;
+                                }
+                            html += '</tbody>';
+                        html += '</table>';
+                    html += '</div>';
+                    
+                    
+                    $('#report_web_name').val(webs[0].web_name);
+                    $('#report_web_period').val(period);
+                    $('#div_table_report').append(html);
+                    $('#table_report').DataTable({
+                        "bInfo": false,
+                        "dom" : 'Bfrtip',
+                        "buttons" : [
+                            'excel'
+                        ]
+                    });
+
+                } else if (type == "Bank"){
+                    $('#report_bank_name').val('');
+                    $('#report_holder_name').val('');
+                    $('#report_bank_acc_no').val('');
+                    $('#report_bank_period').val('');
+                    $('#table-report').DataTable().destroy();
+                    $('#div_table_report').empty();
+                    var banks = data.banks;
+                    var data = data.data;
+                    var html = "";
+                    var no = 1;
+
+                    // html += ''
+                    html += '<div class="row table-responsive mt-5" style="width: 100%;">';
+                        html += '<table class="table table-striped" id="table_report">';
+                            html += '<thead>';
+                                html += '<tr>';
+                                    html += '<td>No</td>';
+                                    html += '<td>User</td>';
+                                    html += '<td>Tanggal Transaksi</td>';
+                                    html += '<td>Tipe Transaksi</td>';
+                                    html += '<td>Jumlah</td>';
+                                    html += '<td>Saldo Awal</td>';
+                                    html += '<td>Saldo Akhir</td>';
+                                html += '</tr>';
+                            html += '</thead>';
+                            html += '<tbody>';
+                                for(var i = 0; i < data.length; i++ ) {
+                                    html += '<tr>';
+                                        html += '<td>'+no+'</td>';
+                                        html += '<td>'+data[i].user_name+'</td>';
+                                        html += '<td>'+data[i].created_at+'</td>';
+                                        html += '<td>'+data[i].trx_type+'</td>';
+                                        html += '<td>'+formatNumber(data[i].amount)+'</td>';
+                                        html += '<td>'+formatNumber(data[i].old_bank_balance)+'</td>';
+                                        html += '<td>'+formatNumber(data[i].new_bank_balance)+'</td>';
+                                    html += '</tr>';
+                                    no++;
+                                }
+                            html += '</tbody>';
+                        html += '</table>';
+                    html += '</div>';
+
+                    $('#report_bank_name').val(banks[0].bank_name);
+                    $('#report_holder_name').val(banks[0].holder_name);
+                    $('#report_bank_acc_no').val(banks[0].acc_no);
+                    $('#report_bank_period').val(period);
+                    $('#div_table_report').append(html);
+                    $('#table_report').DataTable({
+                        "bInfo": false,
+                        "dom" : 'Bfrtip',
+                        "buttons" : [
+                            'excel'
+                        ]
+                    });
+                }else if (type == "Customer"){
+                    $('#report_customer_name').val('');
+                    $('#report_customer_period').val('');
+                    $('#table-report').DataTable().destroy();
+                    $('#div_table_report').empty();
+                    var custs = data.custs;
+                    var data = data.data;
+                    var html = "";
+                    var no = 1;
+
+                    // html += ''
+                    html += '<div class="row table-responsive mt-5" style="width: 100%;">';
+                        html += '<table class="table table-striped" id="table_report">';
+                            html += '<thead>';
+                                html += '<tr>';
+                                    html += '<td>No</td>';
+                                    html += '<td>Tanggal Transaksi</td>';
+                                    html += '<td>Tipe Transaksi</td>';
+                                    html += '<td>Jumlah</td>';
+                                html += '</tr>';
+                            html += '</thead>';
+                            html += '<tbody>';
+                                for(var i = 0; i < data.length; i++ ) {
+                                    html += '<tr>';
+                                        html += '<td>'+no+'</td>';
+                                        html += '<td>'+data[i].created_at+'</td>';
+                                        html += '<td>'+data[i].trx_type+'</td>';
+                                        html += '<td>'+formatNumber(data[i].amount)+'</td>';
+                                    html += '</tr>';
+                                    no++;
+                                }
+                            html += '</tbody>';
+                        html += '</table>';
+                    html += '</div>';
+
+                    $('#report_customer_name').val(custs[0].user_id);
+                    $('#report_customer_period').val(period);
+                    $('#div_table_report').append(html);
+                    $('#table_report').DataTable({
+                        "bInfo": false,
+                        "dom" : 'Bfrtip',
+                        "buttons" : [
+                            'excel'
+                        ]
+                    });
+                }else{
                     $('#report_web_cashback_name').val('');
                     $('#report_web_cashback_period').val('');
                     $('#table-report').DataTable().destroy();
@@ -303,179 +460,8 @@
                         ]
                     });
                 }
-            });
-        } else {
-            $.ajax({
-                url: "{{route('report_process')}}",
-                type: "POST",
-                data: {
-                    _token: "{{ csrf_token() }}",
-                    time:time,
-                    id:id,
-                    type:type
-                },
-                dataType: "json",
-                success: function (data) {
-
-                    var type = data.type;
-                    var period = data.period;
-                    if (type ==  "Website") {
-                        $('#report_web_name').val('');
-                        $('#report_web_period').val('');
-                        $('#table-report').DataTable().destroy();
-                        $('#div_table_report').empty();
-                        var webs = data.webs;
-                        var data = data.data;
-                        var html = "";
-                        var no = 1;
-
-                        // html += ''
-                        html += '<div class="row table-responsive mt-5" style="width: 100%;">';
-                            html += '<table class="table table-striped" id="table_report">';
-                                html += '<thead>';
-                                    html += '<tr>';
-                                        html += '<td>No</td>';
-                                        html += '<td>User</td>';
-                                        html += '<td>Tanggal Transaksi</td>';
-                                        html += '<td>Tipe Transaksi</td>';
-                                        html += '<td>Jumlah</td>';
-                                        html += '<td>Koin Awal</td>';
-                                        html += '<td>Koin Akhir</td>';
-                                    html += '</tr>';
-                                html += '</thead>';
-                                html += '<tbody>';
-                                    for(var i = 0; i < data.length; i++ ) {
-                                        html += '<tr>';
-                                            html += '<td>'+no+'</td>';
-                                            html += '<td>'+data[i].user_name+'</td>';
-                                            html += '<td>'+data[i].created_at+'</td>';
-                                            html += '<td>'+data[i].trx_type+'</td>';
-                                            html += '<td>'+formatNumber(data[i].amount)+'</td>';
-                                            html += '<td>'+formatNumber(data[i].old_web_coin)+'</td>';
-                                            html += '<td>'+formatNumber(data[i].new_web_coin)+'</td>';
-                                        html += '</tr>';
-                                        no++;
-                                    }
-                                html += '</tbody>';
-                            html += '</table>';
-                        html += '</div>';
-                        
-                        
-                        $('#report_web_name').val(webs[0].web_name);
-                        $('#report_web_period').val(period);
-                        $('#div_table_report').append(html);
-                        $('#table_report').DataTable({
-                            "bInfo": false,
-                            "dom" : 'Bfrtip',
-                            "buttons" : [
-                                'excel'
-                            ]
-                        });
-
-                    } else if (type == "Bank"){
-                        $('#report_bank_name').val('');
-                        $('#report_holder_name').val('');
-                        $('#report_bank_acc_no').val('');
-                        $('#report_bank_period').val('');
-                        $('#table-report').DataTable().destroy();
-                        $('#div_table_report').empty();
-                        var banks = data.banks;
-                        var data = data.data;
-                        var html = "";
-                        var no = 1;
-
-                        // html += ''
-                        html += '<div class="row table-responsive mt-5" style="width: 100%;">';
-                            html += '<table class="table table-striped" id="table_report">';
-                                html += '<thead>';
-                                    html += '<tr>';
-                                        html += '<td>No</td>';
-                                        html += '<td>User</td>';
-                                        html += '<td>Tanggal Transaksi</td>';
-                                        html += '<td>Tipe Transaksi</td>';
-                                        html += '<td>Jumlah</td>';
-                                        html += '<td>Saldo Awal</td>';
-                                        html += '<td>Saldo Akhir</td>';
-                                    html += '</tr>';
-                                html += '</thead>';
-                                html += '<tbody>';
-                                    for(var i = 0; i < data.length; i++ ) {
-                                        html += '<tr>';
-                                            html += '<td>'+no+'</td>';
-                                            html += '<td>'+data[i].user_name+'</td>';
-                                            html += '<td>'+data[i].created_at+'</td>';
-                                            html += '<td>'+data[i].trx_type+'</td>';
-                                            html += '<td>'+formatNumber(data[i].amount)+'</td>';
-                                            html += '<td>'+formatNumber(data[i].old_bank_balance)+'</td>';
-                                            html += '<td>'+formatNumber(data[i].new_bank_balance)+'</td>';
-                                        html += '</tr>';
-                                        no++;
-                                    }
-                                html += '</tbody>';
-                            html += '</table>';
-                        html += '</div>';
-
-                        $('#report_bank_name').val(banks[0].bank_name);
-                        $('#report_holder_name').val(banks[0].holder_name);
-                        $('#report_bank_acc_no').val(banks[0].acc_no);
-                        $('#report_bank_period').val(period);
-                        $('#div_table_report').append(html);
-                        $('#table_report').DataTable({
-                            "bInfo": false,
-                            "dom" : 'Bfrtip',
-                            "buttons" : [
-                                'excel'
-                            ]
-                        });
-                    }else{
-                        $('#report_customer_name').val('');
-                        $('#report_customer_period').val('');
-                        $('#table-report').DataTable().destroy();
-                        $('#div_table_report').empty();
-                        var custs = data.custs;
-                        var data = data.data;
-                        var html = "";
-                        var no = 1;
-
-                        // html += ''
-                        html += '<div class="row table-responsive mt-5" style="width: 100%;">';
-                            html += '<table class="table table-striped" id="table_report">';
-                                html += '<thead>';
-                                    html += '<tr>';
-                                        html += '<td>No</td>';
-                                        html += '<td>Tanggal Transaksi</td>';
-                                        html += '<td>Tipe Transaksi</td>';
-                                        html += '<td>Jumlah</td>';
-                                    html += '</tr>';
-                                html += '</thead>';
-                                html += '<tbody>';
-                                    for(var i = 0; i < data.length; i++ ) {
-                                        html += '<tr>';
-                                            html += '<td>'+no+'</td>';
-                                            html += '<td>'+data[i].created_at+'</td>';
-                                            html += '<td>'+data[i].trx_type+'</td>';
-                                            html += '<td>'+formatNumber(data[i].amount)+'</td>';
-                                        html += '</tr>';
-                                        no++;
-                                    }
-                                html += '</tbody>';
-                            html += '</table>';
-                        html += '</div>';
-
-                        $('#report_customer_name').val(custs[0].user_id);
-                        $('#report_customer_period').val(period);
-                        $('#div_table_report').append(html);
-                        $('#table_report').DataTable({
-                            "bInfo": false,
-                            "dom" : 'Bfrtip',
-                            "buttons" : [
-                                'excel'
-                            ]
-                        });
-                    }
-                }
-            });
-        }
+            }
+        });
     })
 </script>
 </body>

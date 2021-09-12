@@ -82,6 +82,7 @@ class ReportController extends Controller
     }
 
     public function reportprocess(Request $request){
+        // dd($request);
         $timeFrom = date('Y-m-d', strtotime(substr($request->time,0,10)))." 00:00:00";
         $timeTo = date('Y-m-d', strtotime(substr($request->time,-10)))." 23:59:59";
         $perFrom = date('d-m-Y', strtotime(substr($request->time,0,10)));
