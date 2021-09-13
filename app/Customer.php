@@ -8,14 +8,12 @@ class Customer extends Model
 {
     protected $fillable = [
         'user_id', 
-        'name', 
-        'address', 
+        'referral', 
+        'bank', 
+        'balance', 
+        'tanggal_gabung', 
+        'telepon', 
         'email', 
-        'phone', 
-        'note', 
-        'bank_name', 
-        'acc_no', 
-        'acc_holder',
         'website'
     ];
 }

@@ -91,27 +91,54 @@ class ReportController extends Controller
 
         if ($request->type == "Website") {
             $web = web::where('id', $request->id)->get();
-            $data = trx::where('website_name', $web[0]->web_name)
-                   ->where('updated_at', '>=', $timeFrom)
-                   ->where('updated_at','<=',$timeTo)
-                   ->orderBy('created_at', 'ASC')->get();
+            if ($request->trx == "all") {
+                $data = trx::where('website_name', $web[0]->web_name)
+                ->where('updated_at', '>=', $timeFrom)
+                ->where('updated_at','<=',$timeTo)
+                ->whereIn('trx_type',["deposit", "withdrawal", "Add Coin", "Deduct Coin", "bonus", "Cashback"])
+                ->orderBy('created_at', 'ASC')->get();
+            } else {
+                $data = trx::where('website_name', $web[0]->web_name)
+                ->where('updated_at', '>=', $timeFrom)
+                ->where('updated_at','<=',$timeTo)
+                ->where('trx_type',$request->trx)
+                ->orderBy('created_at', 'ASC')->get();
+            }
 
             return response()->json(["message"=>"success","period"=>$period,"type"=>$request->type, "webs"=>$web, "data"=>$data]);
         } else if($request->type == "Bank"){
             $bank = bank::where('id', $request->id)->get();
-            $data = trx::where('bank_name', $bank[0]->bank_name)
-            ->where('updated_at', '>=', $timeFrom)
-            ->where('updated_at','<=',$timeTo)
-            ->orderBy('created_at', 'ASC')->get();
+            if ($request->trx == "all") {
+                $data = trx::where('acc_no', $bank[0]->acc_no)
+                ->where('updated_at', '>=', $timeFrom)
+                ->where('updated_at','<=',$timeTo)
+                ->whereIn('trx_type',["deposit", "withdrawal", "Cost", "Add Balance", "Deduct Balance", "bonus"])
+                ->orderBy('created_at', 'ASC')->get();
+            } else {
+                $data = trx::where('acc_no', $bank[0]->acc_no)
+                ->where('updated_at', '>=', $timeFrom)
+                ->where('updated_at','<=',$timeTo)
+                ->where('trx_type',$request->trx)
+                ->orderBy('created_at', 'ASC')->get();
+            }
             return response()->json(["message"=>"success","period"=>$period,"type"=>$request->type, "banks"=>$bank, "data"=>$data]);
         } else if($request->type == "Customer") {
             $custs = customer::where('id', $request->id)->get();
+            if ($request->trx == "all") {
             $data = trx::where('user_name', $custs[0]->user_id)
-            ->where('updated_at', '>=', $timeFrom)
-            ->where('updated_at','<=',$timeTo)
-            ->orderBy('created_at', 'ASC')->get();
+                ->where('updated_at', '>=', $timeFrom)
+                ->where('updated_at','<=',$timeTo)
+                ->whereIn('trx_type',["deposit", "withdrawal", "Cashback", "bonus"])
+                ->orderBy('created_at', 'ASC')->get();
+            } else {
+            $data = trx::where('user_name', $custs[0]->user_id)
+                ->where('updated_at', '>=', $timeFrom)
+                ->where('updated_at','<=',$timeTo)
+                ->where('trx_type',$request->trx)
+                ->orderBy('created_at', 'ASC')->get();
+            }
             return response()->json(["message"=>"success","period"=>$period,"type"=>$request->type, "custs"=>$custs, "data"=>$data]);
-        }else{
+        }else if($request->type == "Cashback"){
             $web = web::where('id', $request->id)->get();
             if ($request->trx == "all") {
                 $data = trx::where('website_name', $web[0]->web_name)
@@ -128,6 +155,48 @@ class ReportController extends Controller
             }
             
             return response()->json(["message"=>"success","period"=>$period,"type"=>$request->type, "webs"=>$web, "data"=>$data]);
+        } else {
+            $web = web::where('id', $request->id)->get();
+
+            $data = trx::where('website_name', $web[0]->web_name)
+            ->where('updated_at', '>=', $timeFrom)
+            ->where('updated_at','<=',$timeTo)
+            ->orderBy('created_at', 'ASC')->get();
+
+            // dd($data);
+            $last = count($data) - 1;
+            // dd($last);
+            for ($i=0; $i < count($data) ; $i++) { 
+                $Saldo_bank_awal = $data[0]["old_bank_balance"];
+                // $Saldo_bank_akhir = $data[$last]["new_bank_balance"];
+                $Saldo_bank_akhir = bank::where('acc_no', $data[0]->acc_no)->get('saldo');
+                $Saldo_koin_awal = $data[0]["old_web_coin"];
+                $Saldo_koin_akhir = $data[$last]["new_web_coin"];
+                $PenambahanKoin = trx::whereIn('trx_type', ['Add Coin', 'Withdrawal'])->sum('amount');
+                $PenguranganKoin =  trx::whereIn('trx_type', ['Deduct Coin', 'Deposit'])->sum('amount');
+                $PenambahanSaldo = trx::whereIn('trx_type', ['Add Balance', 'Deposit'])->sum('amount');
+                $PenguranganSaldo =   trx::whereIn('trx_type', ['Deduct Balance', 'Withdrawal'])->sum('amount');
+                $Bonus =   trx::where('trx_type', 'Bonus')->sum('amount');
+                $Cashback =   trx::where('trx_type', 'Cashback')->sum('amount');
+            }
+            // dd($Saldo_bank_awal, $Saldo_bank_akhir, $Saldo_koin_awal, $Saldo_koin_akhir, $PenambahanKoin, $PenguranganKoin, $PenambahanSaldo, $PenguranganSaldo);
+            
+            return response()->json(["message"=>"success",
+                                    "period"=>$period,
+                                    "type"=>$request->type, 
+                                    "webs"=>$web, 
+                                    "data"=>$data,
+                                    "Saldo_bank_awal" => $Saldo_bank_awal,
+                                    "Saldo_bank_akhir" =>$Saldo_bank_akhir,
+                                    "Saldo_koin_awal" =>$Saldo_koin_awal,
+                                    "Saldo_koin_akhir" =>$Saldo_koin_akhir,
+                                    "PenambahanKoin" =>$PenambahanKoin,
+                                    "PenguranganKoin" =>$PenguranganKoin,
+                                    "PenambahanSaldo" =>$PenambahanSaldo,
+                                    "PenguranganSaldo" =>$PenguranganSaldo,
+                                    "Bonus" =>$Bonus,
+                                    "Cashback" =>$Cashback
+                                    ]);
         }
         
     }

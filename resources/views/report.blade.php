@@ -44,7 +44,7 @@
                                 <label>Select Bank:</label>
                                 <select class="form-control id_input" name="bank" id="bank">
                                     @foreach ($data as $b)
-                                        <option value="{{$b->id}}">{{$b->bank_name}}</option>
+                                        <option value="{{$b->id}}">{{$b->bank_name}} - {{$b->acc_no}}</option>
                                     @endforeach
                                 </select>
                                 <input type="hidden" name="type" id="type" value="Bank">
@@ -56,7 +56,7 @@
                                     @endforeach
                                 </select>
                                 <input type="hidden" name="type" id="type" value="Customer">
-                            @else
+                            @elseif($type == "Cashback")
                                 <label>Select Website:</label>
                                 <select class="form-control id_input" name="web" id="web">
                                     @foreach ($data as $d)
@@ -65,6 +65,15 @@
                                 </select>
 
                                 <input type="hidden" name="type" id="type" value="Cashback">
+                            @else
+                                <label>Select Website:</label>
+                                <select class="form-control id_input" name="web" id="web">
+                                    @foreach ($data as $de)
+                                        <option value="{{$de->id}}">{{$de->web_name}}</option>
+                                    @endforeach
+                                </select>
+
+                                <input type="hidden" name="type" id="type" value="Closing">
                             @endif
                         </div>
                         @if ($type == "Cashback")
@@ -74,6 +83,42 @@
                                     <option value="all">-- All --</option>
                                     <option value="bonus">-- Bonus --</option>
                                     <option value="Cashback">-- Cashback --</option>
+                                </select>
+                            </div>
+                        @elseif($type == "Website")
+                            <div class="col-xl-3">
+                                <label>Select Type:</label>
+                                <select class="form-control id_input" name="trx" id="trx">
+                                    <option value="all">-- All --</option>
+                                    <option value="Add coin">-- Add coin --</option>
+                                    <option value="Deduct coin">-- Deduct coin --</option>
+                                    <option value="bonus">-- Bonus --</option>
+                                    <option value="Cashback">-- Cashback --</option>
+                                    <option value="deposit">-- Deposit --</option>
+                                    <option value="withdrawal">-- Withdrawal --</option>
+                                </select>
+                            </div>
+                        @elseif($type == "Bank")
+                            <div class="col-xl-3">
+                                <label>Select Type:</label>
+                                <select class="form-control id_input" name="trx" id="trx">
+                                    <option value="all">-- All --</option>
+                                    <option value="Add Balance">-- Add Balance --</option>
+                                    <option value="Deduct Balance">-- Deduct Balance --</option>
+                                    <option value="Cost">-- Cost --</option>
+                                    <option value="deposit">-- Deposit --</option>
+                                    <option value="withdrawal">-- Withdrawal --</option>
+                                </select>
+                            </div>
+                        @elseif($type == "Customer")
+                            <div class="col-xl-3">
+                                <label>Select Type:</label>
+                                <select class="form-control id_input" name="trx" id="trx">
+                                    <option value="all">-- All --</option>
+                                    <option value="bonus">-- Bonus --</option>
+                                    <option value="Cashback">-- Cashback --</option>
+                                    <option value="deposit">-- Deposit --</option>
+                                    <option value="withdrawal">-- Withdrawal --</option>
                                 </select>
                             </div>
                         @endif
@@ -179,7 +224,7 @@
                                 </div>
                             </div>
                         </div>
-                    @else
+                    @elseif($type == "Cashback")
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="row">
@@ -198,6 +243,29 @@
                                     </div>
                                     <div class="col-md-10">
                                         <input type="text" name="report_web_cashback_period" id="report_web_cashback_period" readonly style="border: none;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        Website:
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input type="text" name="report_closing_name" id="report_closing_name" readonly style="border: none;">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        Periode:
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input type="text" name="report_closing_period" id="report_closing_period" readonly style="border: none;">
                                     </div>
                                 </div>
                             </div>
@@ -408,7 +476,7 @@
                             'excel'
                         ]
                     });
-                }else{
+                }else if (type == "Cashback"){
                     $('#report_web_cashback_name').val('');
                     $('#report_web_cashback_period').val('');
                     $('#table-report').DataTable().destroy();
@@ -451,6 +519,62 @@
                     
                     $('#report_web_cashback_name').val(webs[0].web_name);
                     $('#report_web_cashback_period').val(period);
+                    $('#div_table_report').append(html);
+                    $('#table_report').DataTable({
+                        "bInfo": false,
+                        "dom" : 'Bfrtip',
+                        "buttons" : [
+                            'excel'
+                        ]
+                    });
+                } else {
+                    $('#report_closing_name').val('');
+                    $('#report_closing_period').val('');
+                    $('#table-report').DataTable().destroy();
+                    $('#div_table_report').empty();
+console.log(data);
+                    var type = data.type;
+                    var period = data.period;
+                    var webs = data.webs;
+                    var html = "";
+
+                    // html += ''
+                    html += '<div class="row table-responsive mt-5" style="width: 100%;">';
+                        html += '<table class="table table-striped" id="table_report">';
+                            html += '<thead>';
+                                html += '<tr>';
+                                    html += '<td>Saldo Bank Awal</td>';
+                                    html += '<td>Saldo Bank Akhir</td>';
+                                    html += '<td>Koin Awal</td>';
+                                    html += '<td>Koin Akhir</td>';
+                                    html += '<td>Penambahan Saldo</td>';
+                                    html += '<td>Pengurangan Saldo</td>';
+                                    html += '<td>Penambahan Koin</td>';
+                                    html += '<td>Pengurangan Koin</td>';
+                                    html += '<td>Cashback</td>';
+                                    html += '<td>Bonus</td>';
+                                html += '</tr>';
+                            html += '</thead>';
+                            html += '<tbody class="text-center">';
+                                html += '<tr>';
+                                    html += '<td>'+formatNumber(data.Saldo_bank_awal)+'</td>';
+                                    html += '<td>'+formatNumber(data.Saldo_bank_akhir[0].saldo)+'</td>';
+                                    html += '<td>'+formatNumber(data.Saldo_koin_awal)+'</td>';
+                                    html += '<td>'+formatNumber(data.Saldo_koin_akhir)+'</td>';
+                                    html += '<td>'+formatNumber(data.PenambahanSaldo)+'</td>';
+                                    html += '<td>'+formatNumber(data.PenguranganSaldo)+'</td>';
+                                    html += '<td>'+formatNumber(data.PenambahanKoin)+'</td>';
+                                    html += '<td>'+formatNumber(data.PenguranganKoin)+'</td>';
+                                    html += '<td>'+formatNumber(data.Cashback)+'</td>';
+                                    html += '<td>'+formatNumber(data.Bonus)+'</td>';
+                                html += '</tr>';
+                            html += '</tbody>';
+                        html += '</table>';
+                    html += '</div>';
+                    
+                    
+                    $('#report_closing_name').val(webs[0].web_name);
+                    $('#report_closing_period').val(period);
                     $('#div_table_report').append(html);
                     $('#table_report').DataTable({
                         "bInfo": false,

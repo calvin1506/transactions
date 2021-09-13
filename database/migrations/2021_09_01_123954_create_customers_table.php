@@ -16,14 +16,13 @@ class CreateCustomersTable extends Migration
         Schema::create('customers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->text('user_id');
-            $table->text('name');
-            $table->text('address');
+            $table->text('referral');
+            $table->text('bank');
+            $table->text('balance');
+            $table->text('tanggal_gabung');
+            $table->text('telepon');
             $table->text('email');
-            $table->text('phone');
-            $table->text('note');
-            $table->text('bank_name');
-            $table->text('acc_no');
-            $table->text('acc_holder');
+            $table->text('website');
             $table->timestamps();
         });
     }

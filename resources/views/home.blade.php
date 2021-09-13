@@ -168,7 +168,7 @@
             <div class="card-body">
                 <div class="row text-center">
                     <div class="col-xl-2">
-                        <a href="{{route('report_web', ['type' => 'Website'])}}" target="_blank" class="small-box-footer modal13">
+                        <a href="{{route('report_web', ['type' => 'Website'])}}" target="_blank" class="small-box-footer">
                             <div class="small-box"
                                 style="background-image: url('{{asset('img/web-icon.png')}}');background-size: cover;height: 90px;width: 100px;margin-left:30px;border-radius:100%;">
                             </div>
@@ -176,7 +176,7 @@
                         <h6>Websites Report</h6>
                     </div>
                     <div class="col-xl-2">
-                        <a href="{{route('report_web', ['type' => 'Bank'])}}" target="_blank" class="small-box-footer modal13">
+                        <a href="{{route('report_web', ['type' => 'Bank'])}}" target="_blank" class="small-box-footer">
                             <div class="small-box"
                                 style="background-image: url('{{asset('img/icon-bank.png')}}');background-size: cover;height: 90px;width: 100px;margin-left:30px;border-radius:100%;">
                             </div>
@@ -184,7 +184,7 @@
                         <h6>Banks Report</h6>
                     </div>
                     <div class="col-xl-2">
-                        <a href="{{route('report_web', ['type' => 'Customer'])}}" target="_blank" class="small-box-footer modal13">
+                        <a href="{{route('report_web', ['type' => 'Customer'])}}" target="_blank" class="small-box-footer">
                             <div class="small-box"
                                 style="background-image: url('{{asset('img/customer.png')}}');background-size: cover;height: 90px;width: 100px;margin-left:30px;border-radius:100%;">
                             </div>
@@ -192,12 +192,20 @@
                         <h6>User/Customer Report</h6>
                     </div>
                     <div class="col-xl-2">
-                        <a href="{{route('report_web', ['type' => 'Cashback'])}}" target="_blank" class="small-box-footer modal13">
+                        <a href="{{route('report_web', ['type' => 'Cashback'])}}" target="_blank" class="small-box-footer">
                             <div class="small-box"
                                 style="background-image: url('{{asset('img/cashback.png')}}');background-size: cover;height: 90px;width: 100px;margin-left:30px;border-radius:100%;">
                             </div>
                         </a>
                         <h6>Cashback/Bonus Report</h6>
+                    </div>
+                    <div class="col-xl-2">
+                        <a href="{{route('report_web', ['type' => 'Closing'])}}" target="_blank" class="small-box-footer">
+                            <div class="small-box"
+                                style="background-image: url('{{asset('img/closing.png')}}');background-size: cover;height: 90px;width: 100px;margin-left:30px;border-radius:100%;">
+                            </div>
+                        </a>
+                        <h6>Closing Report</h6>
                     </div>
                 </div>
             </div>
@@ -327,8 +335,8 @@
 </div>
 <!-- Modal 4 -->
 <div class="modal fade" id="modal4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
+    <div class="modal-dialog modal-dialog-besar" role="document">
+        <div class="modal-content modal-content-besar">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Customers</h5>
             </div>
@@ -1002,21 +1010,21 @@
 <!-- Modal Add Customer -->
 <div class="modal fade" id="modaladdnewcustomer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
+    <div class="modal-dialog modal-dialog-besar" role="document">
+        <div class="modal-content modal-content-besar">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Add New Customer</h5>
             </div>
 			<div class="modal-body">
 				<div class="row mb-1">
 					<div class="col-md-2">
-						<h6>User ID</h6>
+						<h6>User Data</h6>
 					</div>
 					<div class="col-md-10">
-						<input class="form-control" type="text" name="customer_user_id" id="customer_user_id">
+						<input class="form-control" type="text" name="user_data" id="user_data">
 					</div>
 				</div>
-				<div class="row mb-1">
+				{{-- <div class="row mb-1">
 					<div class="col-md-2">
 						<h6>Customer Name</h6>
 					</div>
@@ -1079,7 +1087,7 @@
 					<div class="col-md-10">
 						<input class="form-control" type="text" name="customer_bank_acc_holder" id="customer_bank_acc_holder">
 					</div>
-				</div>
+				</div> --}}
 				<div class="row mb-2">
 					<div class="col-md-2">
 						Website
@@ -1101,10 +1109,10 @@
 <!-- Modal Edit Customer -->
 <div class="modal fade" id="modaleditcustomer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
+    <div class="modal-dialog modal-dialog-besar" role="document">
+        <div class="modal-content modal-content-besar">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Edit Customer</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Detail Customer</h5>
             </div>
             <div class="modal-body">
                 <div class="row mb-1">
@@ -1117,18 +1125,42 @@
                 </div>
                 <div class="row mb-1">
                     <div class="col-md-2">
-                        <h6>Customer Name</h6>
+                        <h6>Referral</h6>
                     </div>
                     <div class="col-md-10">
-                        <input class="form-control" type="text" name="name_cust_edit" id="name_cust_edit">
+                        <input class="form-control" type="text" name="referral" id="referral">
                     </div>
                 </div>
                 <div class="row mt-1">
                     <div class="col-md-2">
-                        <h6>Address</h6>
+                        <h6>Bank</h6>
                     </div>
                     <div class="col-md-10">
-                        <input class="form-control" type="text" name="address_cust_edit" id="address_cust_edit">
+                        <input class="form-control" type="text" name="bank" id="bank">
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col-md-2">
+                        <h6>Balance</h6>
+                    </div>
+                    <div class="col-md-10">
+                        <input class="form-control" type="email" name="balance" id="balance">
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col-md-2">
+                        <h6>Tanggal Gabung</h6>
+                    </div>
+                    <div class="col-md-10">
+                        <input class="form-control" type="text" name="tanggal_gabung" id="tanggal_gabung">
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col-md-2">
+                        <h6>Telepon</h6>
+                    </div>
+                    <div class="col-md-10">
+                        <textarea class="form-control" name="telepon" id="telepon" rows="3"></textarea>
                     </div>
                 </div>
                 <div class="row mt-1">
@@ -1136,47 +1168,7 @@
                         <h6>Email</h6>
                     </div>
                     <div class="col-md-10">
-                        <input class="form-control" type="email" name="email_cust_edit" id="email_cust_edit">
-                    </div>
-                </div>
-                <div class="row mt-1">
-                    <div class="col-md-2">
-                        <h6>Phone Number</h6>
-                    </div>
-                    <div class="col-md-10">
-                        <input class="form-control" type="number" name="phone_cust_edit" id="phone_cust_edit">
-                    </div>
-                </div>
-                <div class="row mt-1">
-                    <div class="col-md-2">
-                        <h6>Notes</h6>
-                    </div>
-                    <div class="col-md-10">
-                        <textarea class="form-control" name="note_cust_edit" id="note_cust_edit" rows="3"></textarea>
-                    </div>
-                </div>
-                <div class="row mt-1">
-                    <div class="col-md-2">
-                        <h6>Bank Name</h6>
-                    </div>
-                    <div class="col-md-10">
-                        <input class="form-control" type="text" name="bank_name_cust_edit" id="bank_name_cust_edit">
-                    </div>
-                </div>
-                <div class="row mt-1">
-                    <div class="col-md-2">
-                        <h6>Account Number</h6>
-                    </div>
-                    <div class="col-md-10">
-                        <input class="form-control" type="number" name="bank_acc_no_cust_edit" id="bank_acc_no_cust_edit">
-                    </div>
-                </div>
-                <div class="row mt-1">
-                    <div class="col-md-2">
-                        <h6>Account Holder Name</h6>
-                    </div>
-                    <div class="col-md-10">
-                        <input class="form-control" type="text" name="bank_acc_holder_cust_edit" id="bank_acc_holder_cust_edit">
+                        <input class="form-control" type="text" name="email" id="email">
                     </div>
                 </div>
 				<div class="row mb-2">
@@ -1193,7 +1185,7 @@
             <div class="modal-footer">
                 <input type="hidden" name="id_customer_edit" id="id_customer_edit">
                 <button type="button" class="btn btn-secondary edit_customer_close" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary edit_customer_process">Edit Customer</button>
+                {{-- <button type="button" class="btn btn-primary edit_customer_process">Edit Customer</button> --}}
             </div>
         </div>
     </div>
@@ -3135,10 +3127,10 @@
                     htmll += '<tr>';
                     htmll += '<td>' + no + '</td>';
                     htmll += '<td>' + data[i].user_id + '</td>';
-                    htmll += '<td>' + data[i].name + '</td>';
+                    htmll += '<td>' + data[i].email + '</td>';
                     htmll += '<td><button class="btn btn-sm btn-primary edit_cust" data-id="' +
                         data[i].id +
-                        '"data-toggle="modal" data-target="#modaleditcustomer">Edit</button></td>';
+                        '"data-toggle="modal" data-target="#modaleditcustomer">Detail</button></td>';
                     htmll +=
                         '<td><button class="btn btn-sm btn-danger del_data" data-type="customer" data-id="' +
                         data[i].id +
@@ -3185,16 +3177,51 @@
             }
         });
 	})
+    // $(document).on('click', '.add_customer_backup', function () {
+    //     var user_id = $('#customer_user_id').val();
+    //     var name = $('#customer_name').val();
+    //     var address = $('#customer_address').val();
+    //     var email = $('#customer_email').val();
+    //     var phone = $('#customer_phone').val();
+    //     var note = $('#customer_note').val();
+    //     var bank_name = $('#customer_bank_name').val();
+    //     var acc_no = $('#customer_bank_acc_no').val();
+    //     var holder_name = $('#customer_bank_acc_holder').val();
+	// 	var web = $('#web_add_customer').val();
+
+    //     $.ajax({
+    //         url: "{{route('add_cust')}}",
+    //         type: "POST",
+    //         data: {
+    //             _token: "{{ csrf_token() }}",
+    //             user_id:user_id,
+    //             name:name,
+    //             address:address,
+    //             email:email,
+    //             phone:phone,
+    //             note:note,
+    //             bank_name:bank_name,
+    //             acc_no:acc_no,
+    //             holder_name:holder_name,
+	// 			web:web
+    //         },
+    //         dataType: "json",
+    //         success: function (data) {
+
+    //             if (data.message == "success") {
+    //                 alert("Success Add customer");
+    //                 $('.add_customer_close').click();
+    //                 get_customer();
+    //             } else {
+    //                 alert(data.data);
+    //             }
+
+    //         }
+    //     });
+    // })
     $(document).on('click', '.add_customer', function () {
-        var user_id = $('#customer_user_id').val();
-        var name = $('#customer_name').val();
-        var address = $('#customer_address').val();
-        var email = $('#customer_email').val();
-        var phone = $('#customer_phone').val();
-        var note = $('#customer_note').val();
-        var bank_name = $('#customer_bank_name').val();
-        var acc_no = $('#customer_bank_acc_no').val();
-        var holder_name = $('#customer_bank_acc_holder').val();
+        var user_data = $('#user_data').val();
+
 		var web = $('#web_add_customer').val();
 
         $.ajax({
@@ -3202,15 +3229,8 @@
             type: "POST",
             data: {
                 _token: "{{ csrf_token() }}",
-                user_id:user_id,
-                name:name,
-                address:address,
-                email:email,
-                phone:phone,
-                note:note,
-                bank_name:bank_name,
-                acc_no:acc_no,
-                holder_name:holder_name,
+                user_data:user_data,
+
 				web:web
             },
             dataType: "json",
@@ -3240,21 +3260,19 @@
             dataType: "json",
             success: function (data) {
                 $('#user_id_cust_edit').val(data.data[0].user_id);
-                $('#name_cust_edit').val(data.data[0].name);
-                $('#address_cust_edit').val(data.data[0].address);
-                $('#email_cust_edit').val(data.data[0].email);
-                $('#phone_cust_edit').val(data.data[0].phone);
-                $('#note_cust_edit').val(data.data[0].note);
-                $('#bank_name_cust_edit').val(data.data[0].bank_name);
-                $('#bank_acc_no_cust_edit').val(data.data[0].acc_no);
-                $('#bank_acc_holder_cust_edit').val(data.data[0].acc_holder);
+                $('#referral').val(data.data[0].referral);
+                $('#bank').val(data.data[0].bank);
+                $('#balance').val(data.data[0].balance);
+                $('#tanggal_gabung').val(data.data[0].tanggal_gabung);
+                $('#telepon').val(data.data[0].telepon);
+                $('#email').val(data.data[0].email);
 				$('#id_customer_edit').val(data.data[0].id);
 
 				var cek = data.cek;
 				var webs = data.webs;
 				var htmll = "";
 
-				htmll += '<select class="form-control" name="web_add_customer_edit" id="web_add_customer_edit">'
+				htmll += '<select class="form-control" name="web_add_customer_edit" id="web_add_customer_edit" disabled>'
 					for (j = 0; j < webs.length; j++) {
 						if (jQuery.inArray(webs[j]['id'].toString(), cek)!== -1) {
 							htmll += '<option value="'+webs[j]['id']+'" selected> '+webs[j]['website_name']+' </option>'

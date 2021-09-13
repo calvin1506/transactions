@@ -167,66 +167,36 @@ class UserController extends Controller
         return response()->json(["message"=>"success", "data"=>$cust]);
     }
     public function addcust(Request $request){
-        // dd($request->web);
-        $validator = Validator::make($request->all(), [
-            'user_id'=>'required|unique:customers',
-            'name'=>'required',
-            'address'=>'required',
-            'email'=>'required|unique:customers',
-            'phone'=>'required',
-            'note'=>'required',
-            'bank_name'=>'required',
-            'acc_no'=>'required|unique:customers',
-            'holder_name'=>'required',
-            'web'=>'required' 
-        ]);
+        // dd($request);
 
-        if($validator->passes()){
-            $ops = new customer;
-            $ops->user_id = $request->user_id;
-            $ops->name = $request->name;
-            $ops->address = $request->address;
-            $ops->email = $request->email;
-            $ops->phone = $request->phone;
-            $ops->note = $request->note;
-            $ops->bank_name = $request->bank_name;
-            $ops->acc_no = $request->acc_no;
-            $ops->acc_holder = $request->holder_name;
-            $ops->website = $request->web;
-            $ops->save();
+        $explode = explode('	',$request->user_data);
 
-            // $user = array();
-            // $data = customer::where('user_id', $request->user_id)->get();
-            // array_push($user, $data[0]->id);
-            // $webs = website::whereIn('id', $request->web)->get();
+        $username = str_replace('No Name','',str_replace('Locked ', '',$explode[1]));
+        $referal = $explode[2];
+        $bank = $explode[3];
+        $balance = $explode[4];
+        $tanggalGabung = $explode[5];
+        $telepon = $explode[6];
+        $email = $explode[7];
 
-            // foreach ($webs as $web) {
-            //     $update = website::where('id', $web->id)->first();
-            //     if ($web->customer == "-") {
-            //         $update->customer = json_encode($user);
-            //         $update->save();
-            //     } else {
-            //         $update_cust = explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $update->customer));
-            //         array_push($update_cust, $data[0]->id);
-            //         $update->customer = json_encode($update_cust);
-            //         $update->save();
-            //     }
-            // }
+        $ops = new customer;
+        $ops->user_id = $username;
+        $ops->referral = $referal;
+        $ops->bank = $bank;
+        $ops->balance = $balance;
+        $ops->tanggal_gabung = $tanggalGabung;
+        $ops->telepon = $telepon;
+        $ops->email = $email;
+        $ops->website = $request->web;
+        $ops->save();
 
-            $log = new log;
-            $log->user = auth::user()->name;
-            $log->activity = "User: ".auth::user()->name." add new customer: ".$request->name;
-            $log->save();
-    
-            return response()->json(["message"=>"success"]);
-        }else{
-            $cek = customer::where('user_id', $request->user_id)->count();
-            $cek1 = customer::where('email', $request->email)->count();
-            $cek2 = customer::where('acc_no', $request->acc_no)->count();
-            if($cek>0 || $cek1>0 || $cek2>0){
-                return response()->json(["message"=>"error", "data"=>"Duplicate Customer!"]);
-            }
-        }
+        $log = new log;
+        $log->user = auth::user()->name;
+        $log->activity = "User: ".auth::user()->name." add new customer: ".$username;
+        $log->save();
+
+        return response()->json(["message"=>"success"]);
+
     }
     public function getcustedit(Request $request){
         $data = customer::where('id', $request->id)->get();
