@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\User;
-use App\Bank;
+use App\bank;
 use App\website;
 use App\Customer;
-use App\Cashback;
+use App\cashback;
 use App\ImportCashback as import;
 use App\transaction as trx;
 use App\activity_log as log;
@@ -31,6 +31,7 @@ class CashbackController extends Controller
         $banks = bank::all();
         $custs = customer::all();
         $websites = website::all();
+        $webss = array();
         // dd($custs);
         foreach($custs as $cust){
             array_push($arr_cust, $cust->user_id);
@@ -40,12 +41,18 @@ class CashbackController extends Controller
             $arr_bank[$i]["bank_name"] = $banks[$i]->bank_name;
             $arr_bank[$i]["acc_no"] = $banks[$i]->acc_no;
         }
-        for ($j=0; $j < count($websites); $j++) { 
-            $arr_web[$j]["id"] = $websites[$j]->id;
-            $arr_web[$j]["web_name"] = $websites[$j]->web_name;
-        }
 
-        return response()->json(["message"=>"success", "custs"=>$arr_cust, "banks"=>$arr_bank, "webs"=>$arr_web]);
+        foreach($websites as $web){
+            if(in_array(auth::user()->id, explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $web->leader)))){
+                array_push($arr_web, $web->id);
+            }
+        }
+        $webs = website::whereIn('id', $arr_web)->get();
+        for ($j=0; $j < count($webs); $j++) { 
+            $webss[$j]["id"] = $webs[$j]->id;
+            $webss[$j]["web_name"] = $webs[$j]->web_name;
+        }
+        return response()->json(["message"=>"success", "custs"=>$arr_cust, "banks"=>$arr_bank, "webs"=>$webss]);
     }
 
     public function getdatacashbackdetail(Request $request){

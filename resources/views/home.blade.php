@@ -89,22 +89,34 @@
             <div class="card" style="width: 100%">
                 <div class="card-body">
                     <div class="row text-center">
-                        <div class="col-xl-2">
-                            <a href="#modal6" data-toggle="modal" data-target="#modal6" class="small-box-footer modal6">
-                                <div class="small-box"
-                                    style="background-image: url('{{ asset("img/icon-bank.png") }}');background-size: cover;height: 90px;width: 100px;margin-left:30px;border-radius:100%;">
-                                </div>
-                            </a>
-                            <h6>Assign Bank to Website</h6>
-                        </div>
-                        <div class="col-xl-2">
-                            <a href="#modal7" data-toggle="modal" data-target="#modal7" class="small-box-footer modal7">
-                                <div class="small-box"
-                                    style="background-image: url('{{ asset("img/web-icon.png") }}');background-size: cover;height: 90px;width: 100px;margin-left:30px;border-radius:100%;">
-                                </div>
-                            </a>
-                            <h6>Assign Leaders/Operators to Websites</h6>
-                        </div>
+                        @if (auth::user()->role == "superadmin")
+                            <div class="col-xl-2">
+                                <a href="#modal6" data-toggle="modal" data-target="#modal6" class="small-box-footer modal6">
+                                    <div class="small-box"
+                                        style="background-image: url('{{ asset("img/icon-bank.png") }}');background-size: cover;height: 90px;width: 100px;margin-left:30px;border-radius:100%;">
+                                    </div>
+                                </a>
+                                <h6>Assign Bank to Website</h6>
+                            </div>
+                            <div class="col-xl-2">
+                                <a href="#modal7" data-toggle="modal" data-target="#modal7" class="small-box-footer modal7">
+                                    <div class="small-box"
+                                        style="background-image: url('{{ asset("img/web-icon.png") }}');background-size: cover;height: 90px;width: 100px;margin-left:30px;border-radius:100%;">
+                                    </div>
+                                </a>
+                                <h6>Assign Leaders to Websites</h6>
+                            </div>
+                        @endif
+                        @if (auth::user()->role == "Leader")
+                            <div class="col-xl-2">
+                                <a href="#modal7" data-toggle="modal" data-target="#modal7" class="small-box-footer modal7">
+                                    <div class="small-box"
+                                        style="background-image: url('{{ asset("img/web-icon.png") }}');background-size: cover;height: 90px;width: 100px;margin-left:30px;border-radius:100%;">
+                                    </div>
+                                </a>
+                                <h6>Assign Operators to Websites</h6>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -512,8 +524,8 @@
 </div>
 <!-- Modal 9 -->
 <div class="modal fade" id="modal9" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
+    <div class="modal-dialog modal-dialog-besar" role="document">
+        <div class="modal-content modal-content-besar">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Pending Transactions</h5>
             </div>
@@ -796,7 +808,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add New Website</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Add New Leader</h5>
             </div>
             <div class="modal-body">
                 <div class="row mb-1">
@@ -2406,10 +2418,10 @@
                     htmll += '<tr>';
                     htmll += '<td>' + no + '</td>';
                     htmll += '<td>' + data[i].user_id + '</td>';
-                    htmll += '<td>' + data[i].name + '</td>';
+                    htmll += '<td>' + data[i].email + '</td>';
                     htmll += '<td><button class="btn btn-sm btn-primary edit_cust" data-id="' +
                         data[i].id +
-                        '"data-toggle="modal" data-target="#modaleditcustomer">Edit</button></td>';
+                        '"data-toggle="modal" data-target="#modaleditcustomer">Detail</button></td>';
                     htmll +=
                         '<td><button class="btn btn-sm btn-danger del_data" data-type="customer" data-id="' +
                         data[i].id +
@@ -2418,7 +2430,7 @@
                     no++;
                 }
                 $('#tbl_customer').append(htmll);
-                $("#tbl_customer_list").DataTable();
+                $('#tbl_customer_list').DataTable();
             }
         });
     }
@@ -2905,6 +2917,11 @@
                 if (data.message == "success") {
                     alert("Success Add Leader");
                     $('.add_leader_close').click();
+                    $('#leader_name').val('');
+                    $('#leader_email').val('');
+                    $('#leader_pass').val('');
+                    $('#leader_username_apps').val('');
+                    $('#leader_pass_pass').val('');
                     get_leader();
                 } else {
                     alert(data.data);
@@ -4048,6 +4065,7 @@
 				var html = "";
 				var htmll = "";
 				var htmlll = "";
+                console.log(customer_pending);
 
 				html += '<input id="InputUserPendingDepoWD" class="form-control" type="text" name="InputUserPendingDepoWD" placeholder="Users">';
 

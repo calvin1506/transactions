@@ -46,10 +46,6 @@ class TransactionController extends Controller
         $bank = bank::where('id', $request->bank)->first();
         $old_coin = (int)$web->init_coin;
         $old_balance = (int)$bank->saldo;
-        if($request->type == "withdrawal"){
-            
-            
-        }
 
         if($request->type == "deposit"){
             $trx = new trx;
@@ -57,6 +53,7 @@ class TransactionController extends Controller
             $trx->user_name = $request->user;
             $trx->bank_name = $bank->bank_name;
             $trx->acc_no = $bank->acc_no;
+            $trx->holder_name = $bank->holder_name;
             $trx->website_name = $web->web_name;
             $trx->amount = $request->amount;
             $trx->old_web_coin = $old_coin;
@@ -81,6 +78,7 @@ class TransactionController extends Controller
             $trx->user_name = $request->user;
             $trx->bank_name = $bank->bank_name;
             $trx->acc_no = $bank->acc_no;
+            $trx->holder_name = $bank->holder_name;
             $trx->website_name = $web->web_name;
             $trx->amount = $request->amount;
             $trx->old_web_coin = $old_coin;
@@ -105,6 +103,7 @@ class TransactionController extends Controller
             $trx->user_name = $request->user;
             $trx->bank_name = "-";
             $trx->acc_no = "-";
+            $trx->holder_name = "-";
             $trx->website_name = $web->web_name;
             $trx->amount = $request->amount;
             $trx->old_web_coin = $old_coin;
@@ -169,6 +168,7 @@ class TransactionController extends Controller
         $trx->user_name = "-";
         $trx->bank_name = "-";
         $trx->acc_no = "-";
+        $trx->holder_name = "-";
         $trx->website_name = $web->web_name;
         $trx->amount = $request->amount;
         $trx->old_web_coin = $web->init_coin;
@@ -202,6 +202,7 @@ class TransactionController extends Controller
             $trx->user_name = "-";
             $trx->bank_name = "-";
             $trx->acc_no = "-";
+            $trx->holder_name = "-";
             $trx->website_name = $web->web_name;
             $trx->amount = $request->amount;
             $trx->old_web_coin = $web->init_coin;
@@ -245,6 +246,7 @@ class TransactionController extends Controller
         $trx->user_name = "-";
         $trx->bank_name = $bank->bank_name;
         $trx->acc_no = $bank->acc_no;
+        $trx->holder_name = $bank->holder_name;
         $trx->website_name = "-";
         $trx->amount = $request->amount;
         $trx->old_web_coin = 0;
@@ -279,6 +281,7 @@ class TransactionController extends Controller
             $trx->user_name = "-";
             $trx->bank_name = $bank->bank_name;
             $trx->acc_no = $bank->acc_no;
+            $trx->holder_name = $bank->holder_name;
             $trx->website_name = "-";
             $trx->amount = $request->amount;
             $trx->old_web_coin = 0;
