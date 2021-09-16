@@ -89,22 +89,34 @@
             <div class="card" style="width: 100%">
                 <div class="card-body">
                     <div class="row text-center">
-                        <div class="col-xl-2">
-                            <a href="#modal6" data-toggle="modal" data-target="#modal6" class="small-box-footer modal6">
-                                <div class="small-box"
-                                    style="background-image: url('{{ asset("img/icon-bank.png") }}');background-size: cover;height: 90px;width: 100px;margin-left:30px;border-radius:100%;">
-                                </div>
-                            </a>
-                            <h6>Assign Bank to Website</h6>
-                        </div>
-                        <div class="col-xl-2">
-                            <a href="#modal7" data-toggle="modal" data-target="#modal7" class="small-box-footer modal7">
-                                <div class="small-box"
-                                    style="background-image: url('{{ asset("img/web-icon.png") }}');background-size: cover;height: 90px;width: 100px;margin-left:30px;border-radius:100%;">
-                                </div>
-                            </a>
-                            <h6>Assign Leaders/Operators to Websites</h6>
-                        </div>
+                        @if (auth::user()->role == "superadmin")
+                            <div class="col-xl-2">
+                                <a href="#modal6" data-toggle="modal" data-target="#modal6" class="small-box-footer modal6">
+                                    <div class="small-box"
+                                        style="background-image: url('{{ asset("img/icon-bank.png") }}');background-size: cover;height: 90px;width: 100px;margin-left:30px;border-radius:100%;">
+                                    </div>
+                                </a>
+                                <h6>Assign Bank to Website</h6>
+                            </div>
+                            <div class="col-xl-2">
+                                <a href="#modal7" data-toggle="modal" data-target="#modal7" class="small-box-footer modal7">
+                                    <div class="small-box"
+                                        style="background-image: url('{{ asset("img/web-icon.png") }}');background-size: cover;height: 90px;width: 100px;margin-left:30px;border-radius:100%;">
+                                    </div>
+                                </a>
+                                <h6>Assign Leaders to Websites</h6>
+                            </div>
+                        @endif
+                        @if (auth::user()->role == "Leader")
+                            <div class="col-xl-2">
+                                <a href="#modal7" data-toggle="modal" data-target="#modal7" class="small-box-footer modal7">
+                                    <div class="small-box"
+                                        style="background-image: url('{{ asset("img/web-icon.png") }}');background-size: cover;height: 90px;width: 100px;margin-left:30px;border-radius:100%;">
+                                    </div>
+                                </a>
+                                <h6>Assign Operators to Websites</h6>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -232,13 +244,14 @@
                 </div>
                 <div class="row mt-3">
                     <div class="col-md-12">
-                        <table class="table table-striped text-center" id="tbl_web_list">
+                        <table class="table table-striped text-center" id="tbl_web_list" style="width: 100%">
                             <thead>
                                 <tr>
                                     <td>No</td>
                                     <td>Website Name</td>
                                     <td>Initial Coins</td>
-                                    <td colspan="2">Actions</td>
+                                    <td>Actions</td>
+                                    <td>Actions</td>
                                 </tr>
                             </thead>
                             <tbody id="tbl_web">
@@ -277,7 +290,8 @@
                                     <td>No</td>
                                     <td>Leader Name</td>
                                     <td>Leader Email</td>
-                                    <td colspan="2">Actions</td>
+                                    <td>Actions</td>
+                                    <td>Actions</td>
                                 </tr>
                             </thead>
                             <tbody id="tbl_leader">
@@ -316,7 +330,8 @@
                                     <td>No</td>
                                     <td>Operator Name</td>
                                     <td>Operator Email</td>
-                                    <td colspan="2">Actions</td>
+                                    <td>Actions</td>
+                                    <td>Actions</td>
                                 </tr>
                             </thead>
                             <tbody id="tbl_operator">
@@ -355,7 +370,8 @@
                                     <td>No</td>
                                     <td>Customer Name</td>
                                     <td>Customer Email</td>
-                                    <td colspan="2">Actions</td>
+                                    <td>Actions</td>
+                                    <td>Actions</td>
                                 </tr>
                             </thead>
                             <tbody id="tbl_customer">
@@ -388,7 +404,7 @@
                 </div>
                 <div class="row mt-3 table-responsive">
                     <div class="col-md-12">
-                        <table class="table table-striped text-center" id="tbl_bank_list">
+                        <table class="table table-striped text-center" id="tbl_bank_list" style="width: 100%">
                             <thead>
                                 <tr>
                                     <td>No</td>
@@ -396,7 +412,7 @@
                                     <td>Bank Account Number</td>
                                     <td>Bank Account Holder</td>
                                     <td>Balance</td>
-                                    <td colspan="2">Actions</td>
+                                    <td>Actions</td>
                                 </tr>
                             </thead>
                             <tbody id="tbl_bank">
@@ -423,13 +439,14 @@
             <div class="modal-body">
                 <div class="row mt-3 table-responsive">
                     <div class="col-md-12">
-                        <table class="table table-striped text-center" id="tbl_assign_bank_list">
+                        <table class="table table-striped text-center" id="tbl_assign_bank_list" style="width: 100%">
                             <thead>
                                 <tr>
                                     <td>No</td>
                                     <td>Bank Name</td>
                                     <td>Bank Account Number</td>
-                                    <td colspan="2">Actions</td>
+                                    <td>Actions</td>
+                                    <td>Actions</td>
                                 </tr>
                             </thead>
                             <tbody id="tbl_assign_bank">
@@ -461,7 +478,8 @@
                                 <tr>
                                     <td>No</td>
                                     <td>Website Name</td>
-                                    <td colspan="2">Actions</td>
+                                    <td>Actions</td>
+                                    <td>Actions</td>
                                 </tr>
                             </thead>
                             <tbody id="tbl_assign_website">
@@ -493,7 +511,8 @@
                                 <tr>
                                     <td>No</td>
                                     <td>Website Name</td>
-                                    <td colspan="2">Actions</td>
+                                    <td>Actions</td>
+                                    <td>Actions</td>
                                 </tr>
                             </thead>
                             <tbody id="tbl_depo_wd">
@@ -512,8 +531,8 @@
 </div>
 <!-- Modal 9 -->
 <div class="modal fade" id="modal9" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
+    <div class="modal-dialog modal-dialog-besar" role="document">
+        <div class="modal-content modal-content-besar">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Pending Transactions</h5>
             </div>
@@ -525,16 +544,18 @@
                 </div>
                 <div class="row mt-3 table-responsive">
                     <div class="col-md-12">
-                        <table class="table table-striped text-center" id="tbl_pending_list">
+                        <table class="table table-striped text-center" id="tbl_pending_list" style="width: 100%">
                             <thead>
                                 <tr>
                                     <td>No</td>
+                                    <td>Nama Pengirim</td>
                                     <td>Status</td>
                                     <td>Transaction</td>
                                     <td>Bank Name</td>
                                     <td>Account Number</td>
                                     <td>Amount</td>
-                                    <td colspan="2">Actions</td>
+                                    <td>Actions</td>
+                                    <td>Actions</td>
                                 </tr>
                             </thead>
                             <tbody id="tbl_pending">
@@ -567,7 +588,8 @@
                                     <td>No</td>
                                     <td>Website Name</td>
                                     <td>Coins</td>
-                                    <td colspan="2">Actions</td>
+                                    <td>Actions</td>
+                                    <td>Actions</td>
                                 </tr>
                             </thead>
                             <tbody id="tbl_add_deduct_coins">
@@ -601,7 +623,8 @@
                                     <td>Bank Name</td>
                                     <td>Account Number</td>
                                     <td>Balance</td>
-                                    <td colspan="2">Actions</td>
+                                    <td>Actions</td>
+                                    <td>Actions</td>
                                 </tr>
                             </thead>
                             <tbody id="tbl_add_deduct_balance">
@@ -639,7 +662,8 @@
                                 <tr>
                                     <td>No</td>
                                     <td>Transaction Number</td>
-                                    <td colspan="2">Actions</td>
+                                    <td>Actions</td>
+                                    <td>Actions</td>
                                 </tr>
                             </thead>
                             <tbody id="tbl_cashback">
@@ -658,8 +682,8 @@
 </div>
 <!-- Modal 13 -->
 <div class="modal fade" id="modal13" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
+    <div class="modal-dialog modal-dialog-besar" role="document">
+        <div class="modal-content modal-content-besar">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Bank Master</h5>
             </div>
@@ -672,13 +696,14 @@
                 </div>
                 <div class="row mt-3 table-responsive">
                     <div class="col-md-12">
-                        <table class="table table-striped text-center" id="tbl_bank_master_list">
+                        <table class="table table-striped text-center" id="tbl_bank_master_list" style="width: 100%">
                             <thead>
                                 <tr>
                                     <td>No</td>
                                     <td>Bank Master Name</td>
                                     <td>Bank Master Alias</td>
-                                    <td colspan="2">Actions</td>
+                                    <td>Actions</td>
+                                    <td>Actions</td>
                                 </tr>
                             </thead>
                             <tbody id="tbl_bank_master">
@@ -796,7 +821,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add New Website</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Add New Leader</h5>
             </div>
             <div class="modal-body">
                 <div class="row mb-1">
@@ -1229,7 +1254,7 @@
                         <h6>Initial Balance</h6>
                     </div>
                     <div class="col-md-10">
-                        <input class="form-control" type="text" name="saldo" id="saldo">
+                        <input class="form-control amount" type="text" name="saldo" id="saldo">
                     </div>
                 </div>
                 <div class="row mb-1">
@@ -1610,7 +1635,7 @@
 				</div>
 				<div class="row mb-2">
 					<div class="col-md-4">
-						User
+						Nama Pengirim
 					</div>
 					<div class="col-md-8">
 						<input class="form-control" type="text" name="user_pending" id="user_pending">
@@ -1691,7 +1716,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Form Depo/WD Pending</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Form Pending Deposit</h5>
             </div>
             <div class="modal-body">
 				<div class="row mb-2">
@@ -1733,22 +1758,13 @@
 					</div>
 					<div class="col-md-8">
 						<div class="row text-center">
-							<div class="col-md-6">
+							<div class="col-md-12">
 								<label style="background-color: lightblue; border-radius: 10px;width: 130px">
 									<div class="form-check form-check-inline">
 										<input class="form-check-input-money" type="radio" name="inlineRadioOptionsMoneyPending" id="depo" value="deposit">
 										<img src="{{ asset("img/moneyIn.png") }}" style="max-width: 25px;margin-top: 5px;">
 									</div>
 									Deposit
-								</label>
-							</div>
-							<div class="col-md-6">
-								<label style="background-color: lightcoral; border-radius: 10px;width: 130px">
-									<div class="form-check form-check-inline">
-										<input class="form-check-input-money" type="radio" name="inlineRadioOptionsMoneyPending" id="wd" value="withdrawal">
-										<img src="{{ asset("img/moneyOut.png") }}" style="max-width: 25px;margin-top: 5px;">
-									</div>
-									Withdrawal
 								</label>
 							</div>
 						</div>
@@ -1759,7 +1775,7 @@
 						Amount
 					</div>
 					<div class="col-md-8">
-						<input class="form-control" type="number" name="amount_pending_depowd" id="amount_pending_depowd">
+						<input class="form-control" type="number" name="amount_pending_depowd" id="amount_pending_depowd" readonly>
 					</div>
 				</div>
             </div>
@@ -2187,10 +2203,23 @@
 <script src="{{asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{asset('plugins/moment/moment.min.js')}}"></script>    
 <script src="{{asset('plugins/daterangepicker/daterangepicker.js')}}"></script>
+<script src="{{asset('plugins/RobinHerbots.js')}}"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.2/datatables.min.js"></script>
+{{-- <script src="https://cdn.jsdelivr.net/gh/RobinHerbots/Inputmask@3.3/dist/jquery.inputmask.bundle.js"></script> --}}
+{{-- <script type='text/javascript' src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script> --}}
 {{-- <script src="{{asset('plugins/datatables/jquery.dataTables.min.js')}}"></script> --}}
 
 <script>
+
+$(function() {
+  $('.amount').inputmask('9.999.999.999', { numericInput: true, rightAlign: false });
+
+})
+
+// $(document).on('input','.amount',function(event) {
+//   this.value = parseFloat(this.value.replace(/(.*){1}/, '0$1').replace(/[^\d]/g, '').replace(/(\d\d?)$/, '.$1')).toFixed(2);
+// });
+
 	function autocomplete(inp, arr) {
 			/*the autocomplete function takes two arguments,
 			the text field element and an array of possible autocompleted values:*/
@@ -2406,10 +2435,10 @@
                     htmll += '<tr>';
                     htmll += '<td>' + no + '</td>';
                     htmll += '<td>' + data[i].user_id + '</td>';
-                    htmll += '<td>' + data[i].name + '</td>';
+                    htmll += '<td>' + data[i].email + '</td>';
                     htmll += '<td><button class="btn btn-sm btn-primary edit_cust" data-id="' +
                         data[i].id +
-                        '"data-toggle="modal" data-target="#modaleditcustomer">Edit</button></td>';
+                        '"data-toggle="modal" data-target="#modaleditcustomer">Detail</button></td>';
                     htmll +=
                         '<td><button class="btn btn-sm btn-danger del_data" data-type="customer" data-id="' +
                         data[i].id +
@@ -2418,7 +2447,7 @@
                     no++;
                 }
                 $('#tbl_customer').append(htmll);
-                $("#tbl_customer_list").DataTable();
+                $('#tbl_customer_list').DataTable();
             }
         });
     }
@@ -2503,16 +2532,17 @@
                 for (i = 0; i < data.length; i++) {
                     html += '<tr>';
                     html += '<td>' + no + '</td>';
+                    html += '<td>' + data[i].user_name + '</td>';
                     html += '<td>' + data[i].status + '</td>';
 					html += '<td>' + data[i].trx_name + '</td>';
 					html += '<td>' + data[i].bank_name + '</td>';
 					html += '<td>' + data[i].acc_no + '</td>';
 					html += '<td>' + formatNumber(data[i].amount) + '</td>';
 					if (data[i].status == "Pending") {
-						html += '<td><button class="btn btn-sm btn-primary pending_depowd" data-id="' + data[i].id +'"data-toggle="modal" data-target="#modaldepowdpending">Depo/WD</button></td>';
+						html += '<td><button class="btn btn-sm btn-primary pending_depowd" data-id="' + data[i].id +'"data-toggle="modal" data-target="#modaldepowdpending">Pending Deposit</button></td>';
                     	html += '<td><button class="btn btn-sm btn-danger beban_depowd" data-id="' + data[i].id +'"data-toggle="modal" data-target="#modalbeban">Costs</button></td>';	
 					} else {
-						html += '<td><button class="btn btn-sm btn-primary pending_depowd" data-id="" data-toggle="modal" disabled>Depo/WD</button></td>';
+						html += '<td><button class="btn btn-sm btn-primary pending_depowd" data-id="" data-toggle="modal" disabled>Pending Deposit</button></td>';
                     	html += '<td><button class="btn btn-sm btn-danger beban_depowd" data-id="" data-toggle="modal" disabled>Costs</button></td>';
 					}
                    	html += '</tr>';
@@ -2905,6 +2935,11 @@
                 if (data.message == "success") {
                     alert("Success Add Leader");
                     $('.add_leader_close').click();
+                    $('#leader_name').val('');
+                    $('#leader_email').val('');
+                    $('#leader_pass').val('');
+                    $('#leader_username_apps').val('');
+                    $('#leader_pass_pass').val('');
                     get_leader();
                 } else {
                     alert(data.data);
@@ -3655,7 +3690,7 @@
 	})
 
     $(document).on('click', '.modal7', function () {
-        $('#tbl_assign_bank').empty();
+        $('#tbl_assign_website').empty();
         $.ajax({
             url: "{{route('get_web')}}",
             type: "POST",
@@ -3940,16 +3975,17 @@
                 for (i = 0; i < data.length; i++) {
                     html += '<tr>';
                     html += '<td>' + no + '</td>';
+                    html += '<td>' + data[i].user_name + '</td>';
                     html += '<td>' + data[i].status + '</td>';
 					html += '<td>' + data[i].trx_name + '</td>';
 					html += '<td>' + data[i].bank_name + '</td>';
 					html += '<td>' + data[i].acc_no + '</td>';
 					html += '<td>' + formatNumber(data[i].amount) + '</td>';
 					if (data[i].status == "Pending") {
-						html += '<td><button class="btn btn-sm btn-primary pending_depowd" data-id="' + data[i].id +'"data-toggle="modal" data-target="#modaldepowdpending">Depo/WD</button></td>';
+						html += '<td><button class="btn btn-sm btn-primary pending_depowd" data-id="' + data[i].id +'"data-toggle="modal" data-target="#modaldepowdpending">Pending Deposit</button></td>';
                     	html += '<td><button class="btn btn-sm btn-danger beban_depowd" data-id="' + data[i].id +'"data-toggle="modal" data-target="#modalbeban">Costs</button></td>';	
 					} else {
-						html += '<td><button class="btn btn-sm btn-primary pending_depowd" data-id="" data-toggle="modal" disabled>Depo/WD</button></td>';
+						html += '<td><button class="btn btn-sm btn-primary pending_depowd" data-id="" data-toggle="modal" disabled>Pending Deposit</button></td>';
                     	html += '<td><button class="btn btn-sm btn-danger beban_depowd" data-id="" data-toggle="modal" disabled>Costs</button></td>';
 					}
                     

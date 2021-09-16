@@ -21,7 +21,27 @@ class PendingController extends Controller
         return response()->json(["message"=>"success","data"=>$data]);
     }
     public function getdatabank(){
-        $data = bank::all();
+        if (auth::user()->role == "superadmin") {
+            $data = bank::all();
+        } else if(auth::user()->role == "Leader"){
+            $webs = website::all();
+            $arr_web = array();
+            foreach($webs as $web){
+                if(in_array(auth::user()->id, explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $web->leader)))){
+                    array_push($arr_web,explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $web->bank)));
+                }
+            }
+            $data = bank::whereIn('id', $arr_web[0])->get();
+        }else{
+            $webs = website::all();
+            $arr_web = array();
+            foreach($webs as $web){
+                if(in_array(auth::user()->id, explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $web->operator)))){
+                    array_push($arr_web,explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $web->bank)));
+                }
+            }
+            $data = bank::whereIn('id', $arr_web[0])->get(); 
+        }
         return response()->json(["message"=>"success","banks"=>$data]);
     }
 
@@ -60,26 +80,61 @@ class PendingController extends Controller
         // dd($request);
         $arr_cust = array();
         $arr_bank = array();
+        $arr_banks = array();
+        $arr_web = array();
         $custs = customer::all();
-        $banks = bank::all();
-        $webs  =website::all();
         $data = pending::where('id', $request->id)->get();
         $active_bank = bank::where('id', $data[0]->bank_id)->get("id");
         $amount = $data[0]->amount;
 
-        foreach($custs as $cust){
-            array_push($arr_cust, $cust->name);
+        if (auth::user()->role == "superadmin") {
+            $banks = bank::all();
+            $webs  = website::all();
+        } else if(auth::user()->role == "Leader"){
+            $webs = website::all();
+            $arr_web = array();
+            foreach($webs as $web){
+                if(in_array(auth::user()->id, explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $web->leader)))){
+                    array_push($arr_bank,explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $web->bank)));
+                    array_push($arr_web,$web->id);
+                }
+            }
+            $banks = bank::whereIn('id', $arr_bank[0])->get();
+            $webs = website::where('id', $arr_web[0])->get();
+
+            for($i=0; $i < count($banks); $i++){
+                $arr_banks[$i]["id"] = $banks[$i]->id;
+                $arr_banks[$i]["bank_name"] = $banks[$i]->bank_name;
+                $arr_banks[$i]["acc_no"] = $banks[$i]->acc_no;
+            }
+        }else{
+            $webs = website::all();
+            $arr_web = array();
+            foreach($webs as $web){
+                if(in_array(auth::user()->id, explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $web->operator)))){
+                    array_push($arr_bank,explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $web->bank)));
+                    array_push($arr_web, $web->id);
+                }
+            }
+            $banks = bank::whereIn('id', $arr_bank[0])->get();
+            $webs = website::where('id', $arr_web[0])->get(); 
+
+            for($i=0; $i < count($banks); $i++){
+                $arr_banks[$i]["id"] = $banks[$i]->id;
+                $arr_banks[$i]["bank_name"] = $banks[$i]->bank_name;
+                $arr_banks[$i]["acc_no"] = $banks[$i]->acc_no;
+            }
         }
 
-        for($i=0; $i < count($banks); $i++){
-            $arr_bank[$i]["id"] = $banks[$i]->id;
-            $arr_bank[$i]["bank_name"] = $banks[$i]->bank_name;
-            $arr_bank[$i]["acc_no"] = $banks[$i]->acc_no;
+        foreach($custs as $cust){
+            array_push($arr_cust, $cust->user_id);
         }
+
+
 
         // dd($arr_cust, $arr_bank, $active_bank, $amount);
 
-        return response()->json(["message"=>"success","customers"=>$arr_cust, "banks"=>$arr_bank,"website"=>$webs, "active_bank"=>$active_bank[0]->id, "amount"=>$amount]);
+        return response()->json(["message"=>"success","customers"=>$arr_cust, "banks"=>$arr_banks,"website"=>$webs, "active_bank"=>$active_bank[0]->id, "amount"=>$amount]);
     }
     public function getdatapendingcost(Request $request){
         // dd($request);
@@ -107,20 +162,20 @@ class PendingController extends Controller
     }
 
     public function pendingdepowdprocess(Request $request){
-        
+        // dd($request);
         $bank = bank::where('id', $request->bank)->first();
         $web = website::where('id', $request->web)->first();
         $pending = pending::where('id', $request->id_pending)->first();
-        $cust = Customer::where('name', $request->user)->get("name");
         $old_balance = (int)$bank->saldo;
         $old_coin = (int)$web->init_coin;
 
         if($request->type == "deposit"){
             $trx = new trx;
-            $trx->trx_type = $request->type;
+            $trx->trx_type = "Deposit";
             $trx->user_name = $request->user;
             $trx->bank_name = $bank->bank_name;
             $trx->acc_no = $bank->acc_no;
+            $trx->holder_name = $bank->holder_name;
             $trx->website_name = $web->web_name;
             $trx->amount = $request->amount;
             $trx->old_web_coin = $old_coin;
@@ -136,19 +191,20 @@ class PendingController extends Controller
             $bank->save();
 
             $pending->status = "Processed";
-            $pending->status_detail = $request->type;
+            $pending->status_detail = "Deposit";
             $pending->save();
 
             $log = new log;
             $log->user = auth::user()->name;
-            $log->activity = "User: ".auth::user()->name." approve ".$request->type." with amount ".$request->amount." for Player ".$request->user." from Pending transaction with number ".$pending->trx_name;
+            $log->activity = "User: ".auth::user()->name." approve Deposit with amount ".$request->amount." for Player ".$request->user." from Pending transaction with number ".$pending->trx_name;
             $log->save();
         }else{
             $trx = new trx;
-            $trx->trx_type = $request->type;
+            $trx->trx_type = "Withdrawal";
             $trx->user_name = $request->user;
             $trx->bank_name = $bank->bank_name;
             $trx->acc_no = $bank->acc_no;
+            $trx->holder_name = $bank->holder_name;
             $trx->website_name = $web->web_name;
             $trx->amount = $request->amount;
             $trx->old_web_coin = $old_coin;
@@ -164,12 +220,12 @@ class PendingController extends Controller
             $bank->save();
 
             $pending->status = "Processed";
-            $pending->status_detail = $request->type;
+            $pending->status_detail = "Withdrawal";
             $pending->save();
 
             $log = new log;
             $log->user = auth::user()->name;
-            $log->activity = "User: ".auth::user()->name." approve ".$request->type." with amount ".$request->amount." for Player ".$request->user." from Pending transaction with number ".$pending->trx_name;
+            $log->activity = "User: ".auth::user()->name." approve Withdrawal with amount ".$request->amount." for Player ".$request->user." from Pending transaction with number ".$pending->trx_name;
             $log->save();
         }
         return response()->json(["message"=>"success"]);
@@ -193,6 +249,7 @@ class PendingController extends Controller
         $trx->user_name = "COMPANY";
         $trx->bank_name = $bank->bank_name;
         $trx->acc_no = $bank->acc_no;
+        $trx->holder_name = $bank->holder_name;
         $trx->website_name = "-";
         $trx->amount = $request->amount;
         $trx->old_web_coin = 0;

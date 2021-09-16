@@ -38,7 +38,6 @@ class AssignController extends Controller
         foreach ($webs as $web) {
             $update_web = website::where('id', $web->id)->first();
             if($web->bank == "-"){
-                dd("1");
                 $update_web->bank = json_encode($arr_bank);
                 $update_web->save();
             } else {
@@ -62,7 +61,6 @@ class AssignController extends Controller
                 } else {
                     $old_data = explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $update_web->bank));
                     array_push($old_data, $request->id);
-                    dd($old_data);
                     $update_web->bank = json_encode($old_data);
                     $update_web->save();
                 }
@@ -100,37 +98,52 @@ class AssignController extends Controller
 
     public function dataprocessweb(Request $request){
         // dd($request);
-        $leads = array();
-        $ops = array();
 
-        $lead = DB::table('users')
-                ->whereIn('id',$request->leaders)
-                ->get('name');
-        $op = DB::table('users')
-                ->whereIn('id',$request->operators)
-                ->get('name');
-
-        if(count($lead) >0){
-            foreach($lead as $l){
-                array_push($leads, $l->name);
+        if (auth::user()->role == "superadmin") {
+            $leads = array();
+            $lead = DB::table('users')
+            ->whereIn('id',$request->leaders)
+            ->get('name');
+            if(count($lead) >0){
+                foreach($lead as $l){
+                    array_push($leads, $l->name);
+                }
             }
-        }
-        if(count($op) >0){
-            foreach($op as $o){
-                array_push($ops, $o->name);
+            $update_web = website::where('id', $request->id)->first();
+            $update_web->leader = json_encode($request->leaders);
+            $update_web->save();
+
+            $log = new log;
+            $log->user = auth::user()->name;
+            $log->activity = "User: ".auth::user()->name." assign Leaders: ".json_encode($leads)." to website: ".$update_web->web_name;
+            $log->save();
+    
+            return response()->json(["message"=>"success"]);
+        } else {
+            $ops = array();
+
+            $op = DB::table('users')
+                    ->whereIn('id',$request->operators)
+                    ->get('name');
+    
+            if(count($op) >0){
+                foreach($op as $o){
+                    array_push($ops, $o->name);
+                }
             }
+    
+            $update_web = website::where('id', $request->id)->first();
+            $update_web->operator = json_encode($request->operators);
+            $update_web->save();
+    
+            $log = new log;
+            $log->user = auth::user()->name;
+            $log->activity = "User: ".auth::user()->name." assign Operators: ".json_encode($ops)." to website: ".$update_web->web_name;
+            $log->save();
+    
+            return response()->json(["message"=>"success"]);
         }
+        
 
-        $update_web = website::where('id', $request->id)->first();
-        $update_web->leader = json_encode($request->leaders);
-        $update_web->operator = json_encode($request->operators);
-        $update_web->save();
-
-        $log = new log;
-        $log->user = auth::user()->name;
-        $log->activity = "User: ".auth::user()->name." assign Leaders: ".json_encode($leads)." and Operators: ".json_encode($ops)." to website: ".$update_web->web_name;
-        $log->save();
-
-        return response()->json(["message"=>"success"]);
     }
 }

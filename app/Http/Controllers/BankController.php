@@ -22,7 +22,9 @@ class BankController extends Controller
         return response()->json(["message"=>"success", "data"=>$master]);
     }
     public function addbank(Request $request){
-
+        // dd($request);
+        $test = str_replace( '\\/:*?"<>|[]', " ",$request->saldo);
+        dd($test);
         $validator = Validator::make($request->all(), [
             'bank_master_id' => 'required',
             'acc_no' => 'required|unique:banks',
