@@ -657,12 +657,11 @@
                 </div>
                 <div class="row mt-3 table-responsive">
                     <div class="col-md-12">
-                        <table class="table table-striped text-center" id="tbl_cashback_list">
+                        <table class="table table-striped text-center" id="tbl_cashback_list" style="width: 100%">
                             <thead>
                                 <tr>
                                     <td>No</td>
                                     <td>Transaction Number</td>
-                                    <td>Actions</td>
                                     <td>Actions</td>
                                 </tr>
                             </thead>
@@ -1690,7 +1689,7 @@
 						Amount
 					</div>
 					<div class="col-md-8">
-						<input class="form-control" type="number" name="amount_pending_cost" id="amount_pending_cost">
+						<input class="form-control" type="number" name="amount_pending_cost" id="amount_pending_cost" readonly>
 					</div>
 				</div>
 				<div class="row mt-1">

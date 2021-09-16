@@ -150,15 +150,48 @@ class PendingController extends Controller
             array_push($arr_cust, $cust->name);
         }
 
-        for($i=0; $i < count($banks); $i++){
-            $arr_bank[$i]["id"] = $banks[$i]->id;
-            $arr_bank[$i]["bank_name"] = $banks[$i]->bank_name;
-            $arr_bank[$i]["acc_no"] = $banks[$i]->acc_no;
+        if (auth::user()->role == "superadmin") {
+            $banks = bank::all();
+            $webs  = website::all();
+        } else if(auth::user()->role == "Leader"){
+            $webs = website::all();
+            $arr_web = array();
+            foreach($webs as $web){
+                if(in_array(auth::user()->id, explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $web->leader)))){
+                    array_push($arr_bank,explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $web->bank)));
+                    array_push($arr_web,$web->id);
+                }
+            }
+            $banks = bank::whereIn('id', $arr_bank[0])->get();
+            $webs = website::where('id', $arr_web[0])->get();
+
+            for($i=0; $i < count($banks); $i++){
+                $arr_banks[$i]["id"] = $banks[$i]->id;
+                $arr_banks[$i]["bank_name"] = $banks[$i]->bank_name;
+                $arr_banks[$i]["acc_no"] = $banks[$i]->acc_no;
+            }
+        }else{
+            $webs = website::all();
+            $arr_web = array();
+            foreach($webs as $web){
+                if(in_array(auth::user()->id, explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $web->operator)))){
+                    array_push($arr_bank,explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $web->bank)));
+                    array_push($arr_web, $web->id);
+                }
+            }
+            $banks = bank::whereIn('id', $arr_bank[0])->get();
+            $webs = website::where('id', $arr_web[0])->get(); 
+
+            for($i=0; $i < count($banks); $i++){
+                $arr_banks[$i]["id"] = $banks[$i]->id;
+                $arr_banks[$i]["bank_name"] = $banks[$i]->bank_name;
+                $arr_banks[$i]["acc_no"] = $banks[$i]->acc_no;
+            }
         }
 
         // dd($arr_cust, $arr_bank, $active_bank, $amount);
 
-        return response()->json(["message"=>"success","customers"=>$arr_cust, "banks"=>$arr_bank, "active_bank"=>$active_bank[0]->id, "amount"=>$amount]);
+        return response()->json(["message"=>"success","customers"=>$arr_cust, "banks"=>$arr_banks, "active_bank"=>$active_bank[0]->id, "amount"=>$amount]);
     }
 
     public function pendingdepowdprocess(Request $request){
@@ -254,12 +287,9 @@ class PendingController extends Controller
         $trx->amount = $request->amount;
         $trx->old_web_coin = 0;
         $trx->new_web_coin = 0;
-        $trx->old_bank_balance = $old_balance;
-        $trx->new_bank_balance = $old_balance - $request->amount;
+        $trx->old_bank_balance = 0;
+        $trx->new_bank_balance = 0;
         $trx->save();
-
-        $bank->saldo = $old_balance - $request->amount;
-        $bank->save();
 
         $pending->status = "Processed";
         $pending->status_detail = "COST";
