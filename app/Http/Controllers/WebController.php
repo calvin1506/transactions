@@ -53,6 +53,8 @@ class WebController extends Controller
 
         $web_edit->web_name = $request->name;
         $web_edit->init_coin = $request->coin;
+        $web_edit->persen_new_member = $request->persen_new_member;
+        $web_edit->persen_harian = $request->persen_harian;
         $web_edit->save();
 
         return response()->json(["message"=>"success"]);
@@ -60,19 +62,40 @@ class WebController extends Controller
     }
 
     public function addweb(Request $request){
+
         $cek = web::where('web_name', $request->web_name)->count();
         if ($cek == 0) {
-            $web = new web;
-            $web->web_name = $request->web_name;
-            $web->init_coin = $request->init_coin;
-            $web->save();
-
-            $log = new log;
-            $log->user = auth::user()->name;
-            $log->activity = "User: ".auth::user()->name." add new website: ".$request->web_name." with initial coin: ". $request->init_coin;
-            $log->save();
-
-            return response()->json(["message"=>"success"]);
+            if ($request->init_coin == 0 || $request->init_coin == "") {
+                return response()->json(["message"=>"error", "data"=>"Initial Coins cannot 0 or empty!"]);
+            } else if($request->persen_new_member == "" || $request->persen_harian == "") {
+                $web = new web;
+                $web->web_name = $request->web_name;
+                $web->init_coin = $request->init_coin;
+                $web->persen_new_member = 0;
+                $web->persen_harian = 0;
+                $web->save();
+    
+                $log = new log;
+                $log->user = auth::user()->name;
+                $log->activity = "User: ".auth::user()->name." add new website: ".$request->web_name." with initial coin: ". $request->init_coin;
+                $log->save();
+    
+                return response()->json(["message"=>"success"]);
+            } else {
+                $web = new web;
+                $web->web_name = $request->web_name;
+                $web->init_coin = $request->init_coin;
+                $web->persen_new_member = $request->persen_new_member;
+                $web->persen_harian = $request->persen_harian;
+                $web->save();
+    
+                $log = new log;
+                $log->user = auth::user()->name;
+                $log->activity = "User: ".auth::user()->name." add new website: ".$request->web_name." with initial coin: ". $request->init_coin." with Bonus New Member: ".$request->persen_new_member." % and Bonus Harian: ".$request->persen_harian." %";
+                $log->save();
+    
+                return response()->json(["message"=>"success"]);
+            }
         } else {
             return response()->json(["message"=>"error", "data"=>"Duplicate Web!"]);
         }

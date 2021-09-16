@@ -230,8 +230,8 @@
 
 <!-- Modal 1 -->
 <div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
+    <div class="modal-dialog modal-dialog-besar" role="document">
+        <div class="modal-content modal-content-besar">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Websites</h5>
             </div>
@@ -250,6 +250,8 @@
                                     <td>No</td>
                                     <td>Website Name</td>
                                     <td>Initial Coins</td>
+                                    <td>Bonus New Member (%)</td>
+                                    <td>Bonus Harian (%)</td>
                                     <td>Actions</td>
                                     <td>Actions</td>
                                 </tr>
@@ -755,19 +757,35 @@
             </div>
             <div class="modal-body">
                 <div class="row mb-1">
-                    <div class="col-md-2">
+                    <div class="col-md-4">
                         <h6>Website Name</h6>
                     </div>
-                    <div class="col-md-10">
+                    <div class="col-md-8">
                         <input class="form-control" type="text" name="web_name" id="web_name">
                     </div>
                 </div>
                 <div class="row mt-1">
-                    <div class="col-md-2">
+                    <div class="col-md-4">
                         <h6>Initial Coins</h6>
                     </div>
-                    <div class="col-md-10">
+                    <div class="col-md-8">
                         <input class="form-control" type="number" name="init_coin" id="init_coin">
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col-md-4">
+                        <h6>Bonus New Member (%)</h6>
+                    </div>
+                    <div class="col-md-8">
+                        <input class="form-control" type="number" name="persen_new_member" id="persen_new_member">
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col-md-4">
+                        <h6>Bonus Harian (%)</h6>
+                    </div>
+                    <div class="col-md-8">
+                        <input class="form-control" type="number" name="persen_harian" id="persen_harian">
                     </div>
                 </div>
             </div>
@@ -788,19 +806,35 @@
             </div>
             <div class="modal-body">
                 <div class="row mb-1">
-                    <div class="col-md-2">
+                    <div class="col-md-4">
                         <h6>Website Name</h6>
                     </div>
-                    <div class="col-md-10">
+                    <div class="col-md-8">
                         <input class="form-control" type="text" name="web_name_edit" id="web_name_edit">
                     </div>
                 </div>
                 <div class="row mt-1">
-                    <div class="col-md-2">
+                    <div class="col-md-4">
                         <h6>Initial Coins</h6>
                     </div>
-                    <div class="col-md-10">
+                    <div class="col-md-8">
                         <input class="form-control" type="number" name="init_coin_edit" id="init_coin_edit" readonly>
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col-md-4">
+                        <h6>Bonus New Member (%)</h6>
+                    </div>
+                    <div class="col-md-8">
+                        <input class="form-control" type="number" name="persen_new_member_edit" id="persen_new_member_edit">
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col-md-4">
+                        <h6>Bonus Harian (%)</h6>
+                    </div>
+                    <div class="col-md-8">
+                        <input class="form-control" type="number" name="persen_harian_edit" id="persen_harian_edit">
                     </div>
                 </div>
             </div>
@@ -2339,6 +2373,8 @@ $(function() {
                     html += '<td>' + no + '</td>';
                     html += '<td>' + data[i].web_name + '</td>';
                     html += '<td>' + formatNumber(data[i].init_coin) + '</td>';
+                    html += '<td>' + data[i].persen_new_member + '</td>';
+                    html += '<td>' + data[i].persen_harian + '</td>';
                     html += '<td><button class="btn btn-sm btn-primary edit_web" data-id="' + data[i].id +
                         '"data-toggle="modal" data-target="#modaleditweb">Edit</button></td>';
                     html += '<td><button class="btn btn-sm btn-danger del_data" data-id="' + data[i].id +
@@ -2777,6 +2813,8 @@ $(function() {
                     html += '<td>' + no + '</td>';
                     html += '<td>' + data[i].web_name + '</td>';
                     html += '<td>' + formatNumber(data[i].init_coin) + '</td>';
+                    html += '<td>' + data[i].persen_new_member + '</td>';
+                    html += '<td>' + data[i].persen_harian + '</td>';
                     html += '<td><button class="btn btn-sm btn-primary edit_web" data-id="' + data[
                             i].id +
                         '"data-toggle="modal" data-target="#modaleditweb">Edit</button></td>';
@@ -2796,13 +2834,17 @@ $(function() {
     $(document).on('click', '.add_web', function () {
         var name = $('#web_name').val();
         var coin = $('#init_coin').val();
+        var persen_new_member = $('#persen_new_member').val();
+        var persen_harian = $('#persen_new_member').val();
         $.ajax({
             url: "{{route('add_web')}}",
             type: "POST",
             data: {
                 _token: "{{ csrf_token() }}",
                 web_name: name,
-                init_coin: coin
+                init_coin: coin,
+                persen_new_member: persen_new_member,
+                persen_harian: persen_harian
             },
             dataType: "json",
             success: function (data) {
@@ -2837,6 +2879,8 @@ $(function() {
         var id = $('#id_web_edit').val();
         var name = $('#web_name_edit').val();
         var coin = $('#init_coin_edit').val();
+        var persen_new_member = $('#persen_new_member_edit').val();
+        var persen_harian = $('#persen_new_member_edit').val();
         $.ajax({
             url: "{{route('web_edit_process')}}",
             type: "POST",
@@ -2844,7 +2888,9 @@ $(function() {
                 _token: "{{ csrf_token() }}",
                 id: id,
                 name: name,
-                coin: coin
+                coin: coin,
+                persen_new_member: persen_new_member,
+                persen_harian: persen_harian
             },
             dataType: "json",
             success: function (data) {
