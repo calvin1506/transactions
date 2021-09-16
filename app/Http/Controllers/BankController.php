@@ -101,12 +101,18 @@ class BankController extends Controller
     }
 
     public function addbankmaster(Request $request){
-        $validator = Validator::make($request->all(), [
-            'bank_master_name' => 'required|unique:bank_masters',
-            'bank_master_alias' => 'required|unique:bank_masters'
-        ]);
 
-        if($validator->passes()){
+        $cekBankName = master::where('bank_master_name', $request->bank_master_name)->count();
+        $cekBankAlias = master::where('bank_master_name', $request->bank_master_alias)->count();
+
+
+        if($cekBankName > 0 || $cekBankAlias > 0){
+            return response()->json(["message"=>"error", "data"=>"Duplicate Bank Master!"]);
+        }else if($request->bank_master_name == ""){
+            return response()->json(["message"=>"error", "data"=>"Bank Master Name cannot be empty!"]);
+        }else if($request->bank_master_alias == ""){
+            return response()->json(["message"=>"error", "data"=>"Bank Master Alias cannot be empty!"]);
+        } else {
             $ops = new master;
             $ops->bank_master_name = $request->bank_master_name;
             $ops->bank_master_alias = $request->bank_master_alias;
@@ -116,14 +122,8 @@ class BankController extends Controller
             $log->user = auth::user()->name;
             $log->activity = "User: ".auth::user()->name." add new Bank Master: ".$request->bank_master_name." with alias ".$request->bank_master_alias;
             $log->save();
-    
+
             return response()->json(["message"=>"success"]);
-        }else{
-            $cek = master::where('bank_master_name', $request->bank_master_name)->count();
-            $cek1 = master::where('bank_master_alias', $request->bank_master_alias)->count();
-            if($cek>0 || $cek1){
-                return response()->json(["message"=>"error", "data"=>"Duplicate Bank Master!"]);
-            }
         }
     }
 

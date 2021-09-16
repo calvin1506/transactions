@@ -618,7 +618,7 @@
             <div class="modal-body">
                 <div class="row mt-3 table-responsive">
                     <div class="col-md-12">
-                        <table class="table table-striped text-center" id="tbl_add_deduct_balance_list">
+                        <table class="table table-striped text-center" id="tbl_add_deduct_balance_list" style="width: 100%">
                             <thead>
                                 <tr>
                                     <td>No</td>

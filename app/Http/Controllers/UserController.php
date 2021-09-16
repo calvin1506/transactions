@@ -53,6 +53,16 @@ class UserController extends Controller
             $cek = user::where('email', $request->email)->count();
             if($cek>0){
                 return response()->json(["message"=>"error", "data"=>"Duplicate Leader!"]);
+            }else if(empty($request->name)){
+                return response()->json(["message"=>"error", "data"=>"Leader Name cannot empty!"]);
+            }else if(empty($request->email)){
+                return response()->json(["message"=>"error", "data"=>"Leader Email cannot empty!"]);
+            }else if(empty($request->password)){
+                return response()->json(["message"=>"error", "data"=>"Leader Password cannot empty!"]);
+            }else if(empty($request->username)){
+                return response()->json(["message"=>"error", "data"=>"Leader Username cannot empty!"]);
+            }else if(empty($request->password_apps)){
+                return response()->json(["message"=>"error", "data"=>"Leader Password Apps cannot empty!"]);
             }
         }
 
