@@ -135,6 +135,16 @@ class UserController extends Controller
             $cek = user::where('email', $request->email)->count();
             if($cek>0){
                 return response()->json(["message"=>"error", "data"=>"Duplicate Operator!"]);
+            }else if(empty($request->name)){
+                return response()->json(["message"=>"error", "data"=>"Operator Name cannot empty!"]);
+            }else if(empty($request->email)){
+                return response()->json(["message"=>"error", "data"=>"Operator Email cannot empty!"]);
+            }else if(empty($request->password)){
+                return response()->json(["message"=>"error", "data"=>"Operator Password cannot empty!"]);
+            }else if(empty($request->username)){
+                return response()->json(["message"=>"error", "data"=>"Operator Username cannot empty!"]);
+            }else if(empty($request->password_apps)){
+                return response()->json(["message"=>"error", "data"=>"Operator Password Apps cannot empty!"]);
             }
         }
     }
