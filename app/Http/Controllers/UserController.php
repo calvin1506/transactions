@@ -188,35 +188,37 @@ class UserController extends Controller
     }
     public function addcust(Request $request){
         // dd($request);
+        if (empty($request->user_data)) {
+            return response()->json(["message"=>"error", "data"=>"User Data cannot empty!"]);
+        } else {
+            $explode = explode('	',$request->user_data);
 
-        $explode = explode('	',$request->user_data);
-
-        $username = str_replace('No Name','',str_replace('Locked ', '',$explode[1]));
-        $referal = $explode[2];
-        $bank = $explode[3];
-        $balance = $explode[4];
-        $tanggalGabung = $explode[5];
-        $telepon = $explode[6];
-        $email = $explode[7];
-
-        $ops = new customer;
-        $ops->user_id = $username;
-        $ops->referral = $referal;
-        $ops->bank = $bank;
-        $ops->balance = $balance;
-        $ops->tanggal_gabung = $tanggalGabung;
-        $ops->telepon = $telepon;
-        $ops->email = $email;
-        $ops->website = $request->web;
-        $ops->save();
-
-        $log = new log;
-        $log->user = auth::user()->name;
-        $log->activity = "User: ".auth::user()->name." add new customer: ".$username;
-        $log->save();
-
-        return response()->json(["message"=>"success"]);
-
+            $username = str_replace('No Name','',str_replace('Locked ', '',$explode[1]));
+            $referal = $explode[2];
+            $bank = $explode[3];
+            $balance = $explode[4];
+            $tanggalGabung = $explode[5];
+            $telepon = $explode[6];
+            $email = $explode[7];
+    
+            $ops = new customer;
+            $ops->user_id = $username;
+            $ops->referral = $referal;
+            $ops->bank = $bank;
+            $ops->balance = $balance;
+            $ops->tanggal_gabung = $tanggalGabung;
+            $ops->telepon = $telepon;
+            $ops->email = $email;
+            $ops->website = $request->web;
+            $ops->save();
+    
+            $log = new log;
+            $log->user = auth::user()->name;
+            $log->activity = "User: ".auth::user()->name." add new customer: ".$username;
+            $log->save();
+    
+            return response()->json(["message"=>"success"]);
+        }
     }
     public function getcustedit(Request $request){
         $data = customer::where('id', $request->id)->get();

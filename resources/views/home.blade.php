@@ -366,7 +366,7 @@
                 </div>
                 <div class="row mt-3">
                     <div class="col-md-12">
-                        <table class="table table-striped text-center" id="tbl_customer_list">
+                        <table class="table table-striped text-center" id="tbl_customer_list" style="width: 100%">
                             <thead>
                                 <tr>
                                     <td>No</td>
@@ -1068,8 +1068,8 @@
 <!-- Modal Add Customer -->
 <div class="modal fade" id="modaladdnewcustomer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-besar" role="document">
-        <div class="modal-content modal-content-besar">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Add New Customer</h5>
             </div>
