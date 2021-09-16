@@ -42,27 +42,28 @@ class AssignController extends Controller
                 $update_web->save();
             } else {
                 $old_web = explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $bank->website));
-                $new_web = $request->website;
-                $diff = array_diff($old_web, $new_web);
-
-                if (count($diff) >0 ) {
-                    $new_webs = website::whereIn('id', $diff)->get();
-                
-                    foreach ($new_webs as $new ) {
-                        $old_bank = explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $new->bank));
-                        $update_new_data_bank = website::where('id', $new->id)->first();
-                        if(in_array($request->id, $old_bank)){
-                            $pos = array_search($request->id, $old_web);
-                            unset($old_bank[$pos]);
-                            $update_new_data_bank->bank = json_encode(array_values($old_bank));
-                            $update_new_data_bank->save();
-                        }
-                    }
-                } else {
+                if ($old_web[0] == "-") {
                     $old_data = explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $update_web->bank));
                     array_push($old_data, $request->id);
                     $update_web->bank = json_encode($old_data);
                     $update_web->save();
+                } else {
+                    $new_web = $request->website;
+                    $diff = array_diff($old_web, $new_web);
+                    if (count($diff) >0 ) {
+                        $new_webs = website::whereIn('id', $diff)->get();
+                    
+                        foreach ($new_webs as $new ) {
+                            $old_bank = explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $new->bank));
+                            $update_new_data_bank = website::where('id', $new->id)->first();
+                            if(in_array($request->id, $old_bank)){
+                                $pos = array_search($request->id, $old_web);
+                                unset($old_bank[$pos]);
+                                $update_new_data_bank->bank = json_encode(array_values($old_bank));
+                                $update_new_data_bank->save();
+                            }
+                        }
+                    }
                 }
             }
         }

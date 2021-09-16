@@ -508,12 +508,11 @@
             <div class="modal-body">
                 <div class="row mt-3 table-responsive">
                     <div class="col-md-12">
-                        <table class="table table-striped text-center" id="tbl_depo_wd_list">
+                        <table class="table table-striped text-center" id="tbl_depo_wd_list" style="width: 100%">
                             <thead>
                                 <tr>
                                     <td>No</td>
                                     <td>Website Name</td>
-                                    <td>Actions</td>
                                     <td>Actions</td>
                                 </tr>
                             </thead>
@@ -1579,10 +1578,10 @@
 					</div>
 				</div>
 				<div class="row mb-2">
-					<div class="col-md-4">
+					<div class="col-md-3">
 						User
 					</div>
-					<div class="col-md-8">
+					<div class="col-md-9">
 						<form autocomplete="off">
 							<div class="autocomplete" style="width:300px;" id="users_div">
 							  
@@ -1591,21 +1590,29 @@
 					</div>
 				</div>
 				<div class="row mb-2">
-					<div class="col-md-4">
-						Bank
+					<div class="col-md-3">
+						Bank Master
 					</div>
-					<div class="col-md-8">
+					<div class="col-md-9">
 						<div class="row" id="banks_div"></div>
 					</div>
 				</div>
 				<div class="row mb-2">
-					<div class="col-md-4">
+					<div class="col-md-3">
+					
+					</div>
+					<div class="col-md-9">
+						<div class="row" id="banks_detail_div"></div>
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-md-3">
 						Type
 					</div>
-					<div class="col-md-8">
+					<div class="col-md-9">
 						<div class="row text-center">
-							<div class="col-md-4">
-								<label style="background-color: lightblue; border-radius: 10px;width: 80px">
+							<div class="col-md-6">
+								<label style="background-color: lightblue; border-radius: 10px;width: 150px">
 									<div class="form-check form-check-inline">
 										<input class="form-check-input-money" type="radio" name="inlineRadioOptionsMoney" id="depo" value="deposit">
 										<img src="{{ asset("img/moneyIn.png") }}" style="max-width: 25px;margin-top: 5px;">
@@ -1613,8 +1620,8 @@
 									Deposit
 								</label>
 							</div>
-							<div class="col-md-4">
-								<label style="background-color: lightcoral; border-radius: 10px;width: 80px">
+							<div class="col-md-6">
+								<label style="background-color: lightcoral; border-radius: 10px;width: 150px">
 									<div class="form-check form-check-inline">
 										<input class="form-check-input-money" type="radio" name="inlineRadioOptionsMoney" id="wd" value="withdrawal">
 										<img src="{{ asset("img/moneyOut.png") }}" style="max-width: 25px;margin-top: 5px;">
@@ -1622,25 +1629,22 @@
 									Withdrawal
 								</label>
 							</div>
-							<div class="col-md-4">
-								<label style="background-color: lightgreen; border-radius: 10px;width: 80px">
-									<div class="form-check form-check-inline">
-										<input class="form-check-input-money" type="radio" name="inlineRadioOptionsMoney" id="bonus" value="bonus">
-										<img src="{{ asset("img/bonus.png") }}" style="max-width: 25px;margin-top: 5px;">
-									</div>
-									Bonus
-								</label>
-							</div>
 						</div>
 					</div>
 				</div>
+				<div class="row mb-2" id="div_bonus">
+
+				</div>
 				<div class="row mb-2">
-					<div class="col-md-4">
+					<div class="col-md-3">
 						Amount
 					</div>
-					<div class="col-md-8">
-						<input class="form-control" type="number" name="amount_depowd" id="amount_depowd">
+					<div class="col-md-9">
+						<input class="form-control" type="text" name="amount_depowd" id="amount_depowd" onkeyup="numberWithCommas(this)">
 					</div>
+				</div>
+				<div class="row mb-2" id="div_final_bonus">
+
 				</div>
             </div>
             <div class="modal-footer">
@@ -2228,7 +2232,6 @@
 </div>
 
 
-
 @endsection
 
 @section('footer')
@@ -2252,6 +2255,23 @@
 // $(document).on('input','.amount',function(event) {
 //   this.value = parseFloat(this.value.replace(/(.*){1}/, '0$1').replace(/[^\d]/g, '').replace(/(\d\d?)$/, '.$1')).toFixed(2);
 // });
+
+    function numberWithCommas(id) {
+        var id = id.getAttribute('id');
+        var val = $('#'+id).val().replace(',','');
+        $('#'+id).val(val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+    }
+
+    function delay(callback, ms) {
+        var timer = 0;
+        return function() {
+            var context = this, args = arguments;
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+            callback.apply(context, args);
+            }, ms || 0);
+        };
+    }
 
 	function autocomplete(inp, arr) {
 			/*the autocomplete function takes two arguments,
@@ -3924,8 +3944,12 @@
 	$(document).on('click', '.detail_depowd', function () {
 		$('#banks_div').empty();
 		$('#users_div').empty();
+		$('#div_final_bonus').empty();
+		$('#banks_detail_div').empty();
+        $('#div_bonus').empty();
 		$("input[name='inlineRadioOptionsMoney']").prop('checked', false);
-		$('#amount_depowd').empty();
+		$("input[name='inlineRadioOptionsBonus']").prop('checked', false);
+		$('#amount_depowd').val('');
 		var id = $(this).data("id");
 		var customer = [];
 		var bank = [];
@@ -3941,6 +3965,7 @@
             success: function (data) {
 				var banks = data.banks;
 				var customers = data.customers;
+				var master = data.masters; 
 				var bank = banks; 
 				var customer = customers; 
 				var html = "";
@@ -3948,21 +3973,15 @@
 
 				html += '<input id="InputUser" class="form-control" type="text" name="InputUser" placeholder="Users">';
 
-				for (let i = 0; i < banks.length; i++) {
-					// htmll += '<button class="btn btn-sm btn-bank" style="border=1px solid;"> <img src="{{ asset("img/icon-bank.jpg") }}" style="max-width: 25px;">'+banks[i]["bank_name"]+' - '+banks[i]["acc_no"]+'</button>';
-					// htmll += '<label>'+banks[i]["bank_name"]+' - '+banks[i]["acc_no"]+'</label><br>'
-					htmll += '<div class="col-md-6">'
-						htmll += '<label>';
-							htmll += '<div class="form-check form-check-inline">';
-								htmll += '<input class="form-check-input" type="radio" name="inlineRadioOptions" id="bank'+i+'" value="'+banks[i]["id"]+'">';
-								htmll += '<img src="{{ asset("img/icon-bank.png") }}" style="max-width: 25px;">'+banks[i]["bank_name"]+' - '+banks[i]["acc_no"];
-							htmll += '</div>';
-						htmll += '</label>';
-					htmll += '</div>';
-				}
-
-
-
+                htmll += '<div class="col-md-12">'
+                    htmll += '<select class="form-control" name="bank_master" id="bank_master">';
+                        htmll += '<option value=""> --Select Bank Master-- </option>';
+                        for (let i = 0; i < master.length; i++) {
+                            htmll += '<option value="'+master[i]["id"]+'"> '+master[i]["bank_master_name"]+' </option>';
+                        }
+                    htmll += '</select>';
+                htmll += '</div>';
+				
 				
 				$('#users_div').append(html);
 				$('#banks_div').append(htmll);
@@ -3973,6 +3992,113 @@
             }
         });
 	})
+    $(document).on('change', '#bank_master', function () {
+        $('#banks_detail_div').empty();
+        var id_master = $('#bank_master').val();
+        var id_web = $('#web_id_depo_wd').val();
+
+        if (id_master == "") {
+            $('#banks_detail_div').empty();
+        } else {
+            $.ajax({
+            url: "{{route('get_bank_detail')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+				id_master:id_master,
+                id_web:id_web
+            },
+            dataType: "json",
+            success: function (data) {
+                var banks = data.banks;
+                var htmll = "";
+
+                htmll += '<div class="col-md-12">'
+                    htmll += '<select class="form-control" name="bank" id="bank">';
+                        htmll += '<option value=""> --Select Bank Account-- </option>';
+                        for (let i = 0; i < banks.length; i++) {
+                            htmll += '<option value="'+banks[i]["id"]+'"> '+banks[i]["bank_name"] +' - '+banks[i]["holder_name"]+' </option>';
+                        }
+                    htmll += '</select>';
+                htmll += '</div>';
+
+                $('#banks_detail_div').append(htmll);
+            }
+        }); 
+        }
+
+    })
+    $(document).on('click', '.form-check-input-money', function () {
+        var type = $("input[name='inlineRadioOptionsMoney']:checked").val();
+
+        if (type == "deposit") {
+            var html = "";
+            html += '<div class="col-md-3">';
+                html += 'Bonus';
+            html += ' </div>';
+            html += '<div class="col-md-9">';
+                html += '<div class="row text-center">';
+                    html += '<div class="col-md-6">';
+                        html += '<label style="background-color: lightgreen; border-radius: 10px;width: 150px">';
+                            html += '<div class="form-check form-check-inline">';
+                                html += '<input class="form-check-input-bonus" type="radio" name="inlineRadioOptionsBonus" id="bonus_new" value="bonus_new">';
+                                html += '<img src="{{ asset("img/cashback.png") }}" style="max-width: 25px;margin-top: 5px;">';
+                            html += '</div>';
+                            html += 'New Member';
+                        html += '</label>';
+                    html += '</div>';
+                    html += '<div class="col-md-6">';
+                        html += '<label style="background-color: lightgreen; border-radius: 10px;width: 150px">';
+                            html += '<div class="form-check form-check-inline">';
+                                html += '<input class="form-check-input-bonus" type="radio" name="inlineRadioOptionsBonus" id="bonus_harian" value="bonus_harian">';
+                                html += '<img src="{{ asset("img/cashback.png") }}" style="max-width: 25px;margin-top: 5px;">';
+                            html += '</div>';
+                            html += 'Harian';
+                        html += '</label>';
+                    html += '</div>';
+                html += '</div>';
+            html += '</div>';
+
+            $('#div_bonus').append(html);
+        } else {
+            $('#div_bonus').empty();
+        }
+
+    })
+    $('#amount_depowd').keyup(delay(function (e) {
+        $('#div_final_bonus').empty();
+        var amount = $('#amount_depowd').val();
+        var type = $("input[name='inlineRadioOptionsBonus']:checked").val();
+        var id_web = $('#web_id_depo_wd').val();
+
+        $.ajax({
+            url: "{{route('get_persen_bonus')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+				web:id_web,
+				amount:amount,
+				type:type
+            },
+            dataType: "json",
+            success: function (data) {
+                var bonus = data.bonus;
+                console.log(bonus);
+                var html = "";
+
+                html += '<div class="col-md-3">';
+                    html += 'Final Bonus';
+                html += '</div>';
+                html += '<div class="col-md-9">';
+                    html += '<input class="form-control" type="text" name="bonus_final" id="bonus_final" value="'+formatNumber(bonus)+'">';
+                html += '</div>';
+
+				$('#div_final_bonus').append(html);
+            }
+        });
+
+    }, 750));
+
 	$(document).on('click', '.depo_wd_process', function () {
 
 		var user = $('#InputUser').val();

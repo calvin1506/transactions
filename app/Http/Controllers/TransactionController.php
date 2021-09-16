@@ -9,6 +9,7 @@ use App\website as web;
 use App\Customer;
 use App\transaction as trx;
 use App\activity_log as log;
+use App\bank_master as master;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -18,12 +19,16 @@ class TransactionController extends Controller
         // dd($request);
         $arr_cust = array();
         $arr_bank = array();
+        $arr_master = array();
         $custs = customer::all();
         $data = web::where('id', $request->id)->get();
         $banks = bank::whereIn('id', explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $data[0]->bank)))->get();
 
         foreach($custs as $cust){
             array_push($arr_cust, $cust->user_id);
+        }
+        foreach ($banks as $bank) {
+            array_push($arr_master, $bank->bank_master_id);
         }
 
         for($i=0; $i < count($banks); $i++){
@@ -32,7 +37,32 @@ class TransactionController extends Controller
             $arr_bank[$i]["acc_no"] = $banks[$i]->acc_no;
         }
 
-        return response()->json(["message"=>"success","customers"=>$arr_cust, "banks"=>$arr_bank]);
+        $master = master::whereIn('id', $arr_master)->get();
+        // dd($master);
+
+        return response()->json(["message"=>"success","customers"=>$arr_cust, "banks"=>$arr_bank, "masters"=>$master]);
+    }
+    public function getbankdetail(Request $request){
+        $cek1 = web::where('id', $request->id_web)->get('bank');
+        $cek2 = explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $cek1[0]->bank));
+        // dd($cek2);
+        $banks = bank::where('bank_master_id', $request->id_master)
+                ->whereIn('id', $cek2)
+                ->orderBy('holder_name', 'ASC')
+                ->get();
+        return response()->json(["message"=>"success","banks"=>$banks]);
+    }
+
+    public function getpersenbonus(Request $request){
+        $amount = str_replace(",","", $request->amount);
+
+        $persen = web::where('id', $request->web)->get();
+        if ($request->type == "bonus_new") {
+            $bonus = $amount * ($persen[0]->persen_new_member / 100);
+        } else {
+            $bonus = $amount * ($persen[0]->persen_harian / 100);
+        }
+        return response()->json(["message"=>"success","bonus"=>$bonus]);
     }
 
     public function getdatabank(){
