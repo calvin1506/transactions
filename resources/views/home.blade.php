@@ -4084,6 +4084,7 @@ $(function() {
 				var html = "";
 				var htmll = "";
 				var htmlll = "";
+                console.log(customer_pending);
 
 				html += '<input id="InputUserPendingDepoWD" class="form-control" type="text" name="InputUserPendingDepoWD" placeholder="Users">';
 
