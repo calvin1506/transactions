@@ -22,21 +22,23 @@ class BankController extends Controller
         return response()->json(["message"=>"success", "data"=>$master]);
     }
     public function addbank(Request $request){
-        // dd($request);
-        $test = str_replace( '\\/:*?"<>|[]', " ",$request->saldo);
-        dd($test);
-        $validator = Validator::make($request->all(), [
-            'bank_master_id' => 'required',
-            'acc_no' => 'required|unique:banks',
-            'holder_name' => 'required', 
-            'saldo' => 'required', 
-            'login_name' => 'required', 
-            'login_password' => 'required', 
-        ]);
 
+        $cek = bank::where('acc_no', $request->acc_no)->count();
         $bank_master = master::where('id', $request->bank_master_id)->get();
 
-        if($validator->passes()){
+        if($cek>0){
+            return response()->json(["message"=>"error", "data"=>"Duplicate Bank!"]);
+        } else if ($request->acc_no == ""){
+            return response()->json(["message"=>"error", "data"=>"Account Number Cannot empty!"]);
+        } else if ($request->holder_name == ""){
+            return response()->json(["message"=>"error", "data"=>"Holder Name Cannot empty!"]);
+        } else if ($request->saldo == 0 || $request->saldo == ""){
+            return response()->json(["message"=>"error", "data"=>"Initial Balance cannot 0 or empty!"]);
+        } else if($request->login_name == "") {
+            return response()->json(["message"=>"error", "data"=>"Login Name Cannot empty!"]);
+        } else if($request->login_password == "") {
+            return response()->json(["message"=>"error", "data"=>"Login Password Cannot empty!"]);
+        } else {
             $bank = new bank;
             $bank->bank_master_id = $request->bank_master_id;
             $bank->bank_name = $bank_master[0]->bank_master_name;
@@ -53,11 +55,6 @@ class BankController extends Controller
             $log->save();
     
             return response()->json(["message"=>"success"]);
-        }else{
-            $cek = bank::where('acc_no', $request->acc_no)->count();
-            if($cek>0){
-                return response()->json(["message"=>"error", "data"=>"Duplicate Bank!"]);
-            }
         }
     }
     public function getbankedit(Request $request){

@@ -2244,10 +2244,10 @@
 
 <script>
 
-$(function() {
-  $('.amount').inputmask('9.999.999.999', { numericInput: true, rightAlign: false });
+// $(function() {
+//   $('.amount').inputmask('9.999.999.999', { numericInput: true, rightAlign: false });
 
-})
+// })
 
 // $(document).on('input','.amount',function(event) {
 //   this.value = parseFloat(this.value.replace(/(.*){1}/, '0$1').replace(/[^\d]/g, '').replace(/(\d\d?)$/, '.$1')).toFixed(2);
@@ -2537,8 +2537,6 @@ $(function() {
                     htmll += '<td>' + data[i].acc_no + '</td>';
                     htmll += '<td>' + data[i].holder_name + '</td>';
                     htmll += '<td>' + formatNumber(data[i].saldo) + '</td>';
-                    htmll += '<td><button class="btn btn-sm btn-primary edit_bank" data-id="' + data[i].id +
-                        '"data-toggle="modal" data-target="#modaleditbank">Edit</button></td>';
                     htmll += '<td><button class="btn btn-sm btn-danger del_data" data-id="' + data[i].id +
                         '"data-toggle="modal" data-target="#modaldelete">Delete</button></td>';
                     htmll += '</tr>';
