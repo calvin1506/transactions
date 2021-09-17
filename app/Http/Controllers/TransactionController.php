@@ -71,83 +71,163 @@ class TransactionController extends Controller
     }
 
     public function process(Request $request){
-        // dd($request);
+
         $web = web::where('id', $request->web)->first();
         $bank = bank::where('id', $request->bank)->first();
         $old_coin = (int)$web->init_coin;
         $old_balance = (int)$bank->saldo;
+        $amount = str_replace(",","", $request->amount);
 
         if($request->type == "deposit"){
-            $trx = new trx;
-            $trx->trx_type = "Deposit";
-            $trx->user_name = $request->user;
-            $trx->bank_name = $bank->bank_name;
-            $trx->acc_no = $bank->acc_no;
-            $trx->holder_name = $bank->holder_name;
-            $trx->website_name = $web->web_name;
-            $trx->amount = $request->amount;
-            $trx->old_web_coin = $old_coin;
-            $trx->new_web_coin = $old_coin - $request->amount;
-            $trx->old_bank_balance = $old_balance;
-            $trx->new_bank_balance = $old_balance + $request->amount;
-            $trx->save();
 
-            $web->init_coin = $old_coin - $request->amount;
-            $web->save();
-
-            $bank->saldo = $old_balance + $request->amount;
-            $bank->save();
-
-            $log = new log;
-            $log->user = auth::user()->name;
-            $log->activity = "User: ".auth::user()->name." approve ".$request->type." senilai ".$request->amount." untuk Player ".$request->user;
-            $log->save();
+            if(isset($request->bonus_type)){
+                $amount_bonus = str_replace(",","", $request->bonus_final);
+                if ($request->bonus_type == "bonus_new") {
+                    $bonus = "persen_new_member";
+                } else {
+                    $bonus = "persen_harian";
+                }
+                $cek = trx::where('trx_type', "Deposit")->count();
+                $cek1 = trx::where('trx_type', "Bonus")->count();
+                if($cek == 0){
+                    $dp_trx_number = "DP/".date('Y/m/d')."/1";
+                }else{
+                    $dp_trx_number = "DP/".date('Y/m/d')."/".($cek+1);
+                }
+                if($cek1 == 0){
+                    $bonus_trx_number = "BNS/".date('Y/m/d')."/1";
+                }else{
+                    $bonus_trx_number = "BNS/".date('Y/m/d')."/".($cek+1);
+                }
+    
+                $trx = new trx;
+                $trx->submitter_id = auth::user()->id;
+                $trx->submitter_name = auth::user()->name;
+                $trx->trx_type = "Deposit";
+                $trx->trx_detail = "-";
+                $trx->trx_number = $dp_trx_number;
+                $trx->user_name = $request->user;
+                $trx->bank_name = $bank->bank_name;
+                $trx->acc_no = $bank->acc_no;
+                $trx->holder_name = $bank->holder_name;
+                $trx->website_name = $web->web_name;
+                $trx->amount = $amount;
+                $trx->old_web_coin = $old_coin;
+                $trx->new_web_coin = $old_coin - $amount;
+                $trx->old_bank_balance = $old_balance;
+                $trx->new_bank_balance = $old_balance + $amount;
+                $trx->save();
+    
+                $web->init_coin = $old_coin - $amount;
+                $web->save();
+    
+                $bank->saldo = $old_balance + $amount;
+                $bank->save();
+    
+                $log = new log;
+                $log->user = auth::user()->name;
+                $log->activity = "User: ".auth::user()->name." approve ".$request->type." senilai ".$request->amount." untuk Player ".$request->user;
+                $log->save();
+    
+                $trx_bonus = new trx;
+                $trx_bonus->submitter_id = auth::user()->id;
+                $trx_bonus->submitter_name = auth::user()->name;
+                $trx_bonus->trx_type = "Bonus";
+                $trx_bonus->trx_detail = $bonus;
+                $trx_bonus->trx_number = $bonus_trx_number;
+                $trx_bonus->trx_source = $dp_trx_number;
+                $trx_bonus->user_name = $request->user;
+                $trx_bonus->bank_name = "-";
+                $trx_bonus->acc_no = "-";
+                $trx_bonus->holder_name = "-";
+                $trx_bonus->website_name = $web->web_name;
+                $trx_bonus->amount = $amount_bonus;
+                $trx_bonus->old_web_coin = $old_coin - $amount;
+                $trx_bonus->new_web_coin = $old_coin - $amount - $amount_bonus;
+                $trx_bonus->old_bank_balance = 0;
+                $trx_bonus->new_bank_balance = 0;
+                $trx_bonus->save();
+    
+                $web->init_coin = $old_coin - $amount_bonus;
+                $web->save();
+    
+                $log = new log;
+                $log->user = auth::user()->name;
+                $log->activity = "User: ".auth::user()->name." submit Bonus ".$bonus." ,amount: ".$amount_bonus." for Player ".$request->user;
+                $log->save();
+            }else{
+                $cek = trx::where('trx_type', "Deposit")->count();
+                if($cek == 0){
+                    $dp_trx_number = "DP/".date('Y/m/d')."/1";
+                }else{
+                    $dp_trx_number = "DP/".date('Y/m/d')."/".($cek+1);
+                }
+    
+                $trx = new trx;
+                $trx->submitter_id = auth::user()->id;
+                $trx->submitter_name = auth::user()->name;
+                $trx->trx_type = "Deposit";
+                $trx->trx_detail = "-";
+                $trx->trx_number = $dp_trx_number;
+                $trx->user_name = $request->user;
+                $trx->bank_name = $bank->bank_name;
+                $trx->acc_no = $bank->acc_no;
+                $trx->holder_name = $bank->holder_name;
+                $trx->website_name = $web->web_name;
+                $trx->amount = $amount;
+                $trx->old_web_coin = $old_coin;
+                $trx->new_web_coin = $old_coin - $amount;
+                $trx->old_bank_balance = $old_balance;
+                $trx->new_bank_balance = $old_balance + $amount;
+                $trx->save();
+    
+                $web->init_coin = $old_coin - $amount;
+                $web->save();
+    
+                $bank->saldo = $old_balance + $amount;
+                $bank->save();
+    
+                $log = new log;
+                $log->user = auth::user()->name;
+                $log->activity = "User: ".auth::user()->name." approve ".$request->type." senilai ".$request->amount." untuk Player ".$request->user;
+                $log->save();
+            }
         }else if($request->type == "withdrawal"){
+
+            $cek = trx::where('trx_type', "Withdrawal")->count();
+            if($cek == 0){
+                $wd_trx_number = "WD/".date('Y/m/d')."/1";
+            }else{
+                $wd_trx_number = "WD/".date('Y/m/d')."/".($cek+1);
+            }
+
             $trx = new trx;
+            $trx->submitter_id = auth::user()->id;
+            $trx->submitter_name = auth::user()->name;
             $trx->trx_type = "Withdrawal";
+            $trx->trx_detail = "-";
+            $trx->trx_number = $wd_trx_number;
             $trx->user_name = $request->user;
             $trx->bank_name = $bank->bank_name;
             $trx->acc_no = $bank->acc_no;
             $trx->holder_name = $bank->holder_name;
             $trx->website_name = $web->web_name;
-            $trx->amount = $request->amount;
+            $trx->amount = $amount;
             $trx->old_web_coin = $old_coin;
-            $trx->new_web_coin = $old_coin + $request->amount;
+            $trx->new_web_coin = $old_coin + $amount;
             $trx->old_bank_balance = $old_balance;
-            $trx->new_bank_balance = $old_balance - $request->amount;
+            $trx->new_bank_balance = $old_balance - $amount;
             $trx->save();
 
-            $web->init_coin = $old_coin + $request->amount;
+            $web->init_coin = $old_coin + $amount;
             $web->save();
 
-            $bank->saldo = $old_balance - $request->amount;
+            $bank->saldo = $old_balance - $amount;
             $bank->save();
 
             $log = new log;
             $log->user = auth::user()->name;
-            $log->activity = "User: ".auth::user()->name." approve ".$request->type." senilai ".$request->amount." untuk Player ".$request->user;
-            $log->save();
-        } else {
-            $trx = new trx;
-            $trx->trx_type = "Bonus";
-            $trx->user_name = $request->user;
-            $trx->bank_name = "-";
-            $trx->acc_no = "-";
-            $trx->holder_name = "-";
-            $trx->website_name = $web->web_name;
-            $trx->amount = $request->amount;
-            $trx->old_web_coin = $old_coin;
-            $trx->new_web_coin = $old_coin - $request->amount;
-            $trx->old_bank_balance = 0;
-            $trx->new_bank_balance = 0;
-            $trx->save();
-
-            $web->init_coin = $old_coin - $request->amount;
-            $web->save();
-
-            $log = new log;
-            $log->user = auth::user()->name;
-            $log->activity = "User: ".auth::user()->name." submit ".$request->type." ,amount: ".$request->amount." for Player ".$request->user;
+            $log->activity = "User: ".auth::user()->name." approve ".$request->type." senilai ".$amount." untuk Player ".$request->user;
             $log->save();
         }
         return response()->json(["message"=>"success"]);

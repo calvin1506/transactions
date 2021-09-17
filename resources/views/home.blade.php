@@ -3930,7 +3930,7 @@
                     html += '<tr>';
                     html += '<td>' + no + '</td>';
                     html += '<td>' + data[i].web_name + '</td>';
-                    html += '<td><button class="btn btn-sm btn-primary detail_depowd" data-id="' + data[i].id +'"data-toggle="modal" data-target="#modaldepowd">Depo / WD / Bonus</button></td>';
+                    html += '<td><button class="btn btn-sm btn-primary detail_depowd" data-id="' + data[i].id +'" data-new="'+data[i].persen_new_member+'" data-harian="'+data[i].persen_harian+'" data-toggle="modal" data-target="#modaldepowd">Depo / WD / Bonus</button></td>';
                     // html += '<td><button class="btn btn-sm btn-success bonus_user" data-id="' + data[i].id +'"data-toggle="modal" data-target="#modalbonus">Bonus</button></td>';
                     // html +='<td><a class="btn btn-sm btn-danger del_web" data-id="'+data[i].id+'" onclick="return confirm(`Want to delete content?`)">Delete</a></td>';
                     html += '</tr>';
@@ -3940,7 +3940,11 @@
                 $("#tbl_depo_wd_list").DataTable();
             }
         });
-    })
+    });
+
+    var persen_harian = 0;
+    var persen_new_member = 0;
+
 	$(document).on('click', '.detail_depowd', function () {
 		$('#banks_div').empty();
 		$('#users_div').empty();
@@ -3953,6 +3957,9 @@
 		var id = $(this).data("id");
 		var customer = [];
 		var bank = [];
+        persen_new_member = $(this).data('new');
+        persen_harian = $(this).data('harian');
+        // console.log(persen_harian + " --- " + persen_new_member)
 
 		$.ajax({
             url: "{{route('get_data_trx')}}",
@@ -4014,7 +4021,7 @@
                 var htmll = "";
 
                 htmll += '<div class="col-md-12">'
-                    htmll += '<select class="form-control" name="bank" id="bank">';
+                    htmll += '<select class="form-control" name="bank_detail" id="bank_detail">';
                         htmll += '<option value=""> --Select Bank Account-- </option>';
                         for (let i = 0; i < banks.length; i++) {
                             htmll += '<option value="'+banks[i]["id"]+'"> '+banks[i]["bank_name"] +' - '+banks[i]["holder_name"]+' </option>';
@@ -4059,13 +4066,48 @@
                 html += '</div>';
             html += '</div>';
 
+            $('#div_bonus').empty();
             $('#div_bonus').append(html);
         } else {
             $('#div_bonus').empty();
         }
 
     })
-    $('#amount_depowd').keyup(delay(function (e) {
+    $('#amount_depowd').on('keyup', function(e){
+        $('#div_final_bonus').empty();
+        var type = $("input[name='inlineRadioOptionsMoney']:checked").val();
+        var bonus_type = $("input[name='inlineRadioOptionsBonus']:checked").val();
+        var amount = $('#amount_depowd').val();
+
+        if($("#depo").prop("checked") && $("#bonus_new").prop("checked") || $("#bonus_harian").prop("checked")){
+            if (bonus_type == "bonus_new") {
+                var final_bonus = parseInt( amount.replace(',','') ) * (persen_new_member / 100);
+                var html = "";
+
+                html += '<div class="col-md-3">';
+                    html += 'Final Bonus';
+                html += '</div>';
+                html += '<div class="col-md-9">';
+                    html += '<input class="form-control" type="text" name="bonus_final" id="bonus_final" value="'+formatNumber(final_bonus)+'">';
+                html += '</div>';
+
+                $('#div_final_bonus').append(html);
+            } else {
+                var final_bonus = parseInt(amount.replace(',','')) * (persen_harian / 100);
+                var html = "";
+
+                html += '<div class="col-md-3">';
+                    html += 'Final Bonus';
+                html += '</div>';
+                html += '<div class="col-md-9">';
+                    html += '<input class="form-control" type="text" name="bonus_final" id="bonus_final" value="'+formatNumber(final_bonus)+'">';
+                html += '</div>';
+
+                $('#div_final_bonus').append(html);
+            } 
+        }
+    });
+    $('#amount_depowdd').keyup(delay(function (e) {
         $('#div_final_bonus').empty();
         var amount = $('#amount_depowd').val();
         var type = $("input[name='inlineRadioOptionsBonus']:checked").val();
@@ -4097,15 +4139,17 @@
             }
         });
 
-    }, 750));
+    }, 500));
 
 	$(document).on('click', '.depo_wd_process', function () {
 
 		var user = $('#InputUser').val();
 		var amount = $('#amount_depowd').val();
 		var type = $("input[name='inlineRadioOptionsMoney']:checked").val()
-		var bank = $("input[name='inlineRadioOptions']:checked").val()
+        var bonus_type = $("input[name='inlineRadioOptionsBonus']:checked").val();
 		var web = $('#web_id_depo_wd').val();
+		var bank = $("#bank_detail").val()
+        var bonus_final = $('#bonus_final').val();
 
 		$.ajax({
             url: "{{route('trx_process')}}",
@@ -4116,7 +4160,9 @@
 				user:user,
 				amount:amount,
 				type:type,
-				bank:bank
+				bonus_type:bonus_type,
+				bank:bank,
+                bonus_final:bonus_final
             },
             dataType: "json",
             success: function (data) {
