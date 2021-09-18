@@ -65,9 +65,11 @@ class WebController extends Controller
 
         $cek = web::where('web_name', $request->web_name)->count();
         if ($cek == 0) {
-            if ($request->init_coin == 0 || $request->init_coin == "") {
-                return response()->json(["message"=>"error", "data"=>"Initial Coins cannot 0 or empty!"]);
-            } else if($request->persen_new_member == "" || $request->persen_harian == "") {
+            if ($request->web_name == "") {
+                return response()->json(["message"=>"error", "data"=>"Website name cannot be empty!"]);
+            } else if($request->init_coin == 0 || $request->init_coin == "" || $request->init_coin < 0) {
+                return response()->json(["message"=>"error", "data"=>"Initial Coins cannot 0 or less then 0 or empty!"]);
+            }else if($request->persen_new_member == "" || $request->persen_harian == "") {
                 $web = new web;
                 $web->web_name = $request->web_name;
                 $web->init_coin = $request->init_coin;
