@@ -72,6 +72,15 @@ class TransactionController extends Controller
 
     public function process(Request $request){
 
+        // dd($request);
+        if(is_null($request->bonus_type) || is_null($request->type) || is_null($request->bank) || is_null($request->user) || is_null($request->amount)){
+            return response()->json(["message"=>"error", "data"=>"Please fill all data!"]);
+        }else if($request->amount == 0){
+            return response()->json(["message"=>"error", "data"=>"Amount cannot 0!"]);
+        }else if($request->amount < 0){
+            return response()->json(["message"=>"error", "data"=>"Amount cannot less than 0!"]);
+        }
+
         $web = web::where('id', $request->web)->first();
         $bank = bank::where('id', $request->bank)->first();
         $old_coin = (int)$web->init_coin;
@@ -274,6 +283,13 @@ class TransactionController extends Controller
     }
 
     public function addcoinprocess(Request $request){
+
+        if( $request->amount == 0){
+            return response()->json(["message"=>"error", "data"=>"Amount cannot 0!"]);
+        }else if ( $request->amount < 0){
+            return response()->json(["message"=>"error", "data"=>"Amount cannot less than 0!"]);
+        }
+
         $id = $request->id;
         $amount = $request->amount;
 
@@ -316,13 +332,19 @@ class TransactionController extends Controller
         return response()->json(["message"=>"success"]);
     }
     public function deductcoinprocess(Request $request){
+        if( $request->amount == 0){
+            return response()->json(["message"=>"error", "data"=>"Amount cannot 0!"]);
+        }else if ( $request->amount < 0){
+            return response()->json(["message"=>"error", "data"=>"Amount cannot less than 0!"]);
+        }
+
         $id = $request->id;
         $amount = $request->amount;
 
         $web = web::where('id', $request->id)->first();
 
         if ($web->init_coin < $request->amount) {
-            return response()->json(["message"=>"error"]);
+            return response()->json(["message"=>"error", "data"=>"Requested Amount bigger than available coins!"]);
         } else {
 
             $cek = trx::where('trx_type', "Deduct Coin")->count();
@@ -393,6 +415,11 @@ class TransactionController extends Controller
     }
 
     public function addbalanceprocess(Request $request){
+        if( $request->amount == 0){
+            return response()->json(["message"=>"error", "data"=>"Amount cannot 0!"]);
+        }else if ( $request->amount < 0){
+            return response()->json(["message"=>"error", "data"=>"Amount cannot less than 0!"]);
+        }
         $id = $request->id;
         $amount = $request->amount;
 
@@ -436,13 +463,18 @@ class TransactionController extends Controller
         return response()->json(["message"=>"success"]);
     }
     public function deductbalanceprocess(Request $request){
+        if( $request->amount == 0){
+            return response()->json(["message"=>"error", "data"=>"Amount cannot 0!"]);
+        }else if ( $request->amount < 0){
+            return response()->json(["message"=>"error", "data"=>"Amount cannot less than 0!"]);
+        }
         $id = $request->id;
         $amount = $request->amount;
 
         $bank = bank::where('id', $request->id)->first();
 
         if ($bank->saldo < $request->amount) {
-            return response()->json(["message"=>"error"]);
+            return response()->json(["message"=>"error", "data"=>"Requested amount bigger than available balance!"]);
         } else {
             $cek = trx::where('trx_type', "Deduct Balance")->count();
             if($cek == 0){

@@ -4502,9 +4502,13 @@
 			},
 			dataType: "json",
 			success: function (data) {
-				alert('Success submit pending transaction!');
-				$('.pending_close').click();
-				get_pending();
+                if (data.message == "success") {
+                    alert('Success submit pending transaction!');
+                    $('.pending_close').click();
+                    get_pending();
+                } else {
+                        alert(data.data);
+                }
 			}
 		});
 	})
@@ -4697,9 +4701,13 @@
             },
             dataType: "json",
             success: function (data) {
-				alert('Success submit transaction!');
-				$('.beban_pending_close').click();
-				get_pending();
+                if (data.message == "success") {
+                    alert('Success submit transaction!');
+                    $('.beban_pending_close').click();
+                    get_pending();
+                } else {
+                        alert(data.data);
+                }
             }
         });
 	})
@@ -4788,9 +4796,13 @@
             },
             dataType: "json",
             success: function (data) {
-				alert("Success submit request!");
-				$('.add_coins_close').click();
-				get_add_deduct_coin()
+                if (data.message == "success") {
+                    alert("Success submit request!");
+                    $('.add_coins_close').click();
+                    get_add_deduct_coin()
+                } else {
+                        alert(data.data);
+                }
             }
         });
 		
@@ -4810,12 +4822,12 @@
             dataType: "json",
             success: function (data) {
 
-				if(data.message == "error"){
-					alert("Requested amount bigger than available coins!");
-				}else{
+                if (data.message == "success") {
 					alert("Success submit request!");
 					$('.deduct_coins_close').click();
 					get_add_deduct_coin()
+				}else{
+                    alert(data.data);
 				}
 
             }
@@ -4910,9 +4922,13 @@
             },
             dataType: "json",
             success: function (data) {
-				alert("Success submit request!");
-				$('.add_balance_close').click();
-				get_add_deduct_balance()
+                if (data.message == "success") {
+                    alert("Success submit request!");
+                    $('.add_balance_close').click();
+                    get_add_deduct_balance()
+                } else {
+                        alert(data.data);
+                }
             }
         });
 	})
@@ -4929,13 +4945,14 @@
             },
             dataType: "json",
             success: function (data) {
-				if(data.message == "error"){
-					alert("Requested amount bigger than available coins!");
-				}else{
-					alert("Success submit request!");
-					$('.deduct_balance_close').click();
-					get_add_deduct_balance()
-				}
+
+                if (data.message == "success") {
+                    alert("Success submit request!");
+                    $('.deduct_balance_close').click();
+                    get_add_deduct_balance()
+                } else {
+                    alert(data.data);
+                }
             }
         });
 	})

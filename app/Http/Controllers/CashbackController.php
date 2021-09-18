@@ -42,15 +42,28 @@ class CashbackController extends Controller
             $arr_bank[$i]["acc_no"] = $banks[$i]->acc_no;
         }
 
-        foreach($websites as $web){
-            if(in_array(auth::user()->id, explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $web->leader)))){
-                array_push($arr_web, $web->id);
+        if (auth::user()->role == "Leader") {
+            foreach($websites as $web){
+                if(in_array(auth::user()->id, explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $web->leader)))){
+                    array_push($arr_web, $web->id);
+                }
             }
-        }
-        $webs = website::whereIn('id', $arr_web)->get();
-        for ($j=0; $j < count($webs); $j++) { 
-            $webss[$j]["id"] = $webs[$j]->id;
-            $webss[$j]["web_name"] = $webs[$j]->web_name;
+            $webs = website::whereIn('id', $arr_web)->get();
+            for ($j=0; $j < count($webs); $j++) { 
+                $webss[$j]["id"] = $webs[$j]->id;
+                $webss[$j]["web_name"] = $webs[$j]->web_name;
+            }
+        } else {
+            foreach($websites as $web){
+                if(in_array(auth::user()->id, explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $web->operator)))){
+                    array_push($arr_web, $web->id);
+                }
+            }
+            $webs = website::whereIn('id', $arr_web)->get();
+            for ($j=0; $j < count($webs); $j++) { 
+                $webss[$j]["id"] = $webs[$j]->id;
+                $webss[$j]["web_name"] = $webs[$j]->web_name;
+            }
         }
         return response()->json(["message"=>"success", "custs"=>$arr_cust, "banks"=>$arr_bank, "webs"=>$webss]);
     }
@@ -62,6 +75,14 @@ class CashbackController extends Controller
 
     public function singlecashbackprocess(Request $request){
         
+        if(is_null($request->id) || is_null($request->amount) || is_null($request->web) ){
+            return response()->json(["message"=>"error", "data"=>"Please fill all data!"]);
+        }else if($request->amount == 0){
+            return response()->json(["message"=>"error", "data"=>"Amount cannot 0!"]);
+        }else if($request->amount < 0){
+            return response()->json(["message"=>"error", "data"=>"Amount cannot less than 0!"]);
+        }
+
         $web = website::where('id', $request->web)->first();
 
         if ($request->amount > $web->init_coin) {
@@ -112,9 +133,6 @@ class CashbackController extends Controller
     
             return response()->json(["message"=>"success"]);
         }
-
-        
-        
     }
 
     public function multicashbackprocess(Request $request){
@@ -209,8 +227,8 @@ class CashbackController extends Controller
 
                 import::truncate();
 
-                return redirect('home')->with('success', 'Success submit request!');
             }
         }
+        return redirect('home')->with('success', 'Success submit request!');
     }   
 }

@@ -46,6 +46,15 @@ class PendingController extends Controller
     }
 
     public function pendingprocess(Request $request){
+        // dd($request);
+        if(is_null($request->bank) || is_null($request->user)){
+            return response()->json(["message"=>"error", "data"=>"Please fill all data!"]);
+        }else if($request->amount == 0){
+            return response()->json(["message"=>"error", "data"=>"Amount cannot 0!"]);
+        }else if($request->amount < 0){
+            return response()->json(["message"=>"error", "data"=>"Amount cannot less than 0!"]);
+        }
+
         $cek = pending::all()->count();
         if($cek == 0){
             $trx_name = "PND/".date('Y/m/d')."/1";
@@ -195,7 +204,15 @@ class PendingController extends Controller
     }
 
     public function pendingdepowdprocess(Request $request){
-        // dd($request);
+
+        if(is_null($request->web)  || is_null($request->bank) || is_null($request->user) || is_null($request->amount) || is_null($request->type)){
+            return response()->json(["message"=>"error", "data"=>"Please fill all data!"]);
+        }else if($request->amount == 0){
+            return response()->json(["message"=>"error", "data"=>"Amount cannot 0!"]);
+        }else if($request->amount < 0){
+            return response()->json(["message"=>"error", "data"=>"Amount cannot less than 0!"]);
+        }
+
         $bank = bank::where('id', $request->bank)->first();
         $web = website::where('id', $request->web)->first();
         $pending = pending::where('id', $request->id_pending)->first();
@@ -283,7 +300,10 @@ class PendingController extends Controller
     }
 
     public function costprocess(Request $request){
-
+        // dd($request);
+        if($request->note == null){
+            return response()->json(["message"=>"error", "data"=>"Please fill all data!"]);
+        }
         $bank = bank::where('id', $request->bank)->first();
         $pending = pending::where('id', $request->id_pending)->first();
         $old_balance = (int)$bank->saldo;
