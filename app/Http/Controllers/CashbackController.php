@@ -137,6 +137,9 @@ class CashbackController extends Controller
 
     public function multicashbackprocess(Request $request){
 
+        if(is_null($request->inlineRadioOptionsCashbackMulti) || $request->file('file_add_cashback') == null){
+            return redirect('home')->with('error', 'Please fill all data!');
+        }
         // validasi
 		$this->validate($request, [
 			'file_add_cashback' => 'required|mimes:csv,xls,xlsx'
