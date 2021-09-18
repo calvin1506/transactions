@@ -203,34 +203,52 @@ class PendingController extends Controller
         $old_coin = (int)$web->init_coin;
 
         if($request->type == "deposit"){
-            $trx = new trx;
-            $trx->trx_type = "Deposit";
-            $trx->user_name = $request->user;
-            $trx->bank_name = $bank->bank_name;
-            $trx->acc_no = $bank->acc_no;
-            $trx->holder_name = $bank->holder_name;
-            $trx->website_name = $web->web_name;
-            $trx->amount = $request->amount;
-            $trx->old_web_coin = $old_coin;
-            $trx->new_web_coin = $old_coin - $request->amount;
-            $trx->old_bank_balance = $old_balance;
-            $trx->new_bank_balance = $old_balance + $request->amount;
-            $trx->save();
 
-            $web->init_coin = $old_coin - $request->amount;
-            $web->save();
+            if ($request->amount > $web->init_coin || $request->amount > $bank->saldo) {
+                return response()->json(["message"=>"error", "data"=>"Not enough Coins or Balance, please check bank or website first!"]);
+            } else {
+                $cek = trx::where('trx_type', "Deposit")->count();
+                if($cek == 0){
+                    $dp_trx_number = "DP/".date('Y/m/d')."/1";
+                }else{
+                    $dp_trx_number = "DP/".date('Y/m/d')."/".($cek+1);
+                }
+                
+                $trx = new trx;
+                $trx->submitter_id = auth::user()->id;
+                $trx->submitter_name = auth::user()->name;
+                $trx->trx_type = "Deposit";
+                $trx->trx_detail = "-";
+                $trx->trx_number = $dp_trx_number;
+                $trx->trx_source = $pending->trx_name;
+                $trx->user_name = $request->user;
+                $trx->bank_name = $bank->bank_name;
+                $trx->acc_no = $bank->acc_no;
+                $trx->holder_name = $bank->holder_name;
+                $trx->website_name = $web->web_name;
+                $trx->amount = $request->amount;
+                $trx->old_web_coin = $old_coin;
+                $trx->new_web_coin = $old_coin - $request->amount;
+                $trx->old_bank_balance = $old_balance;
+                $trx->new_bank_balance = $old_balance + $request->amount;
+                $trx->save();
 
-            $bank->saldo = $old_balance + $request->amount;
-            $bank->save();
+                $web->init_coin = $old_coin - $request->amount;
+                $web->save();
 
-            $pending->status = "Processed";
-            $pending->status_detail = "Deposit";
-            $pending->save();
+                $bank->saldo = $old_balance + $request->amount;
+                $bank->save();
 
-            $log = new log;
-            $log->user = auth::user()->name;
-            $log->activity = "User: ".auth::user()->name." approve Deposit with amount ".$request->amount." for Player ".$request->user." from Pending transaction with number ".$pending->trx_name;
-            $log->save();
+                $pending->status = "Processed";
+                $pending->status_detail = "Deposit";
+                $pending->save();
+
+                $log = new log;
+                $log->user = auth::user()->name;
+                $log->activity = "User: ".auth::user()->name." approve Deposit with amount ".$request->amount." for Player ".$request->user." from Pending transaction with number ".$pending->trx_name;
+                $log->save();
+            }
+            
         }else{
             $trx = new trx;
             $trx->trx_type = "Withdrawal";
@@ -278,7 +296,12 @@ class PendingController extends Controller
         }
 
         $trx = new trx;
+        $trx->submitter_id = auth::user()->id;
+        $trx->submitter_name = auth::user()->name;
         $trx->trx_type = "Cost";
+        $trx->trx_detail = "-";
+        $trx->trx_number = $trx_name;
+        $trx->trx_source = $pending->trx_name;
         $trx->user_name = "COMPANY";
         $trx->bank_name = $bank->bank_name;
         $trx->acc_no = $bank->acc_no;
@@ -289,10 +312,11 @@ class PendingController extends Controller
         $trx->new_web_coin = 0;
         $trx->old_bank_balance = 0;
         $trx->new_bank_balance = 0;
+        $trx->note = $request->note;
         $trx->save();
 
         $pending->status = "Processed";
-        $pending->status_detail = "COST";
+        $pending->status_detail = "Cost";
         $pending->save();
 
         $cost = new cost;

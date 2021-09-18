@@ -21,6 +21,7 @@ class transaction extends Model
         'old_web_coin', 
         'new_web_coin', 
         'old_bank_balance', 
-        'new_bank_balance'
+        'new_bank_balance',
+        'note'
     ];
 }

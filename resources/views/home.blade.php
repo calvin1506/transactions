@@ -168,6 +168,14 @@
                             </a>
                             <h6>Cashback</h6>
                         </div>
+                        <div class="col-xl-2">
+                            <a href="#modal14" data-toggle="modal" data-target="#modal14" class="small-box-footer modal14">
+                                <div class="small-box"
+                                    style="background-image: url('{{asset('img/trx_list.png')}}');background-size: cover;height: 90px;width: 100px;margin-left:30px;border-radius:100%;">
+                                </div>
+                            </a>
+                            <h6>Transaction Lists</h6>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -623,6 +631,7 @@
                                     <td>No</td>
                                     <td>Bank Name</td>
                                     <td>Account Number</td>
+                                    <td>Account Holder</td>
                                     <td>Balance</td>
                                     <td>Actions</td>
                                     <td>Actions</td>
@@ -707,6 +716,43 @@
                                 </tr>
                             </thead>
                             <tbody id="tbl_bank_master">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="reload()">Close</button>
+                {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal 14 -->
+<div class="modal fade" id="modal14" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-besar" role="document">
+        <div class="modal-content modal-content-besar">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Transaction List</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row mt-3 table-responsive">
+                    <div class="col-md-12">
+                        <table class="table table-striped text-center" id="tbl_transaction_correction_list" style="width: 100%">
+                            <thead>
+                                <tr>
+                                    <td>No</td>
+                                    <td>Transaction Number</td>
+                                    <td>Transaction Type</td>
+                                    <td>Amount</td>
+                                    <td>Actions</td>
+                                    @if (auth::user()->role == "Leader")                                        
+                                        <td>Actions</td>
+                                    @endif
+                                </tr>
+                            </thead>
+                            <tbody id="tbl_transaction_correction">
 
                             </tbody>
                         </table>
@@ -1640,7 +1686,7 @@
 						Amount
 					</div>
 					<div class="col-md-9">
-						<input class="form-control" type="text" name="amount_depowd" id="amount_depowd" onkeyup="numberWithCommas(this)">
+						<input class="form-control" type="text" name="amount_depowd" id="amount_depowd" >
 					</div>
 				</div>
 				<div class="row mb-2" id="div_final_bonus">
@@ -2081,7 +2127,7 @@
 
 
                               <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
-                                    <form method="POST" action="{{route('multi_cashback_process')}}" enctype="multipart/form-data" id="form_cashback_multi">
+                                    <form method="post" action="{{route('multi_cashback_process')}}" enctype="multipart/form-data" id="form_cashback_multi">
                                         @csrf
                                         {{-- <div class="row mb-2 mb-2">
                                             <div class="col-md-3">Banks</div>
@@ -2231,6 +2277,151 @@
     </div>
 </div>
 
+<!-- Modal Detail corrections -->
+<div class="modal fade" id="modaldetailcorrection" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Transaction details</h5>
+            </div>
+            <div class="modal-body">
+                <h5><b>Transaction</b></h5>
+				<div class="row mt-2 mb-2">
+                    <div class="col-md-5">
+                        Transaction Number
+                    </div>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" name="trx_number" id="trx_number" readonly>
+                    </div>
+                </div>
+				<div class="row mt-2 mb-2">
+                    <div class="col-md-5">
+                        Transaction Type
+                    </div>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" name="trx_type" id="trx_type" readonly>
+                    </div>
+                </div>
+				<div class="row mt-2 mb-2">
+                    <div class="col-md-5">
+                        Transaction Type Detail
+                    </div>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" name="trx_detail" id="trx_detail" readonly>
+                    </div>
+                </div>
+				<div class="row mt-2 mb-2">
+                    <div class="col-md-5">
+                        Amount
+                    </div>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" name="trx_amount" id="trx_amount" readonly>
+                    </div>
+                </div>
+				<div class="row mt-2 mb-2">
+                    <div class="col-md-5">
+                        Website
+                    </div>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" name="trx_website_name" id="trx_website_name" readonly>
+                    </div>
+                </div>
+				<div class="row mt-2 mb-2">
+                    <div class="col-md-5">
+                        Bank
+                    </div>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" name="trx_bank_name" id="trx_bank_name" readonly>
+                    </div>
+                </div>
+				<div class="row mt-2 mb-2">
+                    <div class="col-md-5">
+                        Transaction Submitter
+                    </div>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" name="trx_submitter" id="trx_submitter" readonly>
+                    </div>
+                </div>
+                <div id="div_corr_bonus_detail">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary assign_bank_close" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Edit corrections -->
+<div class="modal fade" id="modaleditcorrection" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Transaction Correction</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row mt-2 mb-2">
+                    <div class="col-md-4">
+                        Transaction Number
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" name="corr_trx_num" id="corr_trx_num" readonly>
+                    </div>
+                </div>
+                <div class="row mt-2 mb-2">
+                    <div class="col-md-4">
+                        Amount
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" name="corr_old_amount" id="corr_old_amount" readonly>
+                    </div>
+                </div>
+                <div class="row mt-2 mb-2">
+                    <div class="col-md-4">
+                        Bonus
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" name="corr_old_bonus" id="corr_old_bonus" readonly>
+                    </div>
+                </div>
+                <div class="row mt-2 mb-2">
+                    <div class="col-md-4">
+                        Correction Amount
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" name="corr_new_amount" id="corr_new_amount" >
+                    </div>
+                </div>
+                <div class="row mt-2 mb-2">
+                    <div class="col-md-4">
+                        Correction Bonus
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" name="corr_new_bonus" id="corr_new_bonus" >
+                    </div>
+                </div>
+                <div class="row mt-2 mb-2">
+                    <div class="col-md-4">
+                        Note
+                    </div>
+                    <div class="col-md-8">
+                        <textarea class="form-control" name="corr_note" id="corr_note" rows="3"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+				<input type="hidden" name="bonus_id" id="bonus_id">
+				<input type="hidden" name="corr_trx_id" id="corr_trx_id">
+				<input type="hidden" name="corr_trx_type" id="corr_trx_type">
+                <button type="button" class="btn btn-secondary corr_edit_close" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary corr_edit_process">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @endsection
 
@@ -2239,22 +2430,9 @@
 <script src="{{asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{asset('plugins/moment/moment.min.js')}}"></script>    
 <script src="{{asset('plugins/daterangepicker/daterangepicker.js')}}"></script>
-<script src="{{asset('plugins/RobinHerbots.js')}}"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.2/datatables.min.js"></script>
-{{-- <script src="https://cdn.jsdelivr.net/gh/RobinHerbots/Inputmask@3.3/dist/jquery.inputmask.bundle.js"></script> --}}
-{{-- <script type='text/javascript' src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script> --}}
-{{-- <script src="{{asset('plugins/datatables/jquery.dataTables.min.js')}}"></script> --}}
 
 <script>
-
-// $(function() {
-//   $('.amount').inputmask('9.999.999.999', { numericInput: true, rightAlign: false });
-
-// })
-
-// $(document).on('input','.amount',function(event) {
-//   this.value = parseFloat(this.value.replace(/(.*){1}/, '0$1').replace(/[^\d]/g, '').replace(/(\d\d?)$/, '.$1')).toFixed(2);
-// });
 
     function numberWithCommas(id) {
         var id = id.getAttribute('id');
@@ -2636,12 +2814,14 @@
         });
 	}
 	function get_add_deduct_balance(){
-		$('#tbl_add_deduct_balance').empty();
+        $('#tbl_add_deduct_balance').empty();
+        var id = "{{auth::user()->id}}";
         $.ajax({
             url: "{{route('get_data_add_deduct_balance')}}",
             type: "POST",
             data: {
-                _token: "{{ csrf_token() }}"
+                _token: "{{ csrf_token() }}",
+                id:id
             },
             dataType: "json",
             success: function (data) {
@@ -2654,6 +2834,7 @@
                     html += '<td>' + no + '</td>';
                     html += '<td>' + data[i].bank_name + '</td>';
                     html += '<td>' + data[i].acc_no + '</td>';
+                    html += '<td>' + data[i].holder_name + '</td>';
 					html += '<td>' + formatNumber(data[i].saldo) + '</td>';
 					html += '<td><button class="btn btn-sm btn-primary add_balance" data-id="' + data[i].id +'"data-toggle="modal" data-target="#modaladdbalance">Add Balance</button></td>';
 					html += '<td><button class="btn btn-sm btn-danger deduct_balance" data-id="' + data[i].id +'"data-toggle="modal" data-target="#modaldeductbalance">Deduct Balance</button></td>';	
@@ -2690,6 +2871,60 @@
                 }
                 $('#tbl_cashback').append(html);
                 $("#tbl_cashback_list").DataTable();
+            }
+        });
+    }
+    function get_correction_list(){
+        $('#tbl_transaction_correction').empty();
+        var id = "{{auth::user()->id}}";
+        var role = "{{auth::user()->role}}";
+        $.ajax({
+            url: "{{route('get_data_corr')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+                id:id
+            },
+            dataType: "json",
+            success: function (data) {
+                var data = data.data;
+                var html = "";
+                var no = 1;
+
+                if (role == "Leader") {
+                    for (i = 0; i < data.length; i++) {
+                        html += '<tr>';
+                        html += '<td>' + no + '</td>';
+                        html += '<td>' + data[i].trx_number + '</td>';
+                        html += '<td>' + data[i].trx_type + '</td>';
+                        html += '<td>' + formatNumber(data[i].amount) + '</td>';
+                        html += '<td><button class="btn btn-sm btn-primary bank_master_edit" data-id="' + data[i].id +'"data-toggle="modal" data-target="#modaldetailcorrection">Detail</button></td>';	
+                        if (data[i].note == "-") {
+                            html += '<td><button class="btn btn-sm btn-danger editcorrection" data-id="' +data[i].id +'"data-toggle="modal" data-target="#modaleditcorrection">Correction</button></td>';
+                        } else {
+                            html += '<td><button class="btn btn-sm btn-danger" data-id=""data-toggle="modal" data-target="" disabled>Correction</button></td>';
+                        }
+                        html += '</tr>';
+                        no++;
+                    }
+                
+                } else {
+                    for (i = 0; i < data.length; i++) {
+                        html += '<tr>';
+                        html += '<td>' + no + '</td>';
+                        html += '<td>' + data[i].trx_number + '</td>';
+                        html += '<td>' + data[i].trx_type + '</td>';
+                        html += '<td>' + formatNumber(data[i].amount) + '</td>';
+                        html += '<td><button class="btn btn-sm btn-primary bank_master_edit" data-id="' + data[i].id +'"data-toggle="modal" data-target="#modaldetailcorrection">Detail</button></td>';	
+                        html += '</tr>';
+                        no++;
+                    }
+                }
+
+
+
+                $('#tbl_transaction_correction').append(html);
+                $("#tbl_transaction_correction_list").DataTable();
             }
         });
     }
@@ -4166,9 +4401,12 @@
             },
             dataType: "json",
             success: function (data) {
-				alert('Success submit transaction!');
-				$('.depo_wd_close').click();
-
+                if (data.message == "success") {
+                    alert('Success submit transaction!');
+				    $('.depo_wd_close').click();
+                } else {
+                    alert(data.data);
+                }
             }
         });
 	})
@@ -4216,8 +4454,8 @@
 	$(document).on('click', '.modaladdnewpending', function () {
 		$('#banks_pending_div').empty();
 		$("input[name='inlineRadioOptionsMoney']").prop('checked', false);
-		$('#user_pending').empty();
-		$('#amount_pending').empty();
+		$('#user_pending').val('');
+		$('#amount_pending').val('');
 
 		$.ajax({
             url: "{{route('get_data_pending_bank')}}",
@@ -4427,9 +4665,13 @@
             },
             dataType: "json",
             success: function (data) {
-				alert('Success submit transaction!');
-				$('.depo_wd__pending_close').click();
-				get_pending();
+                if (data.message == "success") {
+                    alert('Success submit transaction!');
+                    $('.depo_wd__pending_close').click();
+                    get_pending();
+                } else {
+                        alert(data.data);
+                }
             }
         });
 	})
@@ -4582,11 +4824,13 @@
 
 	$(document).on('click', '.modal11', function () {
         $('#tbl_add_deduct_balance').empty();
+        var id = "{{auth::user()->id}}";
         $.ajax({
             url: "{{route('get_data_add_deduct_balance')}}",
             type: "POST",
             data: {
-                _token: "{{ csrf_token() }}"
+                _token: "{{ csrf_token() }}",
+                id:id
             },
             dataType: "json",
             success: function (data) {
@@ -4599,6 +4843,7 @@
                     html += '<td>' + no + '</td>';
                     html += '<td>' + data[i].bank_name + '</td>';
                     html += '<td>' + data[i].acc_no + '</td>';
+                    html += '<td>' + data[i].holder_name + '</td>';
 					html += '<td>' + formatNumber(data[i].saldo) + '</td>';
 					html += '<td><button class="btn btn-sm btn-primary add_balance" data-id="' + data[i].id +'"data-toggle="modal" data-target="#modaladdbalance">Add Balance</button></td>';
 					html += '<td><button class="btn btn-sm btn-danger deduct_balance" data-id="' + data[i].id +'"data-toggle="modal" data-target="#modaldeductbalance">Deduct Balance</button></td>';	
@@ -4726,6 +4971,7 @@
         $('#users_div_cashback').empty();
         $('#web_div_cashback_single').empty();
         $('#web_div_cashback_multiple').empty();
+        $('#amount_add_cashback').val('');
 
         $.ajax({
             url: "{{route('get_data_cashback')}}",
@@ -4792,9 +5038,14 @@
             },
             dataType: "json",
             success: function (data) {
-                alert('Success Submit Cashback');
-				$('.cashback_close').click();
-				get_cashback_list()
+
+                if(data.message == "success"){
+                    alert('Success Submit Cashback');
+                    $('.cashback_close').click();
+                    get_cashback_list()
+                } else {
+                    alert(data.data);
+                }
             }
         });
     })
@@ -4824,24 +5075,24 @@
         });
 
     })
-    $('#form_cashback_multi').on('submit', function (e) {
-        e.preventDefault();
-        var type = $('#cashback_multi').val();
-        var web = $("input[name='inlineRadioOptionsCashbackMulti']:checked").val();
+    // $('#form_cashback_multi').on('submit', function (e) {
+    //     e.preventDefault();
+    //     var type = $('#cashback_multi').val();
+    //     var web = $("input[name='inlineRadioOptionsCashbackMulti']:checked").val();
 
-        $.ajax({
-            url: "{{route('multi_cashback_process')}}",
-            type: "POST",
-            data: new FormData(this),
-            dataType: "json",
-            contentType:false,
-            cache: false,
-            processData: false,
-            success: function (data) {
+    //     $.ajax({
+    //         url: "{{route('multi_cashback_process')}}",
+    //         type: "POST",
+    //         data: new FormData(this),
+    //         dataType: "json",
+    //         contentType:false,
+    //         cache: false,
+    //         processData: false,
+    //         success: function (data) {
 
-            }
-        });
-    })
+    //         }
+    //     });
+    // })
 
     $(document).on('click', '.modal13', function () {
         $('#tbl_bank_master').empty();
@@ -4947,6 +5198,215 @@
                 }
             }
         });
+    })
+
+    $(document).on('click', '.modal14', function () {
+        $('#tbl_transaction_correction').empty();
+        var id = "{{auth::user()->id}}";
+        var role = "{{auth::user()->role}}";
+        $.ajax({
+            url: "{{route('get_data_corr')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+                id:id
+            },
+            dataType: "json",
+            success: function (data) {
+                var data = data.data;
+                var html = "";
+                var no = 1;
+
+                if (role == "Leader") {
+                    for (i = 0; i < data.length; i++) {
+                        html += '<tr>';
+                        html += '<td>' + no + '</td>';
+                        html += '<td>' + data[i].trx_number + '</td>';
+                        html += '<td>' + data[i].trx_type + '</td>';
+                        html += '<td>' + formatNumber(data[i].amount) + '</td>';
+                        html += '<td><button class="btn btn-sm btn-primary detailcorrection" data-id="' + data[i].id +'"data-toggle="modal" data-target="#modaldetailcorrection">Detail</button></td>';	
+                        if (data[i].note == "-") {
+                            html += '<td><button class="btn btn-sm btn-danger editcorrection" data-id="' +data[i].id +'"data-toggle="modal" data-target="#modaleditcorrection">Correction</button></td>';
+                        } else {
+                            html += '<td><button class="btn btn-sm btn-danger" data-id=""data-toggle="modal" data-target="" disabled>Correction</button></td>';
+                        }
+                            
+                        html += '</tr>';
+                        no++;
+                    }
+                
+                } else {
+                    for (i = 0; i < data.length; i++) {
+                        html += '<tr>';
+                        html += '<td>' + no + '</td>';
+                        html += '<td>' + data[i].trx_number + '</td>';
+                        html += '<td>' + data[i].trx_type + '</td>';
+                        html += '<td>' + formatNumber(data[i].amount) + '</td>';
+                        html += '<td><button class="btn btn-sm btn-primary detailcorrection" data-id="' + data[i].id +'"data-toggle="modal" data-target="#modaldetailcorrection">Detail</button></td>';	
+                        html += '</tr>';
+                        no++;
+                    }
+                }
+
+
+
+                $('#tbl_transaction_correction').append(html);
+                $("#tbl_transaction_correction_list").DataTable();
+            }
+        });
+    })
+    $(document).on('click', '.detailcorrection', function () {
+        $('#trx_number').val('');
+        $('#trx_type').val('');
+        $('#trx_detail').val('');
+        $('#trx_amount').val('');
+        $('#trx_website_name').val('');
+        $('#trx_bank_name').val('');
+        $('#trx_submitter').val('');
+        $('#div_corr_bonus_detail').empty()
+        var id = $(this).data("id");
+
+        $.ajax({
+            url: "{{route('get_data_corr_detail')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+                id:id
+            },
+            dataType: "json",
+            success: function (data) {
+                var bonus = data.bonus;
+                var data = data.data;
+                if (data[0]["trx_type"] == "Deposit") {
+                    $('#div_corr_bonus_detail').empty();
+                    var html = "";
+
+                    $('#trx_number').val(data[0]["trx_number"]);
+                    $('#trx_type').val(data[0]["trx_type"]);
+                    $('#trx_detail').val(data[0]["trx_detail"]);
+                    $('#trx_amount').val(data[0]["amount"]);
+                    $('#trx_website_name').val(data[0]["website_name"]);
+                    $('#trx_bank_name').val(data[0]["bank_name"]+" - "+data[0]["holder_name"]);
+                    $('#trx_submitter').val(data[0]["submitter_name"]);
+
+                    html += '<h5 class="mt-3"><b>Bonus</b></h5>';
+                    html += '<div class="row mt-2 mb-2">';
+                        html += '<div class="col-md-5">';
+                            html += 'Transaction Number';
+                        html += '</div>';
+                        html += '<div class="col-7">';
+                            html += '<input type="text" class="form-control" name="trx_number_bonus" id="trx_number_bonus" value="'+bonus[0]["trx_number"]+'" readonly>';
+                        html += '</div>';
+                    html += '</div>';
+                    html += '<div class="row mt-2 mb-2">';
+                        html += '<div class="col-md-5">';
+                            html += 'Bonus Type';
+                        html += '</div>';
+                        html += '<div class="col-7">';
+                            html += '<input type="text" class="form-control" name="trx_number_bonus_type" id="trx_number_bonus_type" value="'+bonus[0]["trx_detail"]+'" readonly>';
+                        html += '</div>';
+                    html += '</div>';
+                    html += '<div class="row mt-2 mb-2">';
+                        html += '<div class="col-md-5">';
+                            html += 'Bonus Amount';
+                        html += '</div>';
+                        html += '<div class="col-7">';
+                            html += '<input type="text" class="form-control" name="trx_number_bonus_amount" id="trx_number_bonus_amount" value="'+formatNumber(bonus[0]["amount"])+'" readonly>';
+                        html += '</div>';
+                    html += '</div>';
+                    
+                    $('#div_corr_bonus_detail').append(html)
+                } else {
+                    $('#trx_number').val(data[0]["trx_number"]);
+                    $('#trx_type').val(data[0]["trx_type"]);
+                    $('#trx_detail').val(data[0]["trx_detail"]);
+                    $('#trx_amount').val(data[0]["amount"]);
+                    $('#trx_website_name').val(data[0]["website_name"]);
+                    $('#trx_bank_name').val(data[0]["bank_name"]+" - "+data[0]["holder_name"]);
+                    $('#trx_submitter').val(data[0]["submitter_name"]); 
+                }
+               
+            }
+        });
+    })
+    $(document).on('click', '.editcorrection', function () {
+        $('#corr_trx_num').val('');
+        $('#corr_old_amount').val('');
+        $('#corr_old_bonus').val('');
+        $('#corr_new_amount').val('');
+        $('#corr_new_bonus').val('');
+        $('#corr_note').val('');
+        var id = $(this).data("id");
+  
+        $.ajax({
+            url: "{{route('get_data_corr_detail')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+                id:id
+            },
+            dataType: "json",
+            success: function (data) {
+                var bonus = data.bonus;
+                var data = data.data;
+                if (bonus.length !=0) {
+                    $('#corr_trx_num').val(data[0]["trx_number"]);
+                    $('#corr_old_amount').val(formatNumber(data[0]["amount"]));
+                    $('#corr_old_bonus').val(formatNumber(bonus[0]["amount"]));
+                    $('#bonus_id').val(bonus[0]["id"]);
+                    $('#corr_trx_id').val(data[0]["id"]);
+                    $('#corr_trx_type').val(data[0]["trx_type"]);
+                } else {
+                    $('#corr_trx_num').val(data[0]["trx_number"]);
+                    $('#corr_old_amount').val(formatNumber(data[0]["amount"]));
+                    $('#corr_old_bonus').val(0);
+                    $('#bonus_id').val("-");
+                    $('#corr_trx_id').val(data[0]["id"]); 
+                    $('#corr_trx_type').val(data[0]["trx_type"]); 
+                }
+
+            }
+        });
+    })
+    $(document).on('click', '.corr_edit_process', function () {
+        var bonus_id = $('#bonus_id').val();
+        var trx_id = $('#corr_trx_id').val();
+        var trx_type = $('#corr_trx_type').val(); 
+        var new_amount_raw = $('#corr_new_amount').val();
+        var new_bonus_raw = $('#corr_new_bonus').val();
+        var new_amount = parseInt( new_amount_raw.replace(',','') );
+        var new_bonus = parseInt( new_bonus_raw.replace(',','') );
+        var note = $('#corr_note').val();
+
+        if(new_amount_raw == ""){
+            alert("Corrected Amount cannot be empty!");
+        }else if(new_bonus_raw == ""){
+            alert("Corrected Bonus cannot be empty!");
+        }else if(note == ""){
+            alert("Note cannot be empty!");
+        }else{
+            $.ajax({
+            url: "{{route('corr_process')}}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+                bonus_id:bonus_id,
+                trx_id:trx_id,
+                new_amount:new_amount,
+                new_bonus:new_bonus,
+                note:note,
+                trx_type:trx_type
+            },
+            dataType: "json",
+            success: function (data) {
+                alert("Success Submit Correction");
+                $('.corr_edit_close').click();
+                get_correction_list();
+            }
+        });
+        }
+
+
     })
 
 </script>

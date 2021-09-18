@@ -76,6 +76,10 @@ Route::post('/transaction/getdata/adddeductbalance', 'TransactionController@getd
 Route::post('/transaction/getdata/adddeductbalancedetail', 'TransactionController@getdataadddeductbalancedetail')->name('get_data_add_deduct_balance_detail');
 Route::post('/transaction/addbalanceprocess', 'TransactionController@addbalanceprocess')->name('add_balance_process');
 Route::post('/transaction/deductbalanceprocess', 'TransactionController@deductbalanceprocess')->name('deduct_balance_process');
+Route::post('/transaction/getdatacorr', 'TransactionController@getdatacorr')->name('get_data_corr');
+Route::post('/transaction/getdatacorrdetail', 'TransactionController@getdatacorrdetail')->name('get_data_corr_detail');
+Route::post('/transaction/corrprocess', 'TransactionController@corrprocess')->name('corr_process');
+
 
 Route::post('/pending/getdata', 'PendingController@getdatabank')->name('get_data_pending_bank');
 Route::post('/pending/getdatapending', 'PendingController@getdatapending')->name('get_data_pending');
