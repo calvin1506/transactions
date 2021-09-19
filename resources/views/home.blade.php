@@ -1590,15 +1590,16 @@
                         </div>
                     </div> 
                 @endif
-
-				<div class="row mb-2">
-					<div class="col-md-4">
-						Operators
-					</div>
-					<div class="col-md-8">
-						<div id="web_assign_edit_ops"></div>
-					</div>
-				</div>
+                @if (auth::user()->role == "Leader")
+                    <div class="row mb-2">
+                        <div class="col-md-4">
+                            Operators
+                        </div>
+                        <div class="col-md-8">
+                            <div id="web_assign_edit_ops"></div>
+                        </div>
+                    </div>
+                @endif
             </div>
             <div class="modal-footer">
 				<input type="hidden" name="web_id" id="web_id">
@@ -1905,6 +1906,14 @@
 						<input type="number" class="form-control" name="req_amount_add_coin" id="req_amount_add_coin">
 					</div>
 				</div>
+				<div class="row mb-2">
+					<div class="col-md-4">
+						Remark
+					</div>
+					<div class="col-md-8">
+                        <textarea name="add_coin_remark" id="add_coin_remark" cols="39" rows="5"></textarea>
+					</div>
+				</div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary add_coins_close" data-dismiss="modal">Close</button>
@@ -1945,6 +1954,14 @@
 					</div>
 					<div class="col-md-8">
 						<input type="number" class="form-control" name="req_amount_deduct_coin" id="req_amount_deduct_coin">
+					</div>
+				</div>
+                <div class="row mb-2">
+					<div class="col-md-4">
+						Remark
+					</div>
+					<div class="col-md-8">
+                        <textarea name="deduct_coin_remark" id="deduct_coin_remark" cols="39" rows="5"></textarea>
 					</div>
 				</div>
             </div>
@@ -2003,6 +2020,14 @@
 						<input type="number" class="form-control" name="req_amount_add_balance" id="req_amount_add_balance">
 					</div>
 				</div>
+                <div class="row mb-2">
+					<div class="col-md-4">
+						Remark
+					</div>
+					<div class="col-md-8">
+                        <textarea name="add_balance_remark" id="add_balance_remark" cols="39" rows="5"></textarea>
+					</div>
+				</div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary add_balance_close" data-dismiss="modal">Close</button>
@@ -2051,6 +2076,14 @@
 					</div>
 					<div class="col-md-8">
 						<input type="number" class="form-control" name="req_amount_deduct_balance" id="req_amount_deduct_balance">
+					</div>
+				</div>
+                <div class="row mb-2">
+					<div class="col-md-4">
+						Remark
+					</div>
+					<div class="col-md-8">
+                        <textarea name="deduct_balance_remark" id="deduct_balance_remark" cols="39" rows="5"></textarea>
 					</div>
 				</div>
             </div>
@@ -3284,9 +3317,13 @@
             },
             dataType: "json",
             success: function (data) {
-                alert("Success Edit Leader");
-                $('.edit_leader_close').click();
-                get_leader();
+                if(data.message == "success"){
+                    alert("Success Edit Leader");
+                    $('.edit_leader_close').click();
+                    get_leader();
+                }else{
+                    alert(data.data)
+                }
             }
         });
     })
@@ -4785,6 +4822,7 @@
 	$(document).on('click', '.add_coins_process', function () {
 		var id = $("#web_id_add").val();
 		var amount = $('#req_amount_add_coin').val();
+        var remark = $('#add_coin_remark').val();
 
 		$.ajax({
             url: "{{route('add_coin_process')}}",
@@ -4792,7 +4830,8 @@
             data: {
                 _token: "{{ csrf_token() }}",
 				id:id,
-				amount:amount
+				amount:amount,
+                remark:remark
             },
             dataType: "json",
             success: function (data) {
@@ -4811,13 +4850,15 @@
 	$(document).on('click', '.deduct_coins_process', function () {
 		var id = $("#web_id_deduct").val();
 		var amount = $('#req_amount_deduct_coin').val();
+        var remark = $('#deduct_coin_remark').val();
 		$.ajax({
             url: "{{route('deduct_coin_process')}}",
             type: "POST",
             data: {
                 _token: "{{ csrf_token() }}",
 				id:id,
-				amount:amount
+				amount:amount,
+                remark:remark
             },
             dataType: "json",
             success: function (data) {
@@ -4912,13 +4953,15 @@
 	$(document).on('click', '.add_balance_process', function () {
 		var id = $("#bank_id_add").val();
 		var amount = $("#req_amount_add_balance").val();
+        var remark = $('#add_balance_remark').val();
 		$.ajax({
             url: "{{route('add_balance_process')}}",
             type: "POST",
             data: {
                 _token: "{{ csrf_token() }}",
 				id:id,
-				amount:amount
+				amount:amount,
+                remark:remark
             },
             dataType: "json",
             success: function (data) {
@@ -4935,13 +4978,15 @@
 	$(document).on('click', '.deduct_balance_process', function () {
 		var id = $("#bank_id_deduct").val();
 		var amount = $("#req_amount_deduct_balance").val();
+        var remark = $('#deduct_balance_remark').val();
 		$.ajax({
             url: "{{route('deduct_balance_process')}}",
             type: "POST",
             data: {
                 _token: "{{ csrf_token() }}",
 				id:id,
-				amount:amount
+				amount:amount,
+                remark:remark
             },
             dataType: "json",
             success: function (data) {

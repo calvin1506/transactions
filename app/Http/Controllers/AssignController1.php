@@ -19,135 +19,66 @@ class AssignController extends Controller
         return response()->json(["message"=>"success","data"=>$web, "bank"=>$data]);
     }
     public function getdataedit(Request $request){
-        $data = bank::where('id', $request->id)->get();
-        $cek = json_decode($data[0]->website, true);
-
         $webs = website::all();
-        $arr = array();
-        $i = 0;
+        $data = bank::where('id', $request->id)->get();
+        $cek = explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $data[0]->website));
 
-        foreach($webs as $wb){
-            $arr[$i]['websiteId'] = $wb->id;
-            $arr[$i]['websiteName'] = $wb->web_name;
-
-            if($wb->bank == '-'){
-                $arr[$i]['checked'] = 'False';
-            } else {
-                $bankList = json_decode($wb->bank, true);
-
-                if(in_array($request->id, $bankList)){
-                    $arr[$i]['checked'] = 'True';
-                } else {
-                    $arr[$i]['checked'] = 'False';
-                }
-            }
-
-            $i++;
-        }
-
-        return response()->json(["message"=>"success", "webs"=>$arr, "bank"=>$data, "cek"=>$cek]);
+        return response()->json(["message"=>"success", "webs"=>$webs, "bank"=>$data, "cek"=>$cek]);
     }
 
     public function dataprocess(Request $request){
-        $newBankArray = $request->website;
-        $countNewWebsite = count($newBankArray);
+        // dd($request);
 
         $bank = bank::where('id', $request->id)->first();
-        $array = array();
-
-        $oldWebsiteList = json_decode($bank->website,true);
-        $countOldWebsite = count($oldWebsiteList);
-
-        if($countNewWebsite > $countOldWebsite){
-            $websiteList = $newBankArray;
-            $a = 'a';
-        } else {
-            $websiteList = $oldWebsiteList;
-            $a = 'b';
-        }
-
-        for($i=0;$i<count($websiteList);$i++){
-            $web = website::where('id', '=', $websiteList[$i])->first();
-
-            if(in_array($websiteList[$i], $request->website)){
-                if($web->bank == '-' or $web->bank == '[]' ){
-                    DB::table('websites')->where('id', '=', $web->id)->update(["bank"=>json_encode([$request->id])]);
-                } else {
-                    $oldBank = json_decode($web->bank, true);
-                    if(!in_array($request->id, $oldBank)){
-                        array_push($oldBank, $request->id);
-                        DB::table('websites')->where('id', '=', $web->id)->update(["bank"=>json_encode(array_values($oldBank))]);
-                    }
-                }   
-            } else {
-                $oldBank = json_decode($web->bank, true);
-                $indexUnset = array_search($request->id, $oldBank);
-                unset($oldBank[$indexUnset]);
-
-                DB::table('websites')->where('id', '=', $web->id)->update(["bank"=>json_encode(array_values($oldBank))]);
-            }
-        }
-
-        DB::table('banks')->where('id', '=', $request->id)->update(['website'=>json_encode($request->website)]);
-
-        return response()->json(["message"=>"success"]);
-
-        //$oldWebsiteList = json_decode($bank->website)
-
-        //DB::table('banks')->where('id', '=', $request->id)->update(['website'=>json_encode($request->website)]);
-
+        $webs = website::whereIn('id', $request->website)->get();
         // dd($webs);
         // $arr_bank = array();
-        // array_push(, $request->id);
-        // $arr_bank[] = $request->id;
-        // $list_web = explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $bank->website));
+        // array_push($arr_bank, $request->id);
+        $arr_bank[] = $request->id;
+        $list_web = explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $bank->website));
         // dd($list_web);
 
 
-        // //Insert ke table bank
-        // DB::table('banks')->where('id', '=', $request->id)->update(['website'=>json_encode($request->website)]);
-        // //Unset
-        // $website = DB::table('websites')->whereIn('id', $list_web)->get();
+        //Insert ke table bank
+        DB::table('banks')->where('id', '=', $request->id)->update(['website'=>json_encode($request->website)]);
+        //Unset
+        $website = DB::table('websites')->whereIn('id', $list_web)->get();
 
-        // foreach($website as $w){
-        //     if($w->bank == "-"){
-        //         // echo "Insert ke Bank : ".json_encode($arr_bank)."<br>";
-        //         DB::table('websites')->where('id', '=', $w->id)->update(["bank"=>$arr_bank]);
-        //     }else{
-        //         // echo "First Bank : ".$w->bank."<br>";
-        //         $old_bank = explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $w->bank));
-        //         // print_r($old_bank);
-        //         // echo "<br>";
-        //         $unsett = array_search($request->id, $old_bank);
-        //         unset($old_bank[$unsett]);
+        foreach($website as $w){
+            if($w->bank == "-"){
+                // echo "Insert ke Bank : ".json_encode($arr_bank)."<br>";
+                DB::table('websites')->where('id', '=', $w->id)->update(["bank"=>$arr_bank]);
+            }else{
+                // echo "First Bank : ".$w->bank."<br>";
+                $old_bank = explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $w->bank));
+                // print_r($old_bank);
+                // echo "<br>";
+                $unsett = array_search($request->id, $old_bank);
+                unset($old_bank[$unsett]);
 
-        //         // echo "Unset : <br>";
-        //         // echo json_encode(array_values($old_bank));
-        //         // echo "<br><br>";
-        //         DB::table('websites')->where('id', '=', $w->id)->update(["bank"=>json_encode(array_values($old_bank))]);
-        //     }
-        // }
+                // echo "Unset : <br>";
+                // echo json_encode(array_values($old_bank));
+                // echo "<br><br>";
+                DB::table('websites')->where('id', '=', $w->id)->update(["bank"=>json_encode(array_values($old_bank))]);
+            }
+        }
 
-        // // echo "<br><br>";
-        // // echo "Push";
+        // echo "<br><br>";
+        // echo "Push";
 
-        // foreach($webs as $web){
-        //     if($web->bank == "-"){
-        //         // echo "Push : ".json_encode($arr_bank)."<br>";
-        //         DB::table('websites')->where('id', '=', $w->id)->update(["bank"=>$arr_bank]);
-        //     }else{
-        //         // echo "Hasil : <br>";
-        //         $arrayBankExisting = json_decode($web->bank, true);
-
-        //         if(!in_array($request->id, $arrayBankExisting)){
-        //             $old = explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $web->bank));
-        //             $gabung = array_merge($arr_bank, $old);
-        //             // print_r($gabung);
-        //             // echo "<br><br>";
-        //             DB::table('websites')->where('id', '=', $web->id)->update(["bank"=>json_encode($gabung)]);
-        //         }
-        //     }
-        // }
+        foreach($webs as $web){
+            if($web->bank == "-"){
+                // echo "Push : ".json_encode($arr_bank)."<br>";
+                DB::table('websites')->where('id', '=', $w->id)->update(["bank"=>$arr_bank]);
+            }else{
+                // echo "Hasil : <br>";
+                $old = explode(",",str_replace(str_split('\\/:*?"<>|[]'), '', $web->bank));
+                $gabung = array_merge($arr_bank, $old);
+                // print_r($gabung);
+                // echo "<br><br>";
+                DB::table('websites')->where('id', '=', $web->id)->update(["bank"=>json_encode($gabung)]);
+            }
+        }
 
         // dd($request);
 
@@ -187,12 +118,12 @@ class AssignController extends Controller
         // $bank->website = json_encode($request->website);
         // $bank->save();
 
-        // $log = new log;
-        // $log->user = auth::user()->name;
-        // $log->activity = "User: ".auth::user()->name." assign website: ".json_encode($request->website)." to bank: ".$bank->bank_name." with account number: ".$bank->acc_no;
-        // $log->save();
+        $log = new log;
+        $log->user = auth::user()->name;
+        $log->activity = "User: ".auth::user()->name." assign website: ".json_encode($request->website)." to bank: ".$bank->bank_name." with account number: ".$bank->acc_no;
+        $log->save();
 
-        //return response()->json(["message"=>"success"]);
+        return response()->json(["message"=>"success"]);
     }
 
     public function getdataweb(Request $request){

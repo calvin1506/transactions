@@ -277,17 +277,18 @@ class TransactionController extends Controller
         return response()->json(["message"=>"success", "data"=>$web]);
     }
     public function getdataadddeductcoindetail(Request $request){
-        
         $data = web::where('id', $request->id)->get();
         return response()->json(["message"=>"success","data"=>$data]);
     }
 
     public function addcoinprocess(Request $request){
-
+        // dd($request);
         if( $request->amount == 0){
             return response()->json(["message"=>"error", "data"=>"Amount cannot 0!"]);
         }else if ( $request->amount < 0){
             return response()->json(["message"=>"error", "data"=>"Amount cannot less than 0!"]);
+        } else if($request->remark == null){
+            return response()->json(["message"=>"error", "data"=>"Remark cannot empty!"]);
         }
 
         $id = $request->id;
@@ -319,6 +320,7 @@ class TransactionController extends Controller
         $trx->new_web_coin = $web->init_coin + $request->amount;
         $trx->old_bank_balance = 0;
         $trx->new_bank_balance = 0;
+        $trx->note = $request->remark;
         $trx->save();
 
         $log = new log;
@@ -336,6 +338,8 @@ class TransactionController extends Controller
             return response()->json(["message"=>"error", "data"=>"Amount cannot 0!"]);
         }else if ( $request->amount < 0){
             return response()->json(["message"=>"error", "data"=>"Amount cannot less than 0!"]);
+        }else if($request->remark == null){
+            return response()->json(["message"=>"error", "data"=>"Remark cannot empty!"]);
         }
 
         $id = $request->id;
@@ -371,6 +375,7 @@ class TransactionController extends Controller
             $trx->new_web_coin = $web->init_coin - $request->amount;
             $trx->old_bank_balance = 0;
             $trx->new_bank_balance = 0;
+            $trx->note = $request->remark;
             $trx->save();
 
             $log = new log;
@@ -419,6 +424,8 @@ class TransactionController extends Controller
             return response()->json(["message"=>"error", "data"=>"Amount cannot 0!"]);
         }else if ( $request->amount < 0){
             return response()->json(["message"=>"error", "data"=>"Amount cannot less than 0!"]);
+        }else if($request->remark == null){
+            return response()->json(["message"=>"error", "data"=>"Remark cannot empty!"]);
         }
         $id = $request->id;
         $amount = $request->amount;
@@ -450,6 +457,7 @@ class TransactionController extends Controller
         $trx->new_web_coin = 0;
         $trx->old_bank_balance = $bank->saldo;
         $trx->new_bank_balance = $bank->saldo + $request->amount;
+        $trx->note = $request->remark;
         $trx->save();
 
         $log = new log;
@@ -467,6 +475,8 @@ class TransactionController extends Controller
             return response()->json(["message"=>"error", "data"=>"Amount cannot 0!"]);
         }else if ( $request->amount < 0){
             return response()->json(["message"=>"error", "data"=>"Amount cannot less than 0!"]);
+        }else if($request->remark == null){
+            return response()->json(["message"=>"error", "data"=>"Remark cannot empty!"]);
         }
         $id = $request->id;
         $amount = $request->amount;
@@ -500,6 +510,7 @@ class TransactionController extends Controller
             $trx->new_web_coin = 0;
             $trx->old_bank_balance = $bank->saldo;
             $trx->new_bank_balance = $bank->saldo - $request->amount;
+            $trx->note = $request->remark;
             $trx->save();
     
             $log = new log;
