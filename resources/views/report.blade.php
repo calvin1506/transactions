@@ -342,6 +342,7 @@
                                         html += '<td>Jumlah</td>';
                                         html += '<td>Koin Awal</td>';
                                         html += '<td>Koin Akhir</td>';
+                                        html += '<td>Remark</td>';
                                     html += '</tr>';
                                 html += '</thead>';
                                 html += '<tbody>';
@@ -354,6 +355,7 @@
                                             html += '<td>'+formatNumber(data[i].amount)+'</td>';
                                             html += '<td>'+formatNumber(data[i].old_web_coin)+'</td>';
                                             html += '<td>'+formatNumber(data[i].new_web_coin)+'</td>';
+                                            html += '<td>'+data[i].note+'</td>';
                                         html += '</tr>';
                                         no++;
                                     }
@@ -397,6 +399,7 @@
                                         html += '<td>Jumlah</td>';
                                         html += '<td>Saldo Awal</td>';
                                         html += '<td>Saldo Akhir</td>';
+                                        html += '<td>Remark</td>';
                                     html += '</tr>';
                                 html += '</thead>';
                                 html += '<tbody>';
@@ -409,6 +412,7 @@
                                             html += '<td>'+formatNumber(data[i].amount)+'</td>';
                                             html += '<td>'+formatNumber(data[i].old_bank_balance)+'</td>';
                                             html += '<td>'+formatNumber(data[i].new_bank_balance)+'</td>';
+                                            html += '<td>'+data[i].note+'</td>';
                                         html += '</tr>';
                                         no++;
                                     }
@@ -447,6 +451,7 @@
                                         html += '<td>Tanggal Transaksi</td>';
                                         html += '<td>Tipe Transaksi</td>';
                                         html += '<td>Jumlah</td>';
+                                        html += '<td>Remark</td>';
                                     html += '</tr>';
                                 html += '</thead>';
                                 html += '<tbody>';
@@ -456,6 +461,7 @@
                                             html += '<td>'+data[i].created_at+'</td>';
                                             html += '<td>'+data[i].trx_type+'</td>';
                                             html += '<td>'+formatNumber(data[i].amount)+'</td>';
+                                            html += '<td>'+data[i].note+'</td>';
                                         html += '</tr>';
                                         no++;
                                     }
@@ -496,6 +502,7 @@
                                         html += '<td>Tanggal Transaksi</td>';
                                         html += '<td>Tipe Transaksi</td>';
                                         html += '<td>Jumlah</td>';
+                                        html += '<td>Remark</td>';
                                     html += '</tr>';
                                 html += '</thead>';
                                 html += '<tbody>';
@@ -506,6 +513,7 @@
                                             html += '<td>'+data[i].created_at+'</td>';
                                             html += '<td>'+data[i].trx_type+'</td>';
                                             html += '<td>'+formatNumber(data[i].amount)+'</td>';
+                                            html += '<td>'+data[i].note+'</td>';
                                         html += '</tr>';
                                         no++;
                                     }
